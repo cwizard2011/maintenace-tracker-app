@@ -92,6 +92,7 @@ h1 {
 }
 .toggle {
   background-color: #777;
+  border-radius: 20px;
   margin-top: 10%;
   color: white;
   cursor: pointer;
