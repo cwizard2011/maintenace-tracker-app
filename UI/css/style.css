@@ -82,30 +82,47 @@ figcaption {
   padding: 3%;
 }
 .btn-signup {
-  padding: 10px;
-  background: #0000b3;
-  color: white;
+  -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  background-color: #00c3ffe8;
+  border: 1px solid #cccccc;
+  display: inline-block;
   cursor: pointer;
-  font-size: 16px;
-  font-family: 'PT Sans', sans-serif;
-  border: none;
+  color: #FFFFFF;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 14px;
+  padding: 15px 18px;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-top: 15px;
 }
 .btn-signup:hover {
-  color:  #6666ff;
+  background:linear-gradient(to bottom, blue 5%, #30C9C9 100%);
+  background-color:#34CACA;
 }
 
 .btn-login {
-  padding: 10px 20px 10px 20px;
   margin-left: 10%;
-  background: #0000cc;
-  color: white;
+  -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  box-shadow: inset 0px 1px 0px 0px #45D6D6;
+  background-color: #00c3ffe8;
+  border: 1px solid #cccccc;
+  display: inline-block;
   cursor: pointer;
-  font-size: 16px;
-  font-family: 'PT Sans', sans-serif;
-  border: none;
+  color: #FFFFFF;
+  font-family: 'Open Sans Condensed', sans-serif;
+  font-size: 14px;
+  padding: 15px 30px;
+  text-decoration: none;
+  text-transform: uppercase;
+  margin-left: 30%;
+  margin-top: 15px;
 }
 .btn-login:hover {
-  color:  #6666ff;
+  background:linear-gradient(to bottom, blue 5%, #30C9C9 100%);
+  background-color:#34CACA;
 }
 
 @media only screen and (max-width: 900px) {
