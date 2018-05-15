@@ -1,0 +1,98 @@
+html, body {
+  margin: 0;
+  padding: 0;
+}
+body {
+  background: #e6e6ff;
+}
+p {
+  font-family: 'PT Sans', sans-serif;
+  font-size: 2em;
+}
+.container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+}
+.center-heading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+h1 {
+  font-family: 'Roboto Slab', serif;
+}
+.nav-bar {
+  overflow: hidden;
+  background-color: #4d4dff;
+}
+
+.nav-bar a {
+  float: left;
+  display: block;
+  color: #f2f2f2;
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+  font-size: 17px;
+}
+
+.nav-bar a:hover:not(:first-child) {
+  background-color: #ddd;
+  color: black;
+}
+.nav-bar .nav-icon{
+  display: none;
+}
+.nav-bar a:not(:first-child) {float: right;}
+
+.align-horizontal {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  margin-top: 5%
+}
+.circular-image {
+  border: 2px solid #3333ff;
+  border-radius: 50%;
+  background: white;
+  padding: 2%;
+}
+.icon-image {
+  width: 120px;
+  height: 100px;
+}
+figcaption {
+  padding-top: 2%;
+  text-align: center
+}
+.access-button {
+  display: flex;
+  justify-content: center;
+  padding: 3%;
+}
+.btn-signup {
+  padding: 10px;
+  background: #0000b3;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+}
+.btn-signup:hover {
+  color:  #6666ff;
+}
+
+.btn-login {
+  padding: 10px 20px 10px 20px;
+  margin-left: 10%;
+  background: #0000cc;
+  color: white;
+  cursor: pointer;
+  font-size: 16px;
+  border: none;
+}
+.btn-login:hover {
+  color:  #6666ff;
+}
