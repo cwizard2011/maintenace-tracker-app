@@ -13,7 +13,7 @@ signBtn.onclick = () => {
     modal.style.display = "block";
 }
 signUp.onclick = () => {
-  modal.style.display = "block"
+  modal.style.display = "block";
 }
 
 span.onclick = () => {
@@ -27,7 +27,7 @@ window.onclick = (event) => {
 }
 signUpForm.onsubmit = (e) => {
   e.preventDefault();
-  window.location.href = './index.html';
+  window.location.href = 'pages/dashboard.html';
 
 };
 
@@ -49,6 +49,6 @@ window.onclick = (event) => {
 }
 loginForm.onsubmit = (e) => {
   e.preventDefault();
-  window.location.href = './index.html';
+  window.location.href = 'pages/dashboard.html';
 
 };
