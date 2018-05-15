@@ -208,6 +208,9 @@ figcaption {
     .ssm-font {
       font-size: 10px;
     }
+    .sm-font {
+      font-size: 14px
+    }
     .container {
       display: flex;
       flex-direction: column;
