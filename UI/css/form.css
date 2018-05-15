@@ -31,7 +31,7 @@ html, body {
   width: 80%;
 }
 
-.close {
+.close, .login-close {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
@@ -40,7 +40,7 @@ html, body {
 }
 
 .close:hover,
-.close:focus {
+.close:focus, .login-close:hover, .login-close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
@@ -115,7 +115,7 @@ html, body {
   background:linear-gradient(to bottom, blue 5%, #30C9C9 100%);
   background-color:#34CACA;
 }
-.register-btn {
+.right-btn {
   float: right;
 }
 

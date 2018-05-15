@@ -13,7 +13,7 @@
     <body class = "body-image">
             <div class="nav-bar" id="top-nav">
                 <a href="index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
-                <a href="#" title = "Login Users">Login</a>
+                <a href="#" title = "Login Users" id ="login">Login</a>
                 <a href="#" title = "SignUp Users" id="sign-up">Register</a>
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
             </div>
@@ -50,11 +50,9 @@
                 </div>
                 <div class="access-button">
                     <a href="#"></a><button class="btn-signup" id="signUp">Register</button></a>
-                    <a href="#"><button class="btn-login">Login</button></a>
+                    <a href="#"><button class="btn-login" id="logIn" >Login</button></a>
                 </div>
                 <div id="signupModal" class="modal">
-
-                    <!-- Modal content -->
                     <div class="modal-content form-field modal-body">
                       <span class="close">&times;</span>
                       <h3>Fill the form below to register</h3>
@@ -64,11 +62,21 @@
                         <input type="email" placeholder="Email Address" required/>
                         <input type="text" placeholder="Username" required/>
                         <input type = "password" placeholder = "Password" required />
-                        <input type="submit" class="register-btn btn-signup" value="Submit">
+                        <input type="submit" class="right-btn btn-signup" value="Submit">
                       </form>
                     </div>
-                  
                   </div>
+                  <div id="loginModal" class="modal">
+                        <div class="modal-content form-field modal-body">
+                          <span class="login-close">&times;</span>
+                          <h2 class="center-heading">LOGIN</h2>
+                             <form id = "loginForm">
+                            <input type="text" placeholder="Username" required/>
+                            <input type = "password" placeholder = "Password" required />
+                            <input type="submit" class="right-btn btn-login" value="Login">
+                          </form>
+                        </div>
+                      </div>
         </div>
         <script src="js/nav.js"></script>
         <script src="js/modal.js"></script>
