@@ -1,7 +1,7 @@
 html, body {
   margin: 0;
   padding: 0;
-  font-family: Arial, Helvetica, sans-serif ;
+  font-family: Arial, Helvetica, sans-serif;
   font-size: 100%;
   font-style: normal
 }
@@ -20,7 +20,8 @@ a:active, a:hover, a:visited, a:link {
   font-size: 20px;
 }
 .ssm-font {
-  font-size: 16px;
+  font-size: 14px;
+  margin:4%;
 }
 .container {
   display: flex;
@@ -94,7 +95,7 @@ h1 {
   justify-content: space-evenly;
   margin-top: 5%
 }
-.toggle {
+.toggle{
   padding: 0;
   margin: 0;
   background-color: #777;
@@ -107,18 +108,57 @@ h1 {
   outline: none;
   font-size: 14px;
 }
-.active, .toggle:hover {
+.active, .toggle:hover{
   background-color: #555;
 }
 
-.expand {
+.expand{
   padding: 0 18px;
   max-height: 0;
   overflow: hidden;
   transition: max-height 0.2s ease-out;
   background-color: #f1f1f1;
 }
+.display {
+  color: black;
+  cursor: pointer;
+  padding: 18px;
+  border: none;
+  text-align: left;
+  outline: none;
+  font-size: 15px;
+}
 
+.display:hover {
+  background-color: whitesmoke;
+}
+
+.display:after{
+  content: '\2304';
+  color: black;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+.toggle:after {
+  content: '\2304';
+  color: white;
+  font-weight: bold;
+  float: right;
+  margin-left: 5px;
+}
+
+.activate:after, .active:after {
+  content: "\2303";
+}
+
+.open {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  background-color: #f1f1f1;
+}
 .circular-image {
   border: 2px solid #3333ff;
   border-radius: 50%;
@@ -138,7 +178,7 @@ figcaption {
 }
 .access-button {
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   padding: 3%;
 }
 .btn-signup {
@@ -228,10 +268,14 @@ figcaption {
 }
 .content-border {
   display: flex;
-  justify-content: space-around;
-  margin: 3px auto;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin: 1% auto;
   border: 1px double white;
-  padding: 5%;
+  padding: 2%;
+}
+.center-align {
+  margin: 5px auto;
 }
 @media only screen and (max-width: 360px) {
   .sort button {
@@ -251,6 +295,10 @@ figcaption {
     display: flex;
     flex-direction: column;
   }
+  .btn-signup {
+    font-size: 12px;
+    padding: 7px 9px;
+  }
   .ssm-font {
     font-size: 10px;
     text-align: center;
@@ -260,12 +308,17 @@ figcaption {
     font-size: 14px;
     margin: 5px;
   }
-  .toggle {
+  .toggle, .display {
     padding: 7px 15px;
     font-size: 12px;
   }
   .center-align {
     margin: 5px auto;
+  }
+  .access-button {
+    display: flex;
+    justify-content: center;
+    padding: 3%;
   }
 }
 @media only screen and (max-width: 900px) and (min-width: 361px){
@@ -277,7 +330,7 @@ figcaption {
     font-size: 14px;
     margin: 5px;
   }
-  .toggle {
+  .toggle, .display {
     padding: 7px 15px;
     font-size: 12px;
   }
@@ -365,5 +418,10 @@ figcaption {
       padding: 10px 8px;
       transition: 0.3s;
       font-size: 12px;
+    }
+    .access-button {
+      display: flex;
+      justify-content: center;
+      padding: 3%;
     }
 }
