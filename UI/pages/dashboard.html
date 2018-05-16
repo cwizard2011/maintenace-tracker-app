@@ -18,6 +18,18 @@
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
             </div>
         <div class= "container">
+                        <a href="#" title = "SignUp Users"><button id="reqBtn" class="right-btn btn-signup">New Request</button></a>
+                        <div id="reqModal" class="modal">
+                                        <div class="modal-content form-field modal-body">
+                                          <span class="close">&times;</span>
+                                          <h3>Fill the form below to log a new request</h3>
+                                             <form id = "reqForm">
+                                            <input type="text" placeholder="Request title" required/>
+                                            <textarea placeholder="Type in your request" required></textarea>
+                                            <input type="submit" class="right-btn btn-signup" value="Send Request">
+                                          </form>
+                                        </div>
+                                      </div>
                   <div class="content-container">
                           <div>
                         <div class="curved-border">
@@ -101,5 +113,6 @@
         </div>
         <script src = "../js/expand.js"></script>
         <script src = "../js/nav.js"></script>
+        <script src="../js/request.js"></script>
     </body>
 </html> 
