@@ -115,12 +115,41 @@ html, body {
   background:linear-gradient(to bottom, blue 5%, #30C9C9 100%);
   background-color:#34CACA;
 }
+.form-field textarea{
+  resize:none;
+  overflow: hidden;
+}
 .right-btn {
   float: right;
-  margin: 10px;
+  margin: 8px;
 }
-
-@media only screen and (max-width: 900px) {
+@media only screen and (max-width: 359px) {
+  .modal-content {
+    background-color: #fefefe;
+    margin: auto;
+    padding: 10px;
+    border: 1px solid #888;
+    width: 60%;
+  }
+  .form-field {
+    width: 250px;
+    padding: 7px;
+    font-size: 14px;
+  }
+  .form-field input[type="text"],
+  .form-field input[type="email"],
+  .form-field input[type="password"]{
+    font-size: 0.6em
+  }
+  .form-field textarea{
+    font-size: 10px;
+  }
+  .form-field input[type="submit"]{
+      font-size: 0.8em;
+      padding: 6px;
+  }
+}
+@media only screen and (max-width: 900px) and (min-width: 360px){
   .modal-content {
     background-color: #fefefe;
     margin: auto;
