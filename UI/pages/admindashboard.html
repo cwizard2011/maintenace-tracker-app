@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Fenix|PT+Sans" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+        <link rel="stylesheet" type="text/css" href="../css/form.css">
+        <title>Admin Dashboard</title>
+        <link rel="icon" type="image/png" href="../images/icon.jpeg" />
+    </head>
+    <body class = "body-image">
+            <div class="nav-bar" id="top-nav">
+                <a href="../index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
+                <a href="../index.html" title = "SignUp Users" id="sign-up">Logout</a>
+                <a href="#"><i class="fa user">&#xf2c0; Welcome Peter</i></a>
+                <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
+            </div>
+        <div class= "container">
+          <div class = "min-container">
+            <div class="sort">
+                <button class="sortlinks" onclick="sortRequest(event, 'all')" id="defaultOpen">All</button>
+                <button class="sortlinks" onclick="sortRequest(event, 'new')">New</button>
+                <button class="sortlinks" onclick="sortRequest(event, 'approved')">Approved</button>
+                <button class="sortlinks" onclick="sortRequest(event, 'resolved')">Resolved</button>
+                <button class="sortlinks" onclick="sortRequest(event, 'rejected')">Rejected</button>
+                
+              </div>
+              <div id="all" class="sort-content">
+                <div class="content-border">
+                      <span class="ssm-font">Request for AC repair</span>
+                      <span class="ssm-font">Sender Id: <span class= "ssm-font">#1254765</span></span>
+                      <span class="center-align"><button class="toggle">Details</button></span>
+                   
+                </div>
+                <div class="content-border">
+                    <span class="ssm-font">Need for chair replacement</span>
+                    <span class="ssm-font">Sender Id: <span class= "ssm-font">#547253</span></span>
+                    <span class="center-align"><button class="toggle">Details</button></span>
+                </div>
+                <div class="content-border">
+                  <span class="ssm-font">Need for bulb replacement</span>
+                  <span class="ssm-font">Sender Id: <span class= "ssm-font">#153782</span></span>
+                  <span class="center-align"><button class="toggle">Details</button></span>
+                </div>
+                <div class="content-border">
+                  <span class="ssm-font">Request for New flash drives</span>
+                  <span class="ssm-font">Sender Id: <span class= "ssm-font">#1672337</span></span>
+                  <span class="center-align"><button class="toggle">Details</button></span>
+                </div>
+                <div class="content-border">
+                    <span class="ssm-font">Damaged PCs need repair</span>
+                    <span class="ssm-font">Sender Id: <span class= "ssm-font">#1746739</span></span>
+                    <span class="center-align"><button class="toggle">Details</button></span>
+                </div>
+                <div class="content-border">
+                    <span class="ssm-font">Damaged printers needs repair</span>
+                    <span class="ssm-font">Sender Id: <span class= "ssm-font">#126445</span></span>
+                    <span class="center-align"><button class="toggle">Details</button></span>
+                </div>
+                
+              </div>
+              
+              <div id="new" class="sort-content">
+                  <div class="content-border">
+                      <span class="ssm-font">Request for AC repair</span>
+                      <span class="ssm-font">Sender Id: <span class= "ssm-font">#1254765</span></span>
+                      <span class="center-align"><button class="toggle">Details</button></span>
+                  </div>
+                  <div class="content-border">
+                      <span class="ssm-font">Need for chair replacement</span>
+                      <span class="ssm-font">Sender Id: <span class= "ssm-font">#547253</span></span>
+                      <span class="center-align"><button class="toggle">Details</button></span>
+                  </div>
+              </div>
+              
+              <div id="approved" class="sort-content">
+                  <div class="content-border">
+                      <span class="ssm-font">Damaged printers needs repair</span>
+                      <span class="ssm-font">Sender Id: <span class= "ssm-font">#126445</span></span>
+                      <span class="center-align"><button class="toggle">Details</button></span>
+                  </div>
+                </div>
+              
+              <div id="resolved" class="sort-content">
+                  <div class="content-border">
+                      <span class="ssm-font">Damaged PCs need repair</span>
+                      <span class="ssm-font">Sender Id: <span class= "ssm-font">#1746739</span></span>
+                      <span class="center-align"><button class="toggle">Details</button></span>
+                  </div>
+              </div>
+              <div id="rejected" class="sort-content">
+                  <div class="content-border">
+                      <span class="ssm-font center-align">Request for New flash drives</span>
+                      <span class="ssm-font center-align">Sender Id: <span class= "ssm-font">#1672337</span></span>
+                      <span class="center-align"><button class="toggle">Details</button></span>
+                  </div>
+              </div> 
+        </div>
+        </div>
+        <script src = "../js/expand.js"></script>
+        <script src = "../js/nav.js"></script>
+        <script src="../js/sort.js"></script>
+    </body>
+</html> 
