@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Maintenance tracker app allows the users to send maintenance request to the admin, and allows the admin to receive and act on users request",
   "main": "./server/app.js",
-
   "scripts": {
     "start": "babel-node ./server/app.js",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -26,6 +25,11 @@
     "babel-preset-env": "^1.7.0",
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",
+    "eslint": "^4.19.1",
     "express": "^4.16.3"
+  },
+  "devDependencies": {
+    "eslint-config-airbnb": "^16.1.0",
+    "eslint-plugin-import": "^2.12.0"
   }
 }
