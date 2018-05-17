@@ -1,0 +1,24 @@
+{
+  "name": "maintenace-tracker-app",
+  "version": "1.0.0",
+  "description": "Maintenance tracker app allows the users to send maintenance request to the admin, and allows the admin to receive and act on users request",
+  "main": "./server/app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/cwizard2011/maintenace-tracker-app.git"
+  },
+  "author": "Adeoye Peter Adeola",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/cwizard2011/maintenace-tracker-app/issues"
+  },
+  "homepage": "https://github.com/cwizard2011/maintenace-tracker-app#readme",
+  "dependencies": {
+    "body-parser": "^1.18.3",
+    "dotenv": "^5.0.1",
+    "express": "^4.16.3"
+  }
+}
