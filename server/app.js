@@ -1,11 +1,14 @@
 import express from 'express';
 import dotenv from 'dotenv';
+import requestRoutes from './routes/requests';
 
+const app = express();
 dotenv.config();
 
 const port = process.env.PORT;
 
-const app = express();
-app.get('/', (req, res) => res.send('Welcome to maintenance app'));
+requestRoutes('/api/v1', app);
 
-app.listen(port, () => console.log('Example app listening on port 3000!'));
+app.listen(port);
+
+export default app;
