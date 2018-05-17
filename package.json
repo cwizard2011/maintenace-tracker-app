@@ -5,7 +5,8 @@
   "main": "./server/app.js",
   "scripts": {
     "start": "babel-node ./server/app.js",
-    "test": "mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit"
+    "coverage": "nyc report --reporter=text-lcov | coveralls",
+    "test": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit"
   },
   "repository": {
     "type": "git",
@@ -29,9 +30,11 @@
   },
   "devDependencies": {
     "chai": "^4.1.2",
+    "coveralls": "^3.0.0",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",
     "mocha": "^5.1.1",
+    "nyc": "^11.8.0",
     "supertest": "^3.1.0"
   }
 }
