@@ -1,4 +1,5 @@
 import express from 'express';
+import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import requestRoutes from './routes/requests';
 
@@ -6,6 +7,9 @@ const app = express();
 dotenv.config();
 
 const port = process.env.PORT;
+
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: true }));
 
 requestRoutes('/api/v1', app);
 
