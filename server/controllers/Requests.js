@@ -70,6 +70,48 @@ class Requests {
       });
     }
   }
+  static createRequest(req, res) {
+    try {
+      const {
+        userId,
+        requestId,
+        title,
+        status,
+        details,
+      } = req.body;
+      const request = {
+        userId,
+        requestId,
+        title,
+        status,
+        details,
+      };
+      const filter = requests.filter(check =>
+        check.requestId === requestId || check.title === title);
+      if (filter.length === 0) {
+        requests.push(request);
+        res.status(201).json({
+          data: {
+            request,
+          },
+          message: 'Request created',
+          status: 'success',
+        });
+      } else {
+        res.status(409).send({
+          data: {},
+          message: 'This request has been logged previously',
+          status: 'fail',
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        data: {},
+        message: 'Oops! my bad, error from the server',
+        status: 'error',
+      });
+    }
+  }
 }
 
 export default Requests;

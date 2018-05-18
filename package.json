@@ -7,7 +7,7 @@
     "start": "babel-node ./server/app.js",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls",
-    "test": "mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit"
+    "test": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit"
   },
   "engines": {
     "node": "9.11.1"
