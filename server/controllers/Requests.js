@@ -15,24 +15,24 @@ class Requests {
     try {
       if (requests.length === 0) {
         res.status(404).json({
-          status: 'Not Found',
-          code: 404,
-          msg: 'No request in the database',
+          data: {},
+          message: 'No request in the database',
+          status: 'fail',
         });
       } else {
         res.status(200).json({
-          status: 'ok',
-          code: 200,
-          result: {
+          data: {
             requests,
           },
+          message: 'Requests found',
+          status: 'success',
         });
       }
     } catch (error) {
       res.status(500).json({
-        status: 'Internal Server Error',
-        code: 500,
-        msg: 'Oops! my bad, error from the server',
+        data: {},
+        message: 'Oops! my bad, error from the server',
+        status: 'error',
       });
     }
   }
@@ -49,24 +49,24 @@ class Requests {
 
       if (!result) {
         res.status(404).json({
-          status: 'Not Found',
-          code: 404,
-          msg: 'This request is not found in the database',
+          data: {},
+          message: 'This request is not found in the database',
+          status: 'fail',
         });
       } else {
         res.status(200).json({
-          status: 'ok',
-          code: 200,
-          result: {
+          data: {
             result,
           },
+          message: 'Request found',
+          status: 'success',
         });
       }
     } catch (error) {
       res.status(500).json({
-        status: 'Internal Server Error',
-        code: 500,
-        msg: 'Oops! my bad, error from the server',
+        data: {},
+        message: 'Oops! my bad, error from the server',
+        status: 'error',
       });
     }
   }

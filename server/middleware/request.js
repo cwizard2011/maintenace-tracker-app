@@ -16,10 +16,10 @@ class Validator {
   static checkReqId(req, res, next) {
     const { requestId } = req.params;
     if (Number.isNaN(parseInt(requestId, 10))) {
-      res.status(400).json({
-        status: 'Bad Request',
-        code: 400,
-        msg: 'You can only enter integer as request Id',
+      return res.status(400).json({
+        data: {},
+        message: 'You can only enter integers as requestId',
+        status: 'fail',
       });
     }
     return next();
