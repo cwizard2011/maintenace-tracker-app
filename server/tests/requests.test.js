@@ -398,3 +398,48 @@ describe('POST /api/v1/users/requests', () => {
     expect(res.body.message).to.equal('Request created');
   });
 });
+describe('PUT /api/v1/users/requests/:requestId', () => {
+  it('should return error if request id is not found', async () => {
+    const requestId = 342;
+    const request2 = {
+      userId: 5,
+      requestId: 342,
+      title: 'big bowl',
+      status: 'Pending',
+      details: 'This is a new request',
+    };
+    const res = await request(app)
+      .put(`/api/v1/users/requests/${requestId}`)
+      .set('Accept', 'application/json')
+      .send(request2)
+      .expect(404);
+
+    expect(res.body).to.be.an('object');
+    expect(res.body.status).to.equal('fail');
+    expect(res.body.data).not.to.have.property('requests');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('This request does not exist in the database');
+  });
+  it('should edit a request with valid Id', async () => {
+    const requestId = 5;
+    const request2 = {
+      userId: 5,
+      requestId: 2,
+      title: 'big bowl',
+      status: 'Pending',
+      details: 'This is a new request',
+    };
+    const res = await request(app)
+      .put(`/api/v1/users/requests/${requestId}`)
+      .set('Accept', 'application/json')
+      .send(request2)
+      .expect(200);
+
+    expect(res.body).to.be.an('object');
+    expect(res.body.status).to.equal('success');
+    expect(res.body.data).to.have.property('existingRequest');
+    expect(res.body.data.existingRequest).to.be.an('object');
+    expect(res.body).to.have.property('message');
+    expect(res.body.message).to.equal('Request edited');
+  });
+});

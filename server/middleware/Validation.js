@@ -1,16 +1,22 @@
 /**
  * Validator for validating request passed into body or params
+ *
  * @class Validator class
+ *
  */
 
 class Validator {
   /**
    * Checks for request Id parameter
+   *
    * @static method to validate request Id
+   *
    * @param {Object} req request object
    * @param {Object} res response object
    * @param {Function} next callback function
+   *
    * @return {Object} response containing the status of validation
+   *
    */
 
   static checkReqId(req, res, next) {
@@ -26,11 +32,15 @@ class Validator {
   }
   /**
    * Checks for user request body for title and details
+   *
    * @static method to validate users request body
+   *
    * @param {Object} req request object
    * @param {Object} res response object
    * @param {Function} next callback function
+   *
    * @return {Object} response containing the status of validation
+   *
    */
 
   static checkBody(req, res, next) {
@@ -79,11 +89,15 @@ class Validator {
   }
   /**
    * Checks for user request body for userId and requestId
+   *
    * @static method to validate users request body
+   *
    * @param {Object} req request object
    * @param {Object} res response object
    * @param {Function} next callback function
+   *
    * @return {Object} response containing the status of validation
+   *
    */
   static checkIds(req, res, next) {
     const {
@@ -119,11 +133,15 @@ class Validator {
   }
   /**
    * Checks for user request body for status
+   *
    * @static method to validate users request body
+   *
    * @param {Object} req request object
    * @param {Object} res response object
    * @param {Function} next callback function
+   *
    * @return {Object} response containing the status of validation
+   *
    */
   static checkStatus(req, res, next) {
     const { status } = req.body;
