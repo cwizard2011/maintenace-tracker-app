@@ -1,4 +1,4 @@
-const col = document.getElementsByClassName("display");
+const col = document.getElementsByClassName("sort-btn");
 let i;
 
 for (i = 0; i < col.length; i++) {
