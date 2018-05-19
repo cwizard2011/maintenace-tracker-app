@@ -1,4 +1,4 @@
-const coll = document.getElementsByClassName("toggle");
+const coll = document.getElementsByClassName("btn");
 let i;
 
 for (i = 0; i < coll.length; i++) {

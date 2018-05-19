@@ -3,10 +3,11 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Fenix|PT+Sans" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Prosto+One|Roboto+Condensed" rel="stylesheet"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/form.css">
+        <script src="https://unpkg.com/ionicons@4.1.1/dist/ionicons.js"></script>
         <title>Dashboard</title>
         <link rel="icon" type="image/png" href="../images/icon.jpeg" />
     </head>
@@ -18,15 +19,15 @@
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
             </div>
         <div class= "container">
-                        <a href="#" title = "SignUp Users"><button id="reqBtn" class="right-btn btn-signup">New Request</button></a>
+                        <a href="#" title = "SignUp Users"><button id="reqBtn" class="right-btn btn">New Request</button></a>
                         <div id="reqModal" class="modal">
                                         <div class="modal-content form-field modal-body">
                                           <span class="close">&times;</span>
-                                          <h3>Fill the form below to log a new request</h3>
+                                          <h3 class="center-heading">New complaint</h3>
                                              <form id = "reqForm">
                                             <input type="text" placeholder="Request title" required/>
                                             <textarea placeholder="Type in your request" required></textarea>
-                                            <input type="submit" class="right-btn btn-signup" value="Send Request">
+                                            <input type="submit" class="right-btn btn" value="Send Request">
                                           </form>
                                         </div>
                                       </div>
@@ -34,81 +35,133 @@
                           <div>
                         <div class="curved-border">
                                 <h4>Request for fixing or replacing fan</h4>
-                                <p class="ssm-font">Request Id: <span class= "ssm-font">#12354</span></p>
-                                <button class="toggle">Details</button>
+                                <p>Request Id: <span>#12354</span></p>
+                                <button class="btn">Details</button>
                                 <div class="expand">
-                                <p class="sm-font">Date: <span class= "ssm-font">28-05-18</span></p>
-                                <p class="sm-font">Status: <span class= "ssm-font">Approved</span></p>
-                                <h4>Details:</h4>
-                                <span class= "ssm-font">The fan stop blowing cool air, its blowing hot air</span>
+                                <p>Date: <span>28-05-18</span></p>
+                                <p>Status: <span class="label success"><ion-icon name="done-all"></ion-icon>Approved</span></p>
+                                <h6>Details:</h6>
+                                <span>The fan stop blowing cool air, its blowing hot air</span>
                                 </div>
                                 </div>
                           </div>
                            <div>
                                 <div class="curved-border">
                                 <h4>Request for fixing or replacing AC</h4>
-                                <p class="ssm-font">Request Id: <span class= "ssm-font">#86759</span></p>
-                                <button class="toggle">Details</button>
+                                <p>Request Id: <span>#86759</span></p>
+                                <button class="btn">Details</button>
                                 <div class="expand">
-                                <p class="sm-font">Date: <span class= "ssm-font">28-03-18</span></p>
-                                <p class="sm-font">Status: <span class= "ssm-font">Resolved</span></p>
-                                <h4>Details:</h4>
-                                <span class= "ssm-font">The AC is stopping at intervals of 2hrs</span>
+                                <p>Date: <span>28-03-18</span></p>
+                                <p>Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></p>
+                                <h6>Details:</h6>
+                                <span>The AC is stopping at intervals of 2hrs</span>
                                 </div>
                                 </div>
                            </div>
                             <div>
                                 <div class="curved-border">
                                         <h4>Request for fixing my flash drive</h4>
-                                        <p class="ssm-font">Request Id: <span class= "ssm-font">#324528</span></p>
-                                        <button class="toggle">Details</button>
+                                        <p>Request Id: <span>#324528</span></p>
+                                        <button class="btn">Details</button>
                                         <div class="expand">
-                                        <p class="sm-font">Date: <span class= "ssm-font">28-01-18</span></p>
-                                        <p class="sm-font">Status: <span class= "ssm-font">Rejected</span></p>
-                                        <h4>Details:</h4>
-                                        <span class= "ssm-font">My PC stops reading files from my flash drive</span>
+                                        <p>Date: <span>28-01-18</span></p>
+                                        <p>Status: <span class="label danger"><ion-icon name="close"></ion-icon>Rejected</span></p>
+                                        <h6>Details:</h6>
+                                        <span>My PC stops reading files from my flash drive</span>
                                         </div>
                                 </div>
                             </div>
                                 <div>   
                                 <div class="curved-border">
-                                        <h4>Request for chair repair</h4>
-                                        <p class="ssm-font">Request Id: <span class= "ssm-font">#852417</span></p>
-                                        <button class="toggle">Details</button>
+                                        <h4>Request for chair repair or replacement</h4>
+                                        <p>Request Id: <span>#852417</span></p>
+                                        <button class="btn">Details</button>
                                         <div class="expand">
-                                        <p class="sm-font">Date: <span class= "ssm-font">22-03-18</span></p>
-                                        <p class="sm-font">Status: <span class= "ssm-font">Pending</span></p>
-                                        <h4>Details:</h4>
-                                        <span class= "ssm-font">The chairs are broken and needs repair</span>
+                                        <p>Date: <span>22-03-18</span></p>
+                                        <p>Status: <span class="label pending"><ion-icon name="pause"></ion-icon>Pending</span></p>
+                                        <h6>Details:</h6>
+                                        <span>The chairs are broken and needs repair</span>
                                         </div>
                                 </div>
                         </div>
                         <div>   
                         <div class="curved-border">
                                 <h4>Request for chair Keyboards</h4>
-                                <p class="ssm-font">Request Id: <span class= "ssm-font">#856417</span></p>
-                                <button class="toggle">Details</button>
+                                <p>Request Id: <span>#856417</span></p>
+                                <button class="btn">Details</button>
                                 <div class="expand">
-                                <p class="sm-font">Date: <span class= "ssm-font">22-03-18</span></p>
-                                <p class="sm-font">Status: <span class= "ssm-font">Approved</span></p>
-                                <h4>Details:</h4>
-                                <span class= "ssm-font">The keyboards are faulty</span>
+                                <p>Date: <span>22-03-18</span></p>
+                                <p>Status: <span class="label success"><ion-icon name="done-all"></ion-icon>Approved</span></p>
+                                <h6>Details:</h6>
+                                <span>The keyboards are faulty</span>
                                 </div>
                         </div>
                         </div>
                         <div>   
                         <div class="curved-border">
                                 <h4>Request for bulb replacement</h4>
-                                <p class="ssm-font">Request Id: <span class= "ssm-font">#852417</span></p>
-                                <button class="toggle">Details</button>
+                                <p>Request Id: <span>#852417</span></p>
+                                <button class="btn">Details</button>
                                 <div class="expand">
-                                <p class="sm-font">Date: <span class= "ssm-font">22-03-18</span></p>
-                                <p class="sm-font">Status: <span class= "ssm-font">Pending</span></p>
+                                <p>Date: <span>22-03-18</span></p>
+                                <p>Status: <span class="label pending"><ion-icon name="pause"></ion-icon>Pending</span></p>
                                 <h4>Details:</h4>
-                                <span class= "ssm-font">Six bulbs needs to be replaced</span>
+                                <span>Six bulbs needs to be replaced</span>
                                 </div>
                         </div>
+                        </div>
+                        <div>
+                                <div class="curved-border">
+                                <h4>Laser printer needs to be fixed</h4>
+                                <p>Request Id: <span>#86759</span></p>
+                                <button class="btn">Details</button>
+                                <div class="expand">
+                                <p>Date: <span>20-03-18</span></p>
+                                <p>Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></p>
+                                <h6>Details:</h6>
+                                <span>One of the laser printer in the bulk room got damaged and needs immediate repair</span>
                                 </div>
+                                </div>
+                           </div>
+                           <div>
+                                <div class="curved-border">
+                                <h4>Plasma TV needs fixing</h4>
+                                <p>Request Id: <span>#86759</span></p>
+                                <button class="btn">Details</button>
+                                <div class="expand">
+                                <p>Date: <span>28-02-18</span></p>
+                                <p>Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></p>
+                                <h6>Details:</h6>
+                                <span>The Plasma TV in the reception refused to come up after power was restored</span>
+                                </div>
+                                </div>
+                           </div>
+                           <div>
+                                <div class="curved-border">
+                                <h4>Two sockets are not supplying power</h4>
+                                <p>Request Id: <span>#86759</span></p>
+                                <button class="btn">Details</button>
+                                <div class="expand">
+                                <p>Date: <span>22-02-18</span></p>
+                                <p>Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></p>
+                                <h6>Details:</h6>
+                                <span>Two sockets needs replacement in the training room</span>
+                                </div>
+                                </div>
+                           </div>
+                           <div>
+                                <div class="curved-border">
+                                <h4>Laptops DVD drive not reading disk</h4>
+                                <p>Request Id: <span>#86759</span></p>
+                                <button class="btn">Details</button>
+                                <div class="expand">
+                                <p>Date: <span>28-01-18</span></p>
+                                <p>Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></p>
+                                <h6>Details:</h6>
+                                <span>When we slot DVD into the laptop to install some drivers for the internet modem, the drive could not read the disk</span>
+                                </div>
+                                </div>
+                           </div>
                 </div>   
         </div>
         <script src = "../js/expand.js"></script>
