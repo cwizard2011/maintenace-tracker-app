@@ -1,14 +1,22 @@
 import requests from '../db/data';
 
 /**
+ * Contoller for users request
+ *
  * @class a request controller
+ *
  */
 class Requests {
   /**
+   * Method to get all requests
+   *
    * @static method to get All Requests
+   *
    * @param {Object} req - request object
    * @param {Object} res - response object
+   *
    * @returns {Object} return object as response
+   *
   */
 
   static getAllRequest(req, res) {
@@ -37,10 +45,15 @@ class Requests {
     }
   }
   /**
+   * Get request by Id
+   *
    * @static method to get requests by Id
+   *
    * @param {Object} req - request object
    * @param {Object} res - response object
+   *
    * @returns {Object} return object as response
+   *
   */
   static getRequestById(req, res) {
     try {
@@ -102,6 +115,52 @@ class Requests {
           data: {},
           message: 'This request has been logged previously',
           status: 'fail',
+        });
+      }
+    } catch (error) {
+      res.status(500).json({
+        data: {},
+        message: 'Oops! my bad, error from the server',
+        status: 'error',
+      });
+    }
+  }
+  /**
+   *Edit requests by Id
+   *
+   * @static editRequest method
+   *
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @returns {Object} res
+   *
+  */
+  static editRequest(req, res) {
+    try {
+      const {
+        title,
+        details,
+        status,
+      } = req.body;
+      const requestId = parseInt(req.params.requestId, 10);
+      const existingRequest = requests.filter(edit => edit.requestId === requestId)[0];
+      if (!existingRequest) {
+        res.status(404).json({
+          data: {},
+          message: 'This request does not exist in the database',
+          status: 'fail',
+        });
+      } else {
+        existingRequest.title = title;
+        existingRequest.details = details;
+        existingRequest.status = status;
+        res.status(200).json({
+          data: {
+            existingRequest,
+          },
+          message: 'Request edited',
+          status: 'success',
         });
       }
     } catch (error) {
