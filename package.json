@@ -5,6 +5,7 @@
   "main": "./server/app.js",
   "scripts": {
     "start": "babel-node ./server/app.js",
+    "db-migrate": "babel-node ./server/models/database.js",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls",
     "test": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit"
@@ -30,16 +31,18 @@
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",
     "eslint": "^4.19.1",
-    "express": "^4.16.3"
+    "express": "^4.16.3",
+    "pg": "^6.4.2",
+    "pg-promise": "^8.4.4"
   },
   "devDependencies": {
     "chai": "^4.1.2",
-    "coveralls": "^3.0.0",
+    "coveralls": "^3.0.1",
     "eslint-config-airbnb": "^16.1.0",
     "eslint-plugin-import": "^2.12.0",
     "eslint-plugin-jsx-a11y": "^6.0.3",
     "eslint-plugin-react": "^7.8.2",
-    "mocha": "^5.1.1",
+    "mocha": "^5.2.0",
     "nyc": "^11.8.0",
     "supertest": "^3.1.0"
   }
