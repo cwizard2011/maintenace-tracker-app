@@ -5,10 +5,15 @@
   "main": "./server/app.js",
   "scripts": {
     "start": "babel-node ./server/app.js",
+    "load-seed": "babel-node ./server/seed/seed.js",
+    "start:dev": "npm run db-migrate && npm run load-seed && npm start",
     "db-migrate": "babel-node ./server/models/database.js",
+    "load-db-prod": "npm run db-migrate",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls",
-    "test": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit"
+    "test-local": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
+    "setup-test": "npm run db-migrate && npm run load-seed",
+    "test": "npm run setup-test && npm run test-local"
   },
   "engines": {
     "node": "9.11.1"
@@ -28,12 +33,13 @@
     "babel-core": "^6.26.3",
     "babel-eslint": "^8.2.3",
     "babel-preset-env": "^1.7.0",
+    "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
     "dotenv": "^5.0.1",
     "eslint": "^4.19.1",
     "express": "^4.16.3",
-    "pg": "^6.4.2",
-    "pg-promise": "^8.4.4"
+    "jsonwebtoken": "^8.2.1",
+    "pg": "^7.4.3"
   },
   "devDependencies": {
     "chai": "^4.1.2",
