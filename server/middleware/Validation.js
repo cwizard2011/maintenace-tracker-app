@@ -160,5 +160,39 @@ class Validator {
     }
     return next();
   }
+  static checkUser(req, res, next) {
+    const {
+      username,
+      password,
+      firstName,
+      lastName,
+      email,
+    } = req.body;
+    if (/^[a-zA-Z][a-zA-Z0-9]{3,10}$/.test(username) === false) {
+      return res.status(400).json({ message: 'Invalid username, username can only be a min. of 3 and max of 10 alphanumeric characters starting with letters' });
+    } else if (username === undefined) {
+      return res.status(400).json({ message: 'You must provide a username' });
+    } else if (password === undefined) {
+      return res.status(400).json({ message: 'Password must be supplied' });
+    } else if (
+      /^(?=.*\d)(?=.*[a-zA-Z])[a-zA-Z\d]{8,}$/.test(password) === false) {
+      return res.status(400).json({
+        message: 'Password must be alphanumeric and should contain a minimum of 8 characters',
+      });
+    } else if (firstName === undefined) {
+      return res.status(400).json({ message: 'You must provide your first Name' });
+    } else if (lastName === undefined) {
+      return res.status(400).json({ message: 'You must provide your last Name' });
+    } else if (firstName.length > 20 || lastName.length > 20) {
+      return res.status(400).json({ message: 'Name too long, please restrict name to 20 characters including spaces' });
+    } else if (/^[A-Za-z]+$/.test(firstName) === false || /^[A-Za-z]+$/.test(lastName) === false) {
+      return res.status(400).json({ message: 'Invalid Name, name can only contain alphabets' });
+    } else if (email === undefined) {
+      return res.status(400).json({ message: 'You must provide an email address' });
+    } else if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) === false) {
+      return res.status(400).json({ message: 'invalid email, please enter correct email' });
+    }
+    return next();
+  }
 }
 export default Validator;
