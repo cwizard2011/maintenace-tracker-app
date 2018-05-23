@@ -280,3 +280,69 @@ describe('POST /api/v1/auth/signup', () => {
     expect(res.body.data.user).to.have.a.property('id');
   });
 });
+describe('POST /auth/login', () => {
+  it('should not login a user without password', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .set('Accept', 'application/json')
+      .send({
+        username: 'juliet',
+      })
+      .expect(400);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('Please provide your password');
+    expect(res.body.data).to.not.have.property('user');
+  });
+  it('should not login a user without username', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .set('Accept', 'application/json')
+      .send({
+        password: 'password2',
+      })
+      .expect(400);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('Please provide your username');
+    expect(res.body.data).to.not.have.property('user');
+  });
+  it('should not login a user if username incorrect', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .set('Accept', 'application/json')
+      .send({
+        username: 'incorrect1',
+        password: 'password2',
+      })
+      .expect(401);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('username or password incorrect, please provide valid credential');
+    expect(res.body.data).to.not.have.property('user');
+  });
+  it('should not login a user if password incorrect', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .set('Accept', 'application/json')
+      .send({
+        username: 'juliet',
+        password: 'incorrect',
+      })
+      .expect(401);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('username or password incorrect, try again');
+    expect(res.body.data).to.not.have.property('user');
+  });
+  it('should login a user with valid username and password', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .set('Accept', 'application/json')
+      .send({
+        username: 'juliet',
+        password: 'password123',
+      })
+      .expect(200);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('You are now logged in');
+    expect(res.body.data).to.have.a.property('username');
+    expect(res.body.data).to.have.a.property('token');
+  });
+});

@@ -2,9 +2,8 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Client } from 'pg';
+import Auth from '../helpers/Auth';
 
-
-// import Auth from '../helpers/Auth';
 dotenv.config();
 
 const connectionString = process.env.DATABASE_URL;
@@ -69,6 +68,61 @@ class UserControllers {
         },
         message: 'User registration successful',
         status: 'success',
+      });
+    });
+  }
+  /**
+ * @description: controls a user's login through route POST: api/user/signin
+ *
+ * @param {Object} req request object
+ * @param {Object} res response object
+ *
+ * @return {Object} response containing the logged-in user
+ */
+  static login(req, res) {
+    const { username, password } = req.body;
+    const newQuery = {
+      text: 'SELECT username, password FROM userlist WHERE username = $1',
+      values: [username],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (error, result) => {
+      client.end();
+      if (error) {
+        return res.status(500).json({
+          data: { error },
+          message: 'Login failed',
+          status: 'error',
+        });
+      } else if (result.rows[0] === undefined) {
+        return res.status(401).json({
+          data: {},
+          message: 'username or password incorrect, please provide valid credential',
+          status: 'fail',
+        });
+      } else if (bcrypt.compareSync(password, result.rows[0].password)) {
+        const token = Auth.generateToken({
+          username: result.rows[0].username,
+          id: result.rows[0].id,
+          user_role: result.rows[0].user_role,
+        });
+        return res.status(200).json({
+          data: {
+            id: result.rows[0].id,
+            username: result.rows[0].username,
+            email: result.rows[0].email,
+            role: result.rows[0].user_role,
+            token,
+          },
+          message: 'You are now logged in',
+          status: 'success',
+        });
+      }
+      return res.status(401).json({
+        data: {},
+        message: 'username or password incorrect, try again',
+        status: 'fail',
       });
     });
   }

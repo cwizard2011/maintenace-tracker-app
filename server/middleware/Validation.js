@@ -160,6 +160,15 @@ class Validator {
     }
     return next();
   }
+  /**
+   *Checks for users details before signing up a new user
+   *
+   * @static Checkuser method
+   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} next - callback function calling on the next middleware
+   */
   static checkUser(req, res, next) {
     const {
       username,
@@ -191,6 +200,32 @@ class Validator {
       return res.status(400).json({ message: 'You must provide an email address' });
     } else if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) === false) {
       return res.status(400).json({ message: 'invalid email, please enter correct email' });
+    }
+    return next();
+  }
+  /**
+   *Checks if username or password is provided before signing in a user
+   *
+   * @static Checklogin method
+   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} next - callback function calling on the next middleware
+   */
+  static checkLogin(req, res, next) {
+    const { username, password } = req.body;
+    if (username === undefined) {
+      return res.status(400).json({
+        data: {},
+        message: 'Please provide your username',
+        status: 'fail',
+      });
+    } else if (password === undefined) {
+      return res.status(400).json({
+        data: {},
+        message: 'Please provide your password',
+        status: 'fail',
+      });
     }
     return next();
   }
