@@ -82,7 +82,7 @@ class UserControllers {
   static login(req, res) {
     const { username, password } = req.body;
     const newQuery = {
-      text: 'SELECT username, password FROM userlist WHERE username = $1',
+      text: 'SELECT username, password, id FROM userlist WHERE username = $1',
       values: [username],
     };
     const client = new Client(connectionString);
@@ -103,8 +103,8 @@ class UserControllers {
         });
       } else if (bcrypt.compareSync(password, result.rows[0].password)) {
         const token = Authentication.generateToken({
-          username: result.rows[0].username,
           id: result.rows[0].id,
+          email: result.rows[0].email,
           user_role: result.rows[0].user_role,
         });
         return res.status(200).json({

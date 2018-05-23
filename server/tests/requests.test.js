@@ -73,13 +73,13 @@ describe('Request controller', () => {
         .get(`/api/v1/users/requests/${requestId}`)
         .set('Accept', 'application/json')
         .set('token', userToken)
-        .expect(400);
+        .expect(404);
 
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('fail');
       expect(res.body.data).not.to.have.property('requests');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('You can only enter integers as requestId');
+      expect(res.body.message).to.equal('This request is not found in the database');
     });
     it('should get a request by Id', async () => {
       const requestId = 5;
@@ -96,130 +96,6 @@ describe('Request controller', () => {
     });
   });
   describe('POST /api/v1/users/requests', () => {
-    it('should not post an existing request id', async () => {
-      const requestData = {
-        userId: 1,
-        requestId: 5,
-        title: 'New request',
-        status: 'Pending',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .send(requestData)
-        .set('token', userToken)
-        .expect(409);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('This request has been logged previously');
-    });
-    it('should not post an existing title', async () => {
-      const request2 = {
-        userId: 1,
-        requestId: 35,
-        title: 'Request for replacement of damaged bulb',
-        status: 'Pending',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(409);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('This request has been logged previously');
-    });
-    it('should not post a request with no user id', async () => {
-      const request2 = {
-        requestId: 35,
-        title: 'Request for replacement',
-        status: 'Pending',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('User id is required to post a request');
-    });
-    it('should not post a request with invalid user id', async () => {
-      const request2 = {
-        userId: 'as35',
-        requestId: 35,
-        title: 'Request for replacement',
-        status: 'Pending',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('You can only enter integers as userId');
-    });
-    it('should not post a request with no request Id', async () => {
-      const request2 = {
-        userId: 5,
-        title: 'Request for replacement',
-        status: 'Pending',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Request id is required to post a request');
-    });
-    it('should not post a request with invalid request Id', async () => {
-      const request2 = {
-        userId: 5,
-        requestId: '243gdf',
-        title: 'Request for replacement',
-        status: 'Pending',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('You can only enter integers as requestId');
-    });
     it('should not post a request with no title', async () => {
       const request2 = {
         userId: 5,
@@ -303,47 +179,6 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('Please enter a shorter title less than 50 characters');
     });
-    it('should not post a request with no status', async () => {
-      const request2 = {
-        userId: 5,
-        requestId: '2',
-        title: 'big bowl',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Status is required to post a request');
-    });
-    it('should not post a request with invalid status', async () => {
-      const request2 = {
-        userId: 5,
-        requestId: 2,
-        title: 'big bowl',
-        status: 'Pending 5',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body.data).not.to.have.property('request');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Status cannot be numbers, please enter string');
-    });
     it('should not post a request with no details', async () => {
       const request2 = {
         userId: 5,
@@ -364,7 +199,7 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('Details of the request is required to post a request');
     });
-    it('should not post a request with no details', async () => {
+    it('should not post a request with empty details', async () => {
       const request2 = {
         userId: 5,
         requestId: 2,
@@ -429,10 +264,7 @@ describe('Request controller', () => {
     });
     it('should post a valid request', async () => {
       const request2 = {
-        userId: 5,
-        requestId: 2,
         title: 'big bowl',
-        status: 'Pending',
         details: 'This is a new request',
       };
       const res = await request(app)
@@ -447,7 +279,7 @@ describe('Request controller', () => {
       expect(res.body.data).to.have.property('request');
       expect(res.body.data.request).to.be.an('object');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Request created');
+      expect(res.body.message).to.equal('Request created successfully');
     });
   });
   describe('PUT /api/v1/users/requests/:requestId', () => {
