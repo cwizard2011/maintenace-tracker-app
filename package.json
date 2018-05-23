@@ -8,7 +8,7 @@
     "load-seed": "babel-node ./server/seed/seed.js",
     "start:dev": "npm run db-migrate && npm run load-seed && npm start",
     "db-migrate": "babel-node ./server/models/database.js",
-    "load-db-prod": "npm run db-migrate",
+    "load-db-prod": "npm run db-migrate && npm run load-seed",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls",
     "test-local": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",

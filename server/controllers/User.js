@@ -2,7 +2,7 @@ import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import { Client } from 'pg';
-import Auth from '../helpers/Auth';
+import Authentication from '../helpers/Auth';
 
 dotenv.config();
 
@@ -102,7 +102,7 @@ class UserControllers {
           status: 'fail',
         });
       } else if (bcrypt.compareSync(password, result.rows[0].password)) {
-        const token = Auth.generateToken({
+        const token = Authentication.generateToken({
           username: result.rows[0].username,
           id: result.rows[0].id,
           user_role: result.rows[0].user_role,

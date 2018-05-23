@@ -11,7 +11,7 @@ const jwtSecret = process.env.JWT_SECRET;
  * @class Authenticate
  *
  */
-export default class Auth {
+export default class Authentication {
 /**
  * @description: it generate a login token
  *
@@ -41,7 +41,7 @@ export default class Auth {
     if (token) {
       jwt.verify(token, jwtSecret, (err, decode) => {
         if (decode === undefined) {
-          res.status(401).json({ message: 'Oops! Access denied. Kindly login' });
+          return res.status(401).json({ message: 'Oops! Access denied. Kindly login' });
         }
         req.decode = decode;
         return next();
