@@ -7,30 +7,6 @@
 
 class Validator {
   /**
-   * Checks for request Id parameter
-   *
-   * @static method to validate request Id
-   *
-   * @param {Object} req request object
-   * @param {Object} res response object
-   * @param {Function} next callback function
-   *
-   * @return {Object} response containing the status of validation
-   *
-   */
-
-  static checkReqId(req, res, next) {
-    const { requestId } = req.params;
-    if (/^[0-9]+$/.test(requestId) === false) {
-      return res.status(400).json({
-        data: {},
-        message: 'You can only enter integers as requestId',
-        status: 'fail',
-      });
-    }
-    return next();
-  }
-  /**
    * Checks for user request body for title and details
    *
    * @static method to validate users request body
@@ -87,79 +63,7 @@ class Validator {
     }
     return next();
   }
-  /**
-   * Checks for user request body for userId and requestId
-   *
-   * @static method to validate users request body
-   *
-   * @param {Object} req request object
-   * @param {Object} res response object
-   * @param {Function} next callback function
-   *
-   * @return {Object} response containing the status of validation
-   *
-   */
-  static checkIds(req, res, next) {
-    const {
-      userId,
-      requestId,
-    } = req.body;
-    if (userId === undefined) {
-      return res.status(400).json({
-        data: {},
-        message: 'User id is required to post a request',
-        status: 'fail',
-      });
-    } else if (/^[0-9]+$/.test(userId) === false) {
-      return res.status(400).json({
-        data: {},
-        message: 'You can only enter integers as userId',
-        status: 'fail',
-      });
-    } else if (requestId === undefined) {
-      return res.status(400).json({
-        data: {},
-        message: 'Request id is required to post a request',
-        status: 'fail',
-      });
-    } else if (/^[0-9]+$/.test(requestId) === false) {
-      return res.status(400).json({
-        data: {},
-        message: 'You can only enter integers as requestId',
-        status: 'fail',
-      });
-    }
-    return next();
-  }
-  /**
-   * Checks for user request body for status
-   *
-   * @static method to validate users request body
-   *
-   * @param {Object} req request object
-   * @param {Object} res response object
-   * @param {Function} next callback function
-   *
-   * @return {Object} response containing the status of validation
-   *
-   */
-  static checkStatus(req, res, next) {
-    const { status } = req.body;
-    if (status === undefined || status.trim().length === 0) {
-      return res.status(400).json({
-        data: {},
-        message: 'Status is required to post a request',
-        status: 'fail',
-      });
-    } else if (/^[A-z]+$/.test(status) === false) {
-      return res.status(400).json({
-        data: {},
-        message: 'Status cannot be numbers, please enter string',
-        status: 'fail',
-      });
-    }
-    return next();
-  }
+
   /**
    *Checks for users details before signing up a new user
    *

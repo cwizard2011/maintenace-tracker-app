@@ -1,4 +1,10 @@
+import { Client } from 'pg';
+import dotenv from 'dotenv';
 import requests from '../db/data';
+
+dotenv.config();
+
+const connectionString = process.env.DATABASE_URL;
 
 /**
  * Contoller for users request
@@ -84,46 +90,35 @@ class Requests {
     }
   }
   static createRequest(req, res) {
-    try {
-      const {
-        userId,
-        requestId,
-        title,
-        status,
-        details,
-      } = req.body;
-      const request = {
-        userId,
-        requestId,
-        title,
-        status,
-        details,
-      };
-      const filter = requests.filter(check =>
-        check.requestId === requestId || check.title === title);
-      if (filter.length === 0) {
-        requests.push(request);
-        res.status(201).json({
-          data: {
-            request,
+    const client = new Client(connectionString);
+    client.connect();
+    const { title, details } = req.body;
+    const query = {
+      text: 'INSERT INTO requests(title, details, user_id) VALUES ($1, $2, $3) RETURNING *',
+      values: [title, details, req.decode.id],
+    };
+    client.query(query, (err, response) => {
+      client.end();
+      if (err) {
+        return res.status(500).json({
+          data: { err },
+          message: 'Request not created',
+          status: 'error',
+        });
+      } return res.status(201).json({
+        data: {
+          request: {
+            id: response.rows[0].id,
+            userId: req.decode.id,
+            status: response.rows[0].currentStatus,
+            title,
+            details,
           },
-          message: 'Request created',
-          status: 'success',
-        });
-      } else {
-        res.status(409).send({
-          data: {},
-          message: 'This request has been logged previously',
-          status: 'fail',
-        });
-      }
-    } catch (error) {
-      res.status(500).json({
-        data: {},
-        message: 'Oops! my bad, error from the server',
-        status: 'error',
+        },
+        message: 'Request created successfully',
+        status: 'success',
       });
-    }
+    });
   }
   /**
    *Edit requests by Id

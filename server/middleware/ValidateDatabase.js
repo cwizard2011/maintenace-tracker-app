@@ -9,7 +9,7 @@ const connectionString = process.env.DATABASE_URL;
 *
 * @class: Checks all requests
 */
-class CheckRequests {
+class ValidateDatabase {
   /**
    * Checks if a User exists in the database
    *
@@ -25,13 +25,13 @@ class CheckRequests {
       username,
       email,
     } = req.body;
-    const query = {
+    const newQuery = {
       text: 'SELECT * FROM userlist WHERE username = $1 OR email = $2',
       values: [username, email],
     };
     const client = new Client(connectionString);
     client.connect();
-    client.query(query, (error, result) => {
+    client.query(newQuery, (error, result) => {
       client.end();
       if (result.rows[0]) {
         return res.status(409).json({
@@ -42,7 +42,26 @@ class CheckRequests {
       return done();
     });
   }
+  static checkRequest(req, res, done) {
+    const { title } = req.body;
+    const newQuery = {
+      text: 'SELECT * FROM requests WHERE title = $1',
+      values: [title],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (result.rows[0]) {
+        return res.status(409).json({
+          message: 'This request has already been logged, Please log a new request',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+  }
 }
 
 
-export default CheckRequests;
+export default ValidateDatabase;
