@@ -1,5 +1,6 @@
 import { Client } from 'pg';
 import dotenv from 'dotenv';
+import winston from 'winston';
 import bcrypt from 'bcryptjs';
 
 const salt = bcrypt.genSaltSync(10);
@@ -17,7 +18,8 @@ const queries = [
 queries.forEach((newQuery) => {
   const client = new Client(connectionString);
   client.connect();
-  client.query(newQuery, () => {
+  client.query(newQuery, (err, res) => {
+    winston.log(err ? err.stack : res);
     client.end();
   });
 });

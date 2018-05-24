@@ -1,5 +1,6 @@
 import { Client } from 'pg';
 import dotenv from 'dotenv';
+import winston from 'winston';
 import requests from '../db/data';
 
 dotenv.config();
@@ -26,29 +27,28 @@ class Requests {
   */
 
   static getAllRequest(req, res) {
-    try {
-      if (requests.length === 0) {
-        res.status(404).json({
-          data: {},
-          message: 'No request in the database',
-          status: 'fail',
-        });
-      } else {
-        res.status(200).json({
-          data: {
-            requests,
-          },
+    const client = new Client(connectionString);
+    client.connect();
+    const query = {
+      text: 'SELECT * FROM requests WHERE user_id = $1',
+      values: [req.decode.id],
+    };
+    client.query(query, (err, result) => {
+      client.end();
+      if (err) {
+        return winston.log(err.stack);
+      } else if (result.rows.length > 0) {
+        return res.status(200).json({
+          data: result.rows,
           message: 'Requests found',
           status: 'success',
         });
       }
-    } catch (error) {
-      res.status(500).json({
-        data: {},
-        message: 'Oops! my bad, error from the server',
-        status: 'error',
+      return res.status(404).json({
+        message: 'No request for this user',
+        status: 'fail',
       });
-    }
+    });
   }
   /**
    * Get request by Id

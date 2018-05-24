@@ -45,8 +45,8 @@ class ValidateDatabase {
   static checkRequest(req, res, done) {
     const { title } = req.body;
     const newQuery = {
-      text: 'SELECT * FROM requests WHERE title = $1',
-      values: [title],
+      text: 'SELECT * FROM requests WHERE title = $1 AND user_id = $2',
+      values: [title, req.decode.id],
     };
     const client = new Client(connectionString);
     client.connect();
@@ -55,6 +55,24 @@ class ValidateDatabase {
       if (result.rows[0]) {
         return res.status(409).json({
           message: 'This request has already been logged, Please log a new request',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+  }
+  static checkUserId(req, res, done) {
+    const newQuery = {
+      text: 'SELECT * FROM userlist WHERE id = $1',
+      values: [req.decode.id],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (result === undefined) {
+        return res.status(401).json({
+          message: 'You can\'t post and get request, please login',
           status: 'fail',
         });
       }
