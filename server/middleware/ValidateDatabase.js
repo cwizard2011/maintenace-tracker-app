@@ -87,6 +87,25 @@ class ValidateDatabase {
       return done();
     });
   }
+  static checkRequestStatus(req, res, done) {
+    const { requestId } = req.params;
+    const newQuery = {
+      text: 'SELECT * FROM requests WHERE id = $1 AND currentStatus = $2',
+      values: [requestId, 'new'],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (result === undefined) {
+        return res.status(403).json({
+          message: 'You are not allowed to edit this request, the admin is already resolving it',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+  }
 }
 
 

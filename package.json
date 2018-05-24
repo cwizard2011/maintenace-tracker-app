@@ -4,7 +4,7 @@
   "description": "Maintenance tracker app allows the users to send maintenance request to the admin, and allows the admin to receive and act on users request",
   "main": "./server/app.js",
   "scripts": {
-    "start": "npm run migrate:all && babel-node ./server/app.js",
+    "start": "babel-node ./server/app.js",
     "load-seed": "babel-node ./server/seed/seed.js",
     "start:dev": "npm run migrate:all && nodemon --watch app --exec babel-node ./server/app.js",
     "migrate-user": "babel-node ./server/models/user.js",
@@ -13,8 +13,8 @@
     "migrate:all": "npm run migrate-table && npm run load-seed",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls",
-    "test-local": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
-    "test": "npm run migrate:all && npm run test-local"
+    "test": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
+    "test-local": "npm run migrate:all && npm run test-local"
   },
   "engines": {
     "node": "9.11.1"
