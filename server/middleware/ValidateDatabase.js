@@ -133,7 +133,35 @@ class ValidateDatabase {
       client.end();
       if (result.rows.length === 0) {
         return res.status(403).json({
-          message: 'You are not allowed to edit a request admin has worked on, Please check the status of your request for more information',
+          message: 'Admin has already looked into this request, Please check the current status of the request',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+  }
+  /**
+   * Checks if the supplied id exist in the database
+   *
+   * @static
+   *
+   * @param {object} req -request object
+   * @param {object} res -response object
+   * @param {function} done callback function
+   */
+  static checkRequestId(req, res, done) {
+    const { requestId } = req.params;
+    const newQuery = {
+      text: 'SELECT * FROM requests WHERE id = $1',
+      values: [requestId],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (result === undefined) {
+        return res.status(404).json({
+          message: 'This request is not found in the database',
           status: 'fail',
         });
       }

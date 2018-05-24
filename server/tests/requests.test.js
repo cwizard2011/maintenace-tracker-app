@@ -282,7 +282,7 @@ describe('Request controller', () => {
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('You are not allowed to edit a request admin has worked on, Please check the status of your request for more information');
+      expect(res.body.message).to.equal('Admin has already looked into this request, Please check the current status of the request');
     });
     it('should not edit request that doesn\'t belong to you', async () => {
       const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
