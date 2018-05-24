@@ -61,6 +61,14 @@ class ValidateDatabase {
       return done();
     });
   }
+  /**
+   * Checks the database if the user Id exist
+   *
+   * @param {*} req -request object
+   * @param {*} res - response object
+   * @param {*} done - callback function to call on the next middleware
+   *
+   */
   static checkUserId(req, res, done) {
     const newQuery = {
       text: 'SELECT * FROM userlist WHERE id = $1',
