@@ -1,7 +1,6 @@
 import { Client } from 'pg';
 import dotenv from 'dotenv';
 import winston from 'winston';
-import requests from '../db/data';
 
 dotenv.config();
 
@@ -129,39 +128,29 @@ class Requests {
    *
   */
   static editRequest(req, res) {
-    try {
-      const {
-        title,
-        details,
-        status,
-      } = req.body;
-      const requestId = parseInt(req.params.requestId, 10);
-      const existingRequest = requests.filter(edit => edit.requestId === requestId)[0];
-      if (!existingRequest) {
-        res.status(404).json({
-          data: {},
-          message: 'This request does not exist in the database',
-          status: 'fail',
-        });
-      } else {
-        existingRequest.title = title;
-        existingRequest.details = details;
-        existingRequest.status = status;
-        res.status(200).json({
-          data: {
-            existingRequest,
-          },
-          message: 'Request edited',
+    const client = new Client(connectionString);
+    client.connect();
+    const { requestId } = req.params;
+    const { title, details } = req.body;
+    const query = {
+      text: 'UPDATE requests SET title = $1, details = $2 WHERE id = $3 AND user_id = $4',
+      values: [title, details, requestId, req.decode.id],
+    };
+    client.query(query, (err, result) => {
+      client.end();
+      if (err) {
+        return winston.log(err.stack);
+      } else if (result) {
+        return res.status(200).json({
+          message: 'Update successful',
           status: 'success',
         });
       }
-    } catch (error) {
-      res.status(500).json({
-        data: {},
-        message: 'Oops! my bad, error from the server',
-        status: 'error',
+      return res.status(404).json({
+        message: 'Request not found in the database',
+        status: 'fail',
       });
-    }
+    });
   }
 }
 

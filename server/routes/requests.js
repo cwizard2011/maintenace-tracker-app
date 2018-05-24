@@ -29,6 +29,7 @@ const requestRoutes = (versionLink, app) => {
     Authentication.verifyToken,
     Validator.checkBody,
     ValidateDatabase.checkUserId,
+    ValidateDatabase.checkRequestStatus,
     Requests.editRequest,
   );
 };
