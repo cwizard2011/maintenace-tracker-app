@@ -4,16 +4,17 @@
   "description": "Maintenance tracker app allows the users to send maintenance request to the admin, and allows the admin to receive and act on users request",
   "main": "./server/app.js",
   "scripts": {
-    "start": "babel-node ./server/app.js",
+    "start": "npm run migrate:all && babel-node ./server/app.js",
     "load-seed": "babel-node ./server/seed/seed.js",
-    "start:dev": "npm run db-migrate && npm run load-seed && npm start",
-    "db-migrate": "babel-node ./server/models/database.js",
-    "load-db-prod": "npm run db-migrate && npm run load-seed",
+    "start:dev": "npm run migrate:all && npm start",
+    "migrate-user": "babel-node ./server/models/user.js",
+    "migrate-request": "babel-node ./server/models/request.js",
+    "migrate-table": "npm run migrate-user && npm run migrate-request",
+    "migrate:all": "npm run migrate-table && npm run load-seed",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls",
-    "test-local": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
-    "setup-test": "npm run db-migrate && npm run load-seed",
-    "test": "npm run setup-test && npm run test-local"
+    "test": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
+    "test-dev": "npm run migrate:all && npm run test-local"
   },
   "engines": {
     "node": "9.11.1"
@@ -39,7 +40,8 @@
     "eslint": "^4.19.1",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.1",
-    "pg": "^7.4.3"
+    "pg": "^7.4.3",
+    "winston": "^2.4.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
