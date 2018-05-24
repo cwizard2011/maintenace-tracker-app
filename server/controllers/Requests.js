@@ -62,32 +62,29 @@ class Requests {
    *
   */
   static getRequestById(req, res) {
-    try {
-      const requestId = parseInt(req.params.requestId, 10);
-      const result = requests.filter(re => re.requestId === requestId)[0];
-
-      if (!result) {
-        res.status(404).json({
-          data: {},
-          message: 'This request is not found in the database',
-          status: 'fail',
-        });
-      } else {
-        res.status(200).json({
-          data: {
-            result,
-          },
-          message: 'Request found',
+    const { requestId } = req.params;
+    const client = new Client(connectionString);
+    client.connect();
+    const query = {
+      text: 'SELECT * FROM requests WHERE id = $1 AND user_id = $2',
+      values: [requestId, req.decode.id],
+    };
+    client.query(query, (err, result) => {
+      client.end();
+      if (err) {
+        return winston.log(err.stack);
+      } else if (result.rows[0]) {
+        return res.status(200).json({
+          data: result.rows,
+          message: 'Requests found',
           status: 'success',
         });
       }
-    } catch (error) {
-      res.status(500).json({
-        data: {},
-        message: 'Oops! my bad, error from the server',
-        status: 'error',
+      return res.status(404).json({
+        message: 'This request does not belong to you',
+        status: 'fail',
       });
-    }
+    });
   }
   static createRequest(req, res) {
     const client = new Client(connectionString);
