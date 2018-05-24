@@ -80,7 +80,7 @@ class Requests {
         });
       }
       return res.status(404).json({
-        message: 'This request does not belong to you',
+        message: 'you can\'t get a request that does not belong to you',
         status: 'fail',
       });
     });

@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import requestRoutes from './routes/requests';
 import userRoutes from './routes/user';
+import adminRoutes from './routes/admin';
 
 
 const app = express();
@@ -15,6 +16,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 requestRoutes('/api/v1', app);
 userRoutes('/api/v1', app);
+adminRoutes('/api/v1', app);
 
 app.listen(port);
 
