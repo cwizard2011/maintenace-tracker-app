@@ -140,6 +140,34 @@ class ValidateDatabase {
       return done();
     });
   }
+  /**
+   * Checks if the supplied id exist in the database
+   *
+   * @static
+   *
+   * @param {object} req -request object
+   * @param {object} res -response object
+   * @param {function} done callback function
+   */
+  static checkRequestId(req, res, done) {
+    const { requestId } = req.params;
+    const newQuery = {
+      text: 'SELECT * FROM requests WHERE id = $1',
+      values: [requestId],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (result === undefined) {
+        return res.status(404).json({
+          message: 'This request is not found in the database',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+  }
 }
 
 
