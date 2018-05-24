@@ -58,11 +58,7 @@ class UserControllers {
             user_role: response.rows[0].user_role,
           },
           token: jwt.sign(
-            {
-              id: response.rows[0].id,
-              email: response.rows[0].email,
-              user_role: response.rows[0].user_role,
-            },
+            response.rows[0],
             process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY },
           ),
         },
@@ -82,7 +78,7 @@ class UserControllers {
   static login(req, res) {
     const { username, password } = req.body;
     const newQuery = {
-      text: 'SELECT username, password, id FROM userlist WHERE username = $1',
+      text: 'SELECT * FROM userlist WHERE username = $1',
       values: [username],
     };
     const client = new Client(connectionString);
@@ -102,11 +98,7 @@ class UserControllers {
           status: 'fail',
         });
       } else if (bcrypt.compareSync(password, result.rows[0].password)) {
-        const token = Authentication.generateToken({
-          id: result.rows[0].id,
-          email: result.rows[0].email,
-          user_role: result.rows[0].user_role,
-        });
+        const token = Authentication.generateToken(result.rows[0]);
         return res.status(200).json({
           data: {
             id: result.rows[0].id,

@@ -262,14 +262,50 @@ describe('Request controller', () => {
         .expect(404);
       expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('This request does not belong to you');
+      expect(res.body.message).to.equal('you can\'t get a request that does not belong to you');
     });
   });
   describe('PUT /api/v1/users/requests/:requestId', () => {
-    it('should edit a request', async () => {
-      const requestId = '2e30de24-012d-4430-8789-02ebc137accf';
+    it('should not edit a request that the admin is working on', async () => {
+      const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
       const request2 = {
         title: 'big bowl 2',
+        details: 'This is a new request',
+      };
+      const res = await request(app)
+        .put(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .send(request2)
+        .expect(403);
+
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('You are not allowed to edit a request admin has worked on, Please check the status of your request for more information');
+    });
+    it('should not edit request that doesn\'t belong to you', async () => {
+      const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
+      const request2 = {
+        title: 'big bowl 2',
+        details: 'This is a new request',
+      };
+      const res = await request(app)
+        .put(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken2)
+        .send(request2)
+        .expect(401);
+
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('You can\'t edit a request that is not yours');
+    });
+    it('should edit a valid request', async () => {
+      const requestId = '088f8e3a-7945-42d3-8ff9-43f52ff59575';
+      const request2 = {
+        title: 'big bowl 5',
         details: 'This is a new request',
       };
       const res = await request(app)

@@ -28,7 +28,7 @@ const requestRoutes = (versionLink, app) => {
     `${versionLink}/users/requests/:requestId`,
     Authentication.verifyToken,
     Validator.checkBody,
-    ValidateDatabase.checkUserId,
+    ValidateDatabase.checkUserRequest,
     ValidateDatabase.checkRequestStatus,
     Requests.editRequest,
   );

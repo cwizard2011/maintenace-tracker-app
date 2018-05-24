@@ -78,15 +78,49 @@ class ValidateDatabase {
     client.connect();
     client.query(newQuery, (err, result) => {
       client.end();
-      if (result === undefined) {
+      if (result.rows[0].length === 0) {
         return res.status(401).json({
-          message: 'You can\'t post and get request, please login',
+          message: 'You can\'t post and get request, please signup',
           status: 'fail',
         });
       }
       return done();
     });
   }
+  /**
+   *Check if a request belong to a user before update
+
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} done callback function
+   */
+  static checkUserRequest(req, res, done) {
+    const { requestId } = req.params;
+
+    const newQuery = {
+      text: 'SELECT * FROM requests WHERE id = $1 AND user_id = $2 ',
+      values: [requestId, req.decode.id],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (result.rows.length === 0) {
+        return res.status(401).json({
+          message: 'You can\'t edit a request that is not yours',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+  }
+  /**
+   * Check the status of the request
+   *
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} done callback function
+   */
   static checkRequestStatus(req, res, done) {
     const { requestId } = req.params;
     const newQuery = {
@@ -97,9 +131,9 @@ class ValidateDatabase {
     client.connect();
     client.query(newQuery, (err, result) => {
       client.end();
-      if (result === undefined) {
+      if (result.rows.length === 0) {
         return res.status(403).json({
-          message: 'You are not allowed to edit this request, the admin is already resolving it',
+          message: 'You are not allowed to edit a request admin has worked on, Please check the status of your request for more information',
           status: 'fail',
         });
       }
