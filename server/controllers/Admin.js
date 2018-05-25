@@ -77,7 +77,7 @@ class RequestController {
     const { requestId } = req.params;
     const newQuery = {
       text: 'UPDATE requests SET currentstatus = $1 WHERE id = $2;',
-      values: ['pend', requestId],
+      values: ['rejected', requestId],
     };
     const client = new Client(connectionString);
     client.connect();
@@ -87,7 +87,7 @@ class RequestController {
         return winston.log(err.stack);
       } else if (result) {
         return res.status(200).json({
-          message: 'Request approved',
+          message: 'Request rejected',
           status: 'success',
         });
       }
