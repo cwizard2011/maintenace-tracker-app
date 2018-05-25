@@ -49,6 +49,12 @@ class RequestController {
       },
     );
   }
+  /**
+   *Method for approving a request
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   static approveRequest(req, res) {
     const { requestId } = req.params;
     const newQuery = {
@@ -73,6 +79,12 @@ class RequestController {
       });
     });
   }
+  /**
+   *Method for rejecting a request
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
   static rejectRequest(req, res) {
     const { requestId } = req.params;
     const newQuery = {
@@ -88,6 +100,36 @@ class RequestController {
       } else if (result) {
         return res.status(200).json({
           message: 'Request rejected',
+          status: 'success',
+        });
+      }
+      return res.status(404).json({
+        message: 'This request has already been taken care of, check the request details for more info',
+        status: 'fail',
+      });
+    });
+  }
+  /**
+   *Method for resolving a request
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
+  static resolveRequest(req, res) {
+    const { requestId } = req.params;
+    const newQuery = {
+      text: 'UPDATE requests SET currentstatus = $1 WHERE id = $2;',
+      values: ['resolved', requestId],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (err) {
+        return winston.log(err.stack);
+      } else if (result) {
+        return res.status(200).json({
+          message: 'Request resolved',
           status: 'success',
         });
       }

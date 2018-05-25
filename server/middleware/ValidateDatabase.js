@@ -168,6 +168,32 @@ class ValidateDatabase {
       return done();
     });
   }
+  /**
+   * Check the approved request before resolving
+   *
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} done callback function
+   */
+  static checkApproved(req, res, done) {
+    const { requestId } = req.params;
+    const newQuery = {
+      text: 'SELECT * FROM requests WHERE id = $1 AND currentStatus = $2',
+      values: [requestId, 'approved'],
+    };
+    const client = new Client(connectionString);
+    client.connect();
+    client.query(newQuery, (err, result) => {
+      client.end();
+      if (result.rows.length === 0) {
+        return res.status(403).json({
+          message: 'This request has not been approved, Pls check the current status of the request',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+  }
 }
 
 
