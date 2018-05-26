@@ -13,7 +13,7 @@ const jwtSecret = process.env.JWT_SECRET;
  */
 export default class Authentication {
 /**
- * @description: it generate a login token
+ * @static: it generate a login token
  *
  * @param {Object} payload payload to generate token
  *
@@ -28,7 +28,7 @@ export default class Authentication {
   }
 
   /**
- * @description: verifies the token supplied
+ * @static: verifies the token supplied
  *
  * @param {Object} req request object
  * @param {Object} res response object
@@ -41,13 +41,19 @@ export default class Authentication {
     if (token) {
       jwt.verify(token, jwtSecret, (err, decode) => {
         if (decode === undefined) {
-          return res.status(401).json({ message: 'Oops! Access denied. Kindly login' });
+          return res.status(401).json({
+            message: 'Oops! Access denied. Kindly login',
+            status: 'fail',
+          });
         }
         req.decode = decode;
         return next();
       });
     } else {
-      res.status(401).json({ message: 'Pls login with your username and password' });
+      res.status(401).json({
+        message: 'Please login with your username and password',
+        status: 'fail',
+      });
     }
   }
 }

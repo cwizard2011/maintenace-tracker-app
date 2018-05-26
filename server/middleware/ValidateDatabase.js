@@ -1,23 +1,18 @@
-import dotenv from 'dotenv';
-import { Client } from 'pg';
-
-dotenv.config();
-const connectionString = process.env.DATABASE_URL;
+import validate from 'uuid-validate';
+import winston from 'winston';
+import pool from '../models/database';
 
 /**
-* Checks the database for existing requests
+*@description: controller for verifying users requests in the database
 *
 * @class: Checks all requests
 */
 class ValidateDatabase {
   /**
-   * Checks if a User exists in the database
+   * @static Method for validating username and email
    *
-   * @static method for validating username and email
-   *
-   * @param {object} req - Request object
-   * @param {object} res -  Response object
-   *
+   * @param {object} req - request object
+   * @param {object} res -  response object
    * @param {function} done - callback function to call the next middleware
    */
   static checkUser(req, res, done) {
@@ -29,10 +24,7 @@ class ValidateDatabase {
       text: 'SELECT * FROM userlist WHERE username = $1 OR email = $2',
       values: [username, email],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (error, result) => {
-      client.end();
+    pool.query(newQuery, (err, result) => {
       if (result.rows[0]) {
         return res.status(409).json({
           message: 'User already exist, pls sign in with your username and password',
@@ -42,16 +34,24 @@ class ValidateDatabase {
       return done();
     });
   }
+  /**
+   * @static: Method for verifying if a request already exist in the database for
+   * a user before creating a new one
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   * @param {function} done - callback function to call on the next middleware
+   */
   static checkRequest(req, res, done) {
     const { title } = req.body;
     const newQuery = {
       text: 'SELECT * FROM requests WHERE title = $1 AND user_id = $2',
       values: [title, req.decode.id],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
+    pool.query(newQuery, (err, result) => {
+      if (err) {
+        return winston.log('error', err);
+      }
       if (result.rows[0]) {
         return res.status(409).json({
           message: 'This request has already been logged, Please log a new request',
@@ -62,23 +62,28 @@ class ValidateDatabase {
     });
   }
   /**
-   * Checks the database if the user Id exist
+   * @static: Method for checking the database if the user Id exist
    *
-   * @param {*} req -request object
-   * @param {*} res - response object
-   * @param {*} done - callback function to call on the next middleware
-   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} done - callback function to call on the next middleware
    */
   static checkUserId(req, res, done) {
     const newQuery = {
       text: 'SELECT * FROM userlist WHERE id = $1',
       values: [req.decode.id],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
-      if (result.rows[0].length === 0) {
+    if (req.decode.user_role === 'admin') {
+      return res.status(403).json({
+        message: 'Administrators are not allowed to create request',
+        status: 'fail',
+      });
+    }
+    pool.query(newQuery, (err, result) => {
+      if (err) {
+        return winston.log('error', err);
+      }
+      if (result.rows === null) {
         return res.status(401).json({
           message: 'You can\'t post and get request, please signup',
           status: 'fail',
@@ -86,25 +91,32 @@ class ValidateDatabase {
       }
       return done();
     });
+    return null;
   }
   /**
-   *Check if a request belong to a user before update
-
+   *@static: Method for checking if a request belong to a user before update
+   *
    * @param {object} req request object
    * @param {object} res response object
    * @param {function} done callback function
    */
   static checkUserRequest(req, res, done) {
     const { requestId } = req.params;
-
+    if (validate(requestId) === false) {
+      winston.log('error', 'Invalid Id, please provide a valid uuid');
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
     const newQuery = {
-      text: 'SELECT * FROM requests WHERE id = $1 AND user_id = $2 ',
+      text: 'SELECT * FROM requests WHERE request_id = $1 AND user_id = $2 ',
       values: [requestId, req.decode.id],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
+    pool.query(newQuery, (err, result) => {
+      if (err) {
+        return winston.log('error', err);
+      }
       if (result.rows.length === 0) {
         return res.status(401).json({
           message: 'You can\'t edit a request that is not yours',
@@ -113,9 +125,10 @@ class ValidateDatabase {
       }
       return done();
     });
+    return null;
   }
   /**
-   * Check the status of the request
+   * @static: Method for checking the status of the request
    *
    * @param {object} req request object
    * @param {object} res response object
@@ -123,14 +136,27 @@ class ValidateDatabase {
    */
   static checkRequestStatus(req, res, done) {
     const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      winston.log('error', 'Invalid Id, please provide a valid uuid');
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
     const newQuery = {
-      text: 'SELECT * FROM requests WHERE id = $1 AND currentStatus = $2',
-      values: [requestId, 'new'],
+      text: 'SELECT * FROM requests WHERE request_id = $1 AND currentStatus = $2',
+      values: [requestId, 'pending'],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
+    pool.query(newQuery, (err, result) => {
+      if (err) {
+        return winston.log('error', err);
+      }
+      if (result.rows.length === 0 && req.decode.user_role === 'admin') {
+        return res.status(403).json({
+          message: 'The status of this request has been changed, you can\'t approve or disapprove again, please check the status',
+          status: 'fail',
+        });
+      }
       if (result.rows.length === 0) {
         return res.status(403).json({
           message: 'Admin has already looked into this request, Please check the current status of the request',
@@ -139,11 +165,10 @@ class ValidateDatabase {
       }
       return done();
     });
+    return null;
   }
   /**
-   * Checks if the supplied id exist in the database
-   *
-   * @static
+   * @static: Method for checking if the supplied id exist in the database
    *
    * @param {object} req -request object
    * @param {object} res -response object
@@ -151,14 +176,21 @@ class ValidateDatabase {
    */
   static checkRequestId(req, res, done) {
     const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      winston.log('error', 'Invalid Id, please provide a valid uuid');
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
     const newQuery = {
-      text: 'SELECT * FROM requests WHERE id = $1',
+      text: 'SELECT * FROM requests WHERE request_id = $1',
       values: [requestId],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
+    pool.query(newQuery, (err, result) => {
+      if (err) {
+        return winston.log('error', err);
+      }
       if (result === undefined) {
         return res.status(404).json({
           message: 'This request is not found in the database',
@@ -167,9 +199,10 @@ class ValidateDatabase {
       }
       return done();
     });
+    return null;
   }
   /**
-   * Check the approved request before resolving
+   * @static: Method for checking the approved request before resolving
    *
    * @param {object} req request object
    * @param {object} res response object
@@ -177,24 +210,31 @@ class ValidateDatabase {
    */
   static checkApproved(req, res, done) {
     const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      winston.log('error', 'Invalid Id, please provide a valid uuid');
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
     const newQuery = {
-      text: 'SELECT * FROM requests WHERE id = $1 AND currentStatus = $2',
+      text: 'SELECT * FROM requests WHERE request_id = $1 AND currentStatus = $2',
       values: [requestId, 'approved'],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
+    pool.query(newQuery, (err, result) => {
+      if (err) {
+        return winston.log('error', err);
+      }
       if (result.rows.length === 0) {
         return res.status(403).json({
-          message: 'This request has not been approved, Pls check the current status of the request',
+          message: 'This request has not been approved, Please check the current status of the request',
           status: 'fail',
         });
       }
       return done();
     });
+    return null;
   }
 }
-
 
 export default ValidateDatabase;

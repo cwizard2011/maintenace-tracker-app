@@ -4,17 +4,15 @@
   "description": "Maintenance tracker app allows the users to send maintenance request to the admin, and allows the admin to receive and act on users request",
   "main": "./server/app.js",
   "scripts": {
-    "start": "babel-node ./server/app.js",
-    "load-seed": "babel-node ./server/seed/seed.js",
-    "start:dev": "npm run migrate:all && nodemon --watch app --exec babel-node ./server/app.js",
-    "migrate-user": "babel-node ./server/models/user.js",
-    "migrate-request": "babel-node ./server/models/request.js",
-    "migrate-table": "npm run migrate-user && npm run migrate-request",
-    "migrate:all": "npm run migrate-table && npm run load-seed",
+    "start": "cross-env NODE_ENV=production babel-node ./server/app.js",
+    "start:dev": "cross-env NODE_ENV=development nodemon --watch app --exec babel-node ./server/app.js",
+    "migrate": "babel-node ./server/models/database",
+    "migrate-prod": "cross-env NODE_ENV=production npm run migrate",
+    "migrate-dev": "cross-env NODE_ENV=development npm run migrate",
+    "migrate-test": "cross-env NODE_ENV=test npm run migrate",
     "coverage": "nyc --reporter=html --reporter=text --reporter=lcov mocha --reporter spec --require babel-register server/tests/**/*.js --timeout 600000 --exit",
     "coveralls": "npm run coverage -- --report lcovonly && cat coverage/lcov.info | coveralls",
-    "test": "nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit",
-    "test-local": "npm run migrate:all && npm run test-local"
+    "test": "npm run migrate-test && cross-env NODE_ENV=test nyc mocha --require babel-register server/tests/**/*.js --timeout 100000 --exit"
   },
   "engines": {
     "node": "9.11.1"
@@ -36,12 +34,17 @@
     "babel-preset-env": "^1.7.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.3",
+    "cross-env": "^5.1.6",
     "dotenv": "^5.0.1",
     "eslint": "^4.19.1",
     "express": "^4.16.3",
     "jsonwebtoken": "^8.2.1",
+    "morgan": "^1.9.0",
     "pg": "^7.4.3",
-    "winston": "^2.4.2"
+    "uuid-validate": "0.0.2",
+    "winston": "^2.4.2",
+    "winston-daily-rotate-file": "^3.2.0",
+    "winston-logger-setup": "^1.1.0"
   },
   "devDependencies": {
     "chai": "^4.1.2",

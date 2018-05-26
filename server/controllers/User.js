@@ -1,23 +1,19 @@
-import dotenv from 'dotenv';
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import { Client } from 'pg';
-import Authentication from '../helpers/Auth';
+import winston from 'winston';
+import Authentication from '../helpers/Authentication';
+import pool from '../models/database';
 
-dotenv.config();
-
-const connectionString = process.env.DATABASE_URL;
 const salt = bcrypt.genSaltSync(10);
 
 /**
- * class User: controls all user routes
+ * @description: class for controlling all users routes
  *
- * @class
+ * @class: User controller
  */
 class UserControllers {
   /**
- * @description: controls a user's registration
- * through route POST: api/v1/user/signup
+ * @static: method for a user's registration
  *
  * @param {Object} req request object
  * @param {Object} res response object
@@ -25,25 +21,22 @@ class UserControllers {
  * @return {Object} response containing the registered user
  */
   static signUp(req, res) {
-    const client = new Client(connectionString);
-    client.connect();
     const {
       username,
       password,
-      firstName,
-      lastName,
+      firstname,
+      lastname,
       email,
     } = req.body;
     const hashedPassword = bcrypt.hashSync(password, salt);
     const query = {
-      text: 'INSERT INTO userlist(username, password, firstName, lastName, email) VALUES ($1, $2, $3, $4, $5) RETURNING *',
-      values: [username, hashedPassword, firstName, lastName, email],
+      text: 'INSERT INTO userlist(username, password, firstname, lastname, email) VALUES ($1, $2, $3, $4, $5) RETURNING *',
+      values: [username, hashedPassword, firstname, lastname, email],
     };
-    client.query(query, (err, response) => {
-      client.end();
+    pool.query(query, (err, response) => {
       if (err) {
+        winston.log('error', err);
         return res.status(500).json({
-          data: { err },
           message: 'User registration failed',
           status: 'error',
         });
@@ -52,10 +45,10 @@ class UserControllers {
         data: {
           user: {
             username,
-            password: hashedPassword,
             email,
             id: response.rows[0].id,
             user_role: response.rows[0].user_role,
+            fullname: `${response.rows[0].firstname} ${response.rows[0].lastname}`,
           },
           token: jwt.sign(
             response.rows[0],
@@ -68,7 +61,7 @@ class UserControllers {
     });
   }
   /**
- * @description: controls a user's login through route POST: api/user/signin
+ * @static: controls a user's login
  *
  * @param {Object} req request object
  * @param {Object} res response object
@@ -81,20 +74,16 @@ class UserControllers {
       text: 'SELECT * FROM userlist WHERE username = $1',
       values: [username],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (error, result) => {
-      client.end();
+    pool.query(newQuery, (error, result) => {
+      winston.log('error', error);
       if (error) {
         return res.status(500).json({
-          data: { error },
           message: 'Login failed',
           status: 'error',
         });
       } else if (result.rows[0] === undefined) {
         return res.status(401).json({
-          data: {},
-          message: 'username or password incorrect, please provide valid credential',
+          message: 'Username or password incorrect, please provide valid credential',
           status: 'fail',
         });
       } else if (bcrypt.compareSync(password, result.rows[0].password)) {
@@ -112,8 +101,7 @@ class UserControllers {
         });
       }
       return res.status(401).json({
-        data: {},
-        message: 'username or password incorrect, try again',
+        message: 'Username or password incorrect, try again',
         status: 'fail',
       });
     });
