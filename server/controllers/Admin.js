@@ -1,23 +1,16 @@
-import { Client } from 'pg';
-import dotenv from 'dotenv';
-import winston from 'winston';
+import validate from 'uuid-validate';
+import pool from '../models/database';
 
-dotenv.config();
-
-const connectionString = process.env.DATABASE_URL;
 
 /**
- * Contoller for users request
+ * @description: Contoller for users request
  *
  * @class a request controller
  *
  */
-
 class RequestController {
   /**
-   * Method to get all requests in the database
-   *
-   * @static method to get All Requests
+   * @static: Method to get all requests in the database
    *
    * @param {Object} req - request object
    * @param {Object} res - response object
@@ -25,20 +18,14 @@ class RequestController {
    * @returns {Object} return object as response
    *
   */
-
   static getAllRequest(req, res) {
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(
-      'SELECT * FROM requests',
+    pool.query(
+      'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus FROM requests INNER JOIN userlist ON requests.user_id = userlist.id',
       (err, result) => {
-        client.end();
-        if (err) {
-          return winston.log(err.stack);
-        } else if (result.rows.length > 0) {
+        if (result.rows.length > 0) {
           return res.status(200).json({
             data: result.rows,
-            message: 'Requests found',
+            message: 'All requests successfully retrieved',
             status: 'success',
           });
         }
@@ -50,26 +37,28 @@ class RequestController {
     );
   }
   /**
-   *Method for approving a request
+   *@static: Method for approving a request
    *
    * @param {object} req - request object
    * @param {object} res - response object
    */
   static approveRequest(req, res) {
     const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
     const newQuery = {
-      text: 'UPDATE requests SET currentstatus = $1 WHERE id = $2;',
+      text: 'UPDATE requests SET currentstatus = $1 WHERE request_id = $2 RETURNING *;',
       values: ['approved', requestId],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
-      if (err) {
-        return winston.log(err.stack);
-      } else if (result) {
+    pool.query(newQuery, (err, result) => {
+      if (result) {
         return res.status(200).json({
-          message: 'Request approved',
+          data: result.rows[0],
+          message: 'Request has been approved',
           status: 'success',
         });
       }
@@ -78,28 +67,31 @@ class RequestController {
         status: 'fail',
       });
     });
+    return null;
   }
   /**
-   *Method for rejecting a request
+   *@static: Method for rejecting a request
    *
    * @param {object} req - request object
    * @param {object} res - response object
    */
   static rejectRequest(req, res) {
     const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
     const newQuery = {
-      text: 'UPDATE requests SET currentstatus = $1 WHERE id = $2;',
+      text: 'UPDATE requests SET currentstatus = $1 WHERE request_id = $2 RETURNING *;',
       values: ['rejected', requestId],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
-      if (err) {
-        return winston.log(err.stack);
-      } else if (result) {
+    pool.query(newQuery, (err, result) => {
+      if (result) {
         return res.status(200).json({
-          message: 'Request rejected',
+          data: result.rows[0],
+          message: 'Request has been successfully rejected',
           status: 'success',
         });
       }
@@ -108,28 +100,31 @@ class RequestController {
         status: 'fail',
       });
     });
+    return null;
   }
   /**
-   *Method for resolving a request
+   *@static: Method for resolving a request
    *
    * @param {object} req - request object
    * @param {object} res - response object
    */
   static resolveRequest(req, res) {
     const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
     const newQuery = {
-      text: 'UPDATE requests SET currentstatus = $1 WHERE id = $2;',
+      text: 'UPDATE requests SET currentstatus = $1 WHERE request_id = $2 RETURNING *;',
       values: ['resolved', requestId],
     };
-    const client = new Client(connectionString);
-    client.connect();
-    client.query(newQuery, (err, result) => {
-      client.end();
-      if (err) {
-        return winston.log(err.stack);
-      } else if (result) {
+    pool.query(newQuery, (err, result) => {
+      if (result) {
         return res.status(200).json({
-          message: 'Request resolved',
+          data: result.rows[0],
+          message: 'Request has been successfully resolved',
           status: 'success',
         });
       }
@@ -138,6 +133,7 @@ class RequestController {
         status: 'fail',
       });
     });
+    return null;
   }
 }
 export default RequestController;

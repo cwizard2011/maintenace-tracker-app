@@ -1,6 +1,6 @@
 import Requests from '../controllers/Requests';
 import Validator from '../middleware/Validation';
-import Authentication from '../helpers/Auth';
+import Authentication from '../helpers/Authentication';
 import ValidateDatabase from '../middleware/ValidateDatabase';
 
 const requestRoutes = (versionLink, app) => {

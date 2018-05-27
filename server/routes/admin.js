@@ -1,5 +1,5 @@
 import RequestController from '../controllers/Admin';
-import Authentication from '../helpers/Auth';
+import Authentication from '../helpers/Authentication';
 import ValidateDatabase from '../middleware/ValidateDatabase';
 import isAdmin from '../middleware/isAdmin';
 

@@ -15,8 +15,8 @@ describe('POST /api/v1/auth/signup', () => {
       .send({
         username: 'adeola',
         email: 'invalid@email.com',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
       })
       .expect(400);
     expect(res.body.message).to.equal('Password must be supplied');
@@ -30,8 +30,8 @@ describe('POST /api/v1/auth/signup', () => {
       .send({
         username: 'adeola',
         password: '123abc@546',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         email: 'invalid@email.com',
       })
       .expect(400);
@@ -45,8 +45,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'adeola',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc',
         email: 'invalid@email.com',
       })
@@ -61,8 +61,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: '123dfcs',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'invalid@email.com',
       })
@@ -76,8 +76,8 @@ describe('POST /api/v1/auth/signup', () => {
       .post('/api/v1/auth/signup')
       .set('Accept', 'application/json')
       .send({
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'invalid@email.com',
       })
@@ -93,8 +93,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
       })
       .expect(400);
@@ -108,8 +108,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'invalid',
       })
@@ -124,7 +124,7 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter',
-        lastName: 'Adeoye',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -139,7 +139,7 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter',
-        firstName: 'Peter',
+        firstname: 'Peter',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -154,8 +154,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter',
-        firstName: '5425Peter',
-        lastName: 'Adeoye',
+        firstname: '5425Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -170,8 +170,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter',
-        firstName: 'Peter',
-        lastName: '5443Adeoye',
+        firstname: 'Peter',
+        lastname: '5443Adeoye',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -186,8 +186,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter754hyfnuyrnus6hnnsduerwjn8nshdn',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -202,8 +202,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter75',
-        firstName: 'Peteroiuetfvbdbdbdgfdbdmnddbhsdhsghsghsfhndfdfbnfbnfnfvbfffnfffbnff',
-        lastName: 'Adeoye',
+        firstname: 'Peteroiuetfvbdbdbdgfdbdmnddbhsdhsghsghsfhndfdfbnfbnfnfvbfffnfffbnff',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -218,8 +218,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'peter75',
-        firstName: 'Peter',
-        lastName: 'Adeoyeoiuetfvbdbdbdgfdbdmnddbhsdhsghsghsfhndfdfbnfbnfnfvbfffnfffbnff',
+        firstname: 'Peter',
+        lastname: 'Adeoyeoiuetfvbdbdbdgfdbdmnddbhsdhsghsghsfhndfdfbnfbnfnfvbfffnfffbnff',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -234,8 +234,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'juliet',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'email@email.com',
       })
@@ -250,8 +250,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'juliet2014',
-        firstName: 'Peter',
-        lastName: 'Adeoye',
+        firstname: 'Peter',
+        lastname: 'Adeoye',
         password: '123abc345',
         email: 'sjuliet07@gmail.com',
       })
@@ -266,8 +266,8 @@ describe('POST /api/v1/auth/signup', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'adeola1',
-        firstName: 'Peter',
-        lastName: 'Adeola',
+        firstname: 'Peter',
+        lastname: 'Adeola',
         password: 'hdddbd73464b',
         email: 'peteradeola2011@email.com',
       })
@@ -275,7 +275,6 @@ describe('POST /api/v1/auth/signup', () => {
     expect(res.body).to.have.a.property('message');
     expect(res.body.message).to.equal('User registration successful');
     expect(res.body.data.user).to.have.a.property('username');
-    expect(res.body.data.user).to.have.a.property('password');
     expect(res.body.data.user).to.have.a.property('email');
     expect(res.body.data.user).to.have.a.property('id');
   });
@@ -291,7 +290,7 @@ describe('POST /auth/login', () => {
       .expect(400);
     expect(res.body).to.have.a.property('message');
     expect(res.body.message).to.equal('Please provide your password');
-    expect(res.body.data).to.not.have.property('user');
+    expect(res.body).to.not.have.property('data');
   });
   it('should not login a user without username', async () => {
     const res = await request(app)
@@ -303,7 +302,7 @@ describe('POST /auth/login', () => {
       .expect(400);
     expect(res.body).to.have.a.property('message');
     expect(res.body.message).to.equal('Please provide your username');
-    expect(res.body.data).to.not.have.property('user');
+    expect(res.body).to.not.have.property('data');
   });
   it('should not login a user if username incorrect', async () => {
     const res = await request(app)
@@ -315,8 +314,8 @@ describe('POST /auth/login', () => {
       })
       .expect(401);
     expect(res.body).to.have.a.property('message');
-    expect(res.body.message).to.equal('username or password incorrect, please provide valid credential');
-    expect(res.body.data).to.not.have.property('user');
+    expect(res.body.message).to.equal('Username or password incorrect, please provide valid credential');
+    expect(res.body).to.not.have.property('data');
   });
   it('should not login a user if password incorrect', async () => {
     const res = await request(app)
@@ -328,8 +327,8 @@ describe('POST /auth/login', () => {
       })
       .expect(401);
     expect(res.body).to.have.a.property('message');
-    expect(res.body.message).to.equal('username or password incorrect, try again');
-    expect(res.body.data).to.not.have.property('user');
+    expect(res.body.message).to.equal('Username or password incorrect, try again');
+    expect(res.body).to.not.have.property('data');
   });
   it('should login a user with valid username and password', async () => {
     const res = await request(app)
