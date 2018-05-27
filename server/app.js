@@ -17,6 +17,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined', { stream: winston.stream }));
 
+app.get('/', (req, res) => {
+  res.status(200).json({
+    message: 'Welcome to maintenance tracker application board',
+    status: 'success',
+  });
+});
 requestRoutes('/api/v1', app);
 userRoutes('/api/v1', app);
 adminRoutes('/api/v1', app);

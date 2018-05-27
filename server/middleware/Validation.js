@@ -117,7 +117,7 @@ class Validator {
       });
     } else if (/^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(email) === false) {
       return res.status(400).json({
-        message: 'invalid email, please enter correct email',
+        message: 'Invalid email, please enter correct email',
         status: 'fail',
       });
     }

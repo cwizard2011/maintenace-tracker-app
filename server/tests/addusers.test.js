@@ -114,7 +114,7 @@ describe('POST /api/v1/auth/signup', () => {
         email: 'invalid',
       })
       .expect(400);
-    expect(res.body.message).to.equal('invalid email, please enter correct email');
+    expect(res.body.message).to.equal('Invalid email, please enter correct email');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });
