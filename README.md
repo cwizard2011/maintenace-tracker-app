@@ -69,6 +69,8 @@ The API contains different endpoints with their respective payload in the table 
 - [Mocha](https://mochajs.org/) used for setting up tests
 - [PostgreSQL](https://www.postgresql.org/) used for setting up relational database
 
+The full API documentation can be Viewed [Here](https://maintenancetracker2.docs.apiary.io/#)
+
 # Coding style
 - Airbnb is used for style guide to ensure clean code
 
