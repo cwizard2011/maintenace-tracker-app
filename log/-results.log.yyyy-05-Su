@@ -779,3 +779,11 @@
 {"level":"info","message":"::ffff:127.0.0.1 - - [26/May/2018:23:57:09 +0000] \"PUT /api/v1/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e49/resolve HTTP/1.1\" 403 112 \"-\" \"node-superagent/3.8.2\"\n","timestamp":"00:57:09"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [26/May/2018:23:57:10 +0000] \"PUT /api/v1/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e43/resolve HTTP/1.1\" 403 112 \"-\" \"node-superagent/3.8.2\"\n","timestamp":"00:57:10"}
 {"level":"info","message":"::ffff:127.0.0.1 - - [26/May/2018:23:57:12 +0000] \"PUT /api/v1/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e55/resolve HTTP/1.1\" 200 261 \"-\" \"node-superagent/3.8.2\"\n","timestamp":"00:57:12"}
+{"level":"verbose","message":"Verbose info","timestamp":"12:33:38"}
+{"level":"info","message":"Hello world","timestamp":"12:33:38"}
+{"level":"warn","message":"Warning message","timestamp":"12:33:38"}
+{"level":"error","message":"Error info","timestamp":"12:33:38"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [27/May/2018:11:33:43 +0000] \"GET / HTTP/1.1\" 200 81 \"-\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0\"\n","timestamp":"12:33:43"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [27/May/2018:11:33:44 +0000] \"GET /favicon.ico HTTP/1.1\" 404 150 \"-\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0\"\n","timestamp":"12:33:44"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [27/May/2018:11:33:44 +0000] \"GET /favicon.ico HTTP/1.1\" 404 150 \"-\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0\"\n","timestamp":"12:33:44"}
+{"level":"info","message":"::ffff:127.0.0.1 - - [27/May/2018:11:34:29 +0000] \"GET / HTTP/1.1\" 200 81 \"-\" \"Mozilla/5.0 (X11; Ubuntu; Linux x86_64; rv:60.0) Gecko/20100101 Firefox/60.0\"\n","timestamp":"12:34:29"}
