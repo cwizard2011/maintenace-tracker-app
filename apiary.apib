@@ -1,80 +1,754 @@
 FORMAT: 1A
-HOST: http://polls.apiblueprint.org/
 
 # Maintenance-tracker
 
-Polls is a simple API allowing consumers to view polls and vote in them.
+Maintenance Tracker App is an application that provides users with the ability to reach out to operations or repairs department regarding repair or maintenance requests and monitor the status of their request.
 
-## Questions Collection [/questions]
+## Maintenance Tracker APP [/]
 
-### List All Questions [GET]
-
+### Root[GET]
 + Response 200 (application/json)
 
-        [
-            {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 2048
-                    }, {
-                        "choice": "Python",
-                        "votes": 1024
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 512
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 256
-                    }
-                ]
-            }
-        ]
-
-### Create a New Question [POST]
-
-You may create your own question using this action. It takes a JSON
-object containing a question and a collection of answers in the
-form of choices.
+        {
+            "url": "/",
+            "message": "Welcome to maintenance tracker application board",
+            "status":"success"
+        }
+    
+## Create a new user [/api/v1/auth/signup]
+### Create a New User [POST]
+To create a new user, username, password, firstname, lastname and email must be supplied
+NB: The response data are not valid on production, can only be used for testing on Apiary. On production, token will be generated
 
 + Request (application/json)
 
-        {
-            "question": "Favourite programming language?",
-            "choices": [
-                "Swift",
-                "Python",
-                "Objective-C",
-                "Ruby"
-            ]
+        {   "username": "cwizard2018",
+            "password": "password2018",
+            "firstname": "Peter",
+            "lastname" : "Adeola",
+            "email": "newaccount@newaccount.com"
         }
 
 + Response 201 (application/json)
 
-    + Headers
+          {
+        "data": {
+            "user": {
+                "username": "cwizard2018",
+                "email": "newaccount@newaccount.com",
+                "id": "7964635f-8315-4880-8cbe-2b030da7d6bf",
+                "user_role": "users",
+                "fullname": "Peter Adeola"
+            },
+        },
+        "message": "User registration successful",
+        "status": "success"
+        }
++ Request (application/json)
 
-            Location: /questions/2
+        {   
+                "username": "2d",
+                "password": "password2018",
+                "firstname": "Peter",
+                "lastname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
 
-    + Body
+        {
+            "message": "Invalid username, username can only be a min. of 3 and max of 10 alphanumeric characters starting with letters",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {
+                "password": "password2018",
+                "firstname": "Peter",
+                "lastname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "You must provide a username",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "firstname": "Peter",
+                "lastname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Password must be supplied",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "ggg"
+                "firstname": "Peter",
+                "lastname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Password must be alphanumeric and should contain a minimum of 8 characters",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "lastname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "You must provide your first Name",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "firstname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "You must provide your last Name",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "firstname" : "Adeolagsgsgsghdfgdfgdgdfgdgdgdhgdghdghdghdghdghdghdghdghdghdh",
+                "lastname": "asdfghjklzxcvbnmqwertyuiopbvdarhwhsdghdhdgddgfwgwdvbddgdgghdhd"
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Name too long, please restrict name to 20 characters including spaces",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "firstname" : "Adeola123",
+                "lastname": "Peter123"
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid Name, name can only contain alphabets",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "firstname" : "Adeola",
+                "lastname": "Peter"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "You must provide an email address",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "firstname" : "Adeola",
+                "lastname": "Peter",
+                "email": "invalid@invalid"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid email, please enter correct email",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "cwizard2018",
+                "password": "septem1234"
+                "firstname" : "Adeola",
+                "lastname": "Peter",
+                "email": "invalid@invalid"
+        }
++ Response 409 (application/json)
+
+        {
+            "message": "User already exist, pls sign in with your username and password",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "cwizard2019",
+                "password": "septem1234"
+                "firstname" : "Adeola",
+                "lastname": "Peter",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 409 (application/json)
+
+        {
+            "message": "User already exist, pls sign in with your username and password",
+            "status": "fail",
+        }
+## Login a user [/api/v1/auth/login]
+### Post a user login [POST]
+To login as a user, username and password must be supplied
+NB: On production, id, username, email, role and token will be returned which can be used to get and post request
+
++ Request (application/json)
+
+        {   
+            "username": "cwizard2018",
+            "password": "password2018",
+        }
+
++ Response 200 (application/json)
+
+        {
+        "data": {
+                "username": "cwizard2018",
+                "password": "password2018"
+            },
+            "message": "You are now logged in",
+            "status": "success"
+        }
++ Request (application/json)
+
+        {   
+            "username": "cwizard2018"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "message": "Please provide your password",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "password": "password2018"
+        }
+
++ Response 400 (application/json)
+
+        {
+            "message": "Please provide your username",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "username": "invalid1"
+            "password": "password2018"
+        }
+
++ Response 401 (application/json)
+
+        {
+            "message": "Username or password incorrect, please provide valid credential",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "username": "cwizard2018"
+            "password": "invalid1"
+        }
+
++ Response 401 (application/json)
+
+        {
+            "message": "Username or password incorrect, try again",
+            "status": "fail"
+        }
+               
+## Get all user requests [/api/v1/users/requests]
+
+### List All Requests [GET]
+To get requests, you have to register and login. Supply the token generated in the header of the request
++ Response 200 (application/json)
+
+        {
+        "data": [
+            {
+                "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e42",
+                "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                "title": "request1",
+                "currentstatus": "pending",
+                "details": "new test request"
+            },
+            {
+                "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e45",
+                "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                "title": "request5",
+                "currentstatus": "approved",
+                "details": "new test request"
+            },
+            {
+                "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e43",
+                "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                "title": "request2",
+                "currentstatus": "rejected",
+                "details": "new test request"
+            },
+        ],
+        "message": "Requests successfully retrieved from the database",
+        "status": "success"
+        }
++ Response 404 (application/json)
+
+        {
+            "message": "No request for this user",
+            "status": "fail",
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail",
+        }
+
+## GET request by Id [/api/v1/users/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e43]
+
+### Get a request [GET]
+To get a request belonging to a user using the request Id. Supply your login token in the header
+
++ Response 200 (application/json)
+
+        {
+        "data": [
+            {
+                "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e43",
+                "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                "title": "request2",
+                "currentstatus": "rejected",
+                "details": "new test request"
+            }
+        ],
+        "message": "One request successfully retrieved from the database",
+        "status": "success"
+        }
++ Response 400 (application/json)
 
             {
-                "question": "Favourite programming language?",
-                "published_at": "2015-08-05T08:40:51.620Z",
-                "choices": [
-                    {
-                        "choice": "Swift",
-                        "votes": 0
-                    }, {
-                        "choice": "Python",
-                        "votes": 0
-                    }, {
-                        "choice": "Objective-C",
-                        "votes": 0
-                    }, {
-                        "choice": "Ruby",
-                        "votes": 0
-                    }
-                ]
+                "message": "Invalid Id, please provide a valid uuid",
+                "status": "error",
             }
++ Response 404 (application/json)
+
+            {
+                "message": "You can't get a request that does not belong to you",
+                "status": "fail",
+            }
++ Response 401 (application/json)
+
+            {
+                "message": "Please login with your username and password",
+                "status": "fail",
+            }
+            
+## Edit a pending request [/api/v1/users/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e42]
+
+### PUT a request [PUT]
+To edit a pending request, the request must belong to the user and the user must supply the token in the header
+
++ Request (application/json)
+
+        {
+            "title" : "Just edited this request in Apiary",
+            "details" : "Newly edited request"
+        }
+        
++ Response 200 (application/json)
+
+            {
+                "data": {
+                    "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e42",
+                    "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                    "title" : "Just edited this request in Apiary",
+                    "currentstatus": "pending",
+                    "details" : "Newly edited request"
+                },
+                "message": "Request successfully updated",
+                "status": "success"
+            }
++ Response 401 (application/json)
+
+            {
+                "message": "You can't edit a request that is not yours",
+                "status": "fail",
+            }
++ Request (application/json)
+
+        {
+            "details" : "Newly edited request"
+        }
++ Response 400 (application/json)
+
+            {
+                "message": "Title is required to post a request",
+                "status": "fail",
+            }
++ Request (application/json)
+
+        {
+            "title" : "Just edited this request in Apiary",
+        }
++ Response 400 (application/json)
+
+            {
+                "message": "Details of the request is required to post a request",
+                "status": "fail",
+            }
++ Response 403 (application/json)
+
+            {
+                "message": "Admin has already looked into this request, Please check the current status of the request",
+                "status": "fail",
+            }
+## Create a new request [/api/v1/users/requests/]
+
+### Create a New Request [POST]
+To create a new request, the user must supply login token in the header of the request and supply request title and details, request Id, current status and user Id will be automatically generated in the real api, but I have to supply request id here for documentation purpose
++ Request (application/json)
+
+        {
+            "title": "New request from apiary",
+            "details" : "API blueprint request",
+        }
+
++ Response 201 (application/json)
+
+        {
+            "data": {
+                "request": {
+                        "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e49",
+                        "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                        "title" : "New request from apiary",
+                        "details" : "API blueprint request",
+                        "currentstatus": "pending"
+                    }
+            },
+            "message": "Request created successfully",
+            "status": "success"
+        }
++ Request (application/json)
+
+        {
+            "title": "New request from apiary rrrrrrrrrrrrrrrrrrrrrggfggfg gfhgf ffhgfg",
+            "details" : "API blueprint request here",
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "message": "Please enter a shorter title less than 50 characters",
+            "status": "fail",
+        }
+        
++ Request (application/json)
+
+        {
+            "details" : "New request for posting"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Title is required to post a request",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {
+            "title" : "A new request",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Details of the request is required to post a request",
+            "status": "fail",
+        }
+        
++ Request (application/json)
+
+        {
+            "title": "4 New request from apiary",
+            "details" : "API blueprint request here",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Your title must start with alphabet",
+            "status": "fail",
+        }
+
++ Request (application/json)
+
+        {
+            "title": "New request from apiary",
+            "details" : "4 API blueprint request here",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Details must start with alphabets",
+            "status": "fail",
+        }
+        
++ Request (application/json)
+
+        {
+            "title": "New request from apiary",
+            "details" : "API blueprint request here hjj j jhmklkletjkfjkfg kgjkjkfg jkdjkgjk jkdgjkfgjkfg jkdjkfgjk jkjkfjk jkcjkfgjk jkcgjkfgjkl jhjhgh",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Please summarise the details to 70 characters",
+            "status": "fail",
+        }
+
++ Request (application/json)
+
+        {
+            "title": "New request from administrator",
+            "details" : "API blueprint request here",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "Administrators are not allowed to create request",
+            "status": "fail",
+        }
+
++ Request (application/json)
+
+        {
+            "title": "New request from apiary",
+            "details" : "API blueprint request",
+        }
++ Response 409 (application/json)
+
+        {
+            "message": "This request has already been logged, Please log a new request",
+            "status": "fail",
+        }
+ 
+## Admin get all users requests [/api/v1/requests]
+
+### List all users requests [GET]
++ Response 200 (application/json)
+
+        {
+        "data": [
+            {
+            "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "firstname": "Juliet",
+            "lastname": "Samuel",
+            "email": "sjuliet07@gmail.com",
+            "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e49",
+            "title": "request1",
+            "details": "new test request",
+            "currentstatus": "pending"
+            },
+            {
+                "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                "firstname": "Juliet",
+                "lastname": "Samuel",
+                "email": "sjuliet07@gmail.com",
+                "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e45",
+                "title": "request5",
+                "details": "new test request",
+                "currentstatus": "approved"
+            },
+            {
+                "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                "firstname": "Juliet",
+                "lastname": "Samuel",
+                "email": "sjuliet07@gmail.com",
+                "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e43",
+                "title": "request2",
+                "details": "new test request",
+                "currentstatus": "rejected"
+            },
+        ],
+        "message": "All requests successfully retrieved",
+        "status": "success"
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail",
+        }
+        
+## Admin approve a pending request [/api/v1/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e49/approve]
+
+### Approve a pending request [PUT]
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "firstname": "Juliet",
+            "lastname": "Samuel",
+            "email": "sjuliet07@gmail.com",
+            "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e49",
+            "title": "request1",
+            "details": "new test request",
+            "currentstatus": "approved"
+          },
+          "message": "Request has been approved",
+          "status": "success",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid Id, please provide a valid uuid",
+            "status": "error",
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "The status of this request has been changed, you can't approve or disapprove again, please check the status",
+            "status": "fail",
+        }
+        
+## Admin reject a pending request [/api/v1/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e49/disapprove]
+
+### Reject a pending request [PUT]
++ Response 200 (application/json)
+
+        {
+          "data": {
+            "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "firstname": "Juliet",
+            "lastname": "Samuel",
+            "email": "sjuliet07@gmail.com",
+            "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e49",
+            "title": "request1",
+            "details": "new test request",
+            "currentstatus": "rejected"
+          },
+          "message": "Request has been successfully rejected",
+          "status": "success",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid Id, please provide a valid uuid",
+            "status": "error",
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "The status of this request has been changed, you can't approve or disapprove again, please check the status",
+            "status": "fail",
+        }
+
+## Admin resolve an approved request [/api/v1/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e45/resolve]
+
+### Resolve an approved request [PUT]
++ Response 200 (application/json)
+
+        {
+            "data": {
+            {
+            "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "firstname": "Juliet",
+            "lastname": "Samuel",
+            "email": "sjuliet07@gmail.com",
+            "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e45",
+            "title": "request5",
+            "details": "new test request",
+            "currentstatus": "resolved"
+            },
+          },
+          "message": "Request has been successfully resolved",
+          "status": "success",
+        }
+
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid Id, please provide a valid uuid",
+            "status": "error",
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "This request has not been approved, Please check the current status of the request",
+            "status": "fail",
+        }
