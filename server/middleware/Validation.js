@@ -53,6 +53,45 @@ class Validator {
     }
     return next();
   }
+  /**
+   * @static method to validate the data passed in the edit request
+   *
+   * @param {Object} req request object
+   * @param {Object} res response object
+   * @param {Function} next callback function
+   *
+   * @return {Object} response containing the status of validation
+   *
+   */
+  static editReqBody(req, res, next) {
+    const {
+      title,
+      details,
+    } = req.body;
+    if (!Number.isNaN(parseInt(title, 10))) {
+      return res.status(400).json({
+        message: 'Your title must start with alphabet',
+        status: 'fail',
+      });
+    }
+    if (details.length > 70) {
+      return res.status(400).json({
+        message: 'Please summarise the details to 70 characters',
+        status: 'fail',
+      });
+    } else if (!Number.isNaN(parseInt(details, 10))) {
+      return res.status(400).json({
+        message: 'Details must start with alphabets',
+        status: 'fail',
+      });
+    } else if (title.length > 50) {
+      return res.status(400).json({
+        message: 'Please enter a shorter title less than 50 characters',
+        status: 'fail',
+      });
+    }
+    return next();
+  }
 
   /**
    *@static: Method for checking users details before signing up a new user
