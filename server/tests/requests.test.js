@@ -95,7 +95,7 @@ describe('Request controller', () => {
     });
     it('should not post a request with title longer than 50', async () => {
       const request2 = {
-        title: 'hggjgj ffkkfj jkgjgf fkfkfkfg kdjkdkf djkfkdf kkfkf kdkdfkf kfkfjk kdffjkfk kjkfjkf kjfj k fk ffjf ',
+        title: 'This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit ',
         details: 'New request for new request test',
       };
       const res = await request(app)
@@ -167,7 +167,7 @@ describe('Request controller', () => {
     it('should not post a request with longer details', async () => {
       const request2 = {
         title: 'big bowl',
-        details: 'hfjjfhd  jsjhhhhhhhhh jf fjhfj fjhfj fhf hfjjhjhhhhhhhhhhh hhhhhhhhhhhh hhhhhhhhh hhhhhhhh hhhhhhhhh hhhhhhhh hhhhhhh hhhhhh hhhhhh hhhhhhh',
+        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit',
       };
       const res = await request(app)
         .post('/api/v1/users/requests')
@@ -324,7 +324,7 @@ describe('Request controller', () => {
         .expect(200);
       expect(res.body.status).to.equal('success');
       expect(res.body).to.have.property('message');
-      expect(res.body.data).to.be.an('array');
+      expect(res.body.data).to.be.an('object');
       expect(res.body.message).to.equal('One request successfully retrieved from the database');
     });
   });
@@ -362,34 +362,6 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('Invalid Id, please provide a valid uuid');
     });
-    it('should not edit request if title is not given', async () => {
-      const requestId = '1324dsg';
-      const res = await request(app)
-        .put(`/api/v1/users/requests/${requestId}`)
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send({
-          details: 'new new new request',
-        })
-        .expect(400);
-      expect(res.body.status).to.equal('fail');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Title is required to post a request');
-    });
-    it('should not edit request if details is not given', async () => {
-      const requestId = '1324dsg';
-      const res = await request(app)
-        .put(`/api/v1/users/requests/${requestId}`)
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send({
-          title: 'new new new request',
-        })
-        .expect(400);
-      expect(res.body.status).to.equal('fail');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Details of the request is required to post a request');
-    });
     it('should not edit request that doesn\'t belong to you', async () => {
       const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
       const request2 = {
@@ -407,6 +379,43 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('You can\'t edit a request that is not yours');
     });
+    it('should not edit a request that the title start with number', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const request2 = {
+        title: '4 big fool',
+      };
+      const res = await request(app)
+        .put(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .send(request2)
+        .expect(400);
+
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).not.to.have.property('data');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('Your title must start with alphabet');
+    });
+    it('should not edit a request with title longer than 50', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const request2 = {
+        title: 'This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit ',
+        details: 'New request for new request test',
+      };
+      const res = await request(app)
+        .put(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .send(request2)
+        .expect(400);
+
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).not.to.have.property('data');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('Please enter a shorter title less than 50 characters');
+    });
     it('should edit a user request', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
       const res = await request(app)
@@ -422,6 +431,42 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.data).to.be.an('object');
       expect(res.body.message).to.equal('Request successfully updated');
+    });
+    it('should not edit a request with details starting with number', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const request2 = {
+        details: '5 pigs are parturating',
+      };
+      const res = await request(app)
+        .put(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .send(request2)
+        .expect(400);
+
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).not.to.have.property('data');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('Details must start with alphabets');
+    });
+    it('should not edit a request with longer details', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const request2 = {
+        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit',
+      };
+      const res = await request(app)
+        .put(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .send(request2)
+        .expect(400);
+
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).not.to.have.property('data');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('Please summarise the details to 70 characters');
     });
     it('should not edit a user request that the admin has approved or rejected', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e45';

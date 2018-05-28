@@ -1,5 +1,4 @@
 import validate from 'uuid-validate';
-import winston from 'winston';
 import pool from '../models/database';
 
 
@@ -33,7 +32,6 @@ class Requests {
           status: 'success',
         });
       }
-      winston.log('error', err);
       return res.status(404).json({
         message: 'No request for this user',
         status: 'fail',
@@ -64,12 +62,11 @@ class Requests {
     pool.query(query, (err, result) => {
       if (result.rows[0]) {
         return res.status(200).json({
-          data: result.rows,
+          data: result.rows[0],
           message: 'One request successfully retrieved from the database',
           status: 'success',
         });
       }
-      winston.log('error', err);
       return res.status(404).json({
         message: 'You can\'t get a request that does not belong to you',
         status: 'fail',
@@ -91,7 +88,6 @@ class Requests {
     };
     pool.query(query, (err, response) => {
       if (err) {
-        winston.log('error', err);
         return res.status(500).json({
           data: { err },
           message: 'Request not created',
@@ -123,26 +119,44 @@ class Requests {
   */
   static editRequest(req, res) {
     const { requestId } = req.params;
-    const { title, details } = req.body;
-    const query = {
-      text: 'UPDATE requests SET title = $1, details = $2 WHERE request_id = $3 AND user_id = $4 RETURNING *',
-      values: [title, details, requestId, req.decode.id],
+
+    const existingRequest = {
+      text: 'SELECT * FROM requests WHERE request_id= $1 AND user_id = $2',
+      values: [requestId, req.decode.id],
     };
-    pool.query(query, (err, result) => {
-      if (result) {
-        return res.status(200).json({
-          data: result.rows[0],
-          message: 'Request successfully updated',
-          status: 'success',
+
+    pool.query(existingRequest, (err, response) => {
+      if (!response) {
+        return res.status(400).json({
+          message: 'This request Id does not exist',
+          status: 'fail',
         });
       }
-      winston.log('error', err);
-      return res.status(404).json({
-        message: 'Request not found in the database',
-        status: 'fail',
+
+      const updateRequest = { ...response.rows[0], ...req.body };
+      const {
+        title,
+        details,
+      } = updateRequest;
+      const update = {
+        text: 'UPDATE requests SET title = $1, details = $2 WHERE request_id = $3 AND user_id = $4 RETURNING *',
+        values: [title, details, requestId, req.decode.id],
+      };
+      pool.query(update, (error, result) => {
+        if (result) {
+          return res.status(200).json({
+            data: result.rows[0],
+            message: 'Request successfully updated',
+            status: 'success',
+          });
+        }
+        return res.status(404).json({
+          message: 'Request not found in the database',
+          status: 'fail',
+        });
       });
+      return null;
     });
-    return null;
   }
 }
 
