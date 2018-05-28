@@ -346,15 +346,14 @@ To get a request belonging to a user using the request Id. Supply your login tok
 + Response 200 (application/json)
 
         {
-        "data": [
+        "data":
             {
                 "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e43",
                 "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
                 "title": "request2",
                 "currentstatus": "rejected",
                 "details": "new test request"
-            }
-        ],
+            },
         "message": "One request successfully retrieved from the database",
         "status": "success"
         }
@@ -411,25 +410,48 @@ To edit a pending request, the request must belong to the user and the user must
 + Request (application/json)
 
         {
-            "details" : "Newly edited request"
+            "title" : "4 Newly edited request"
         }
 + Response 400 (application/json)
 
             {
-                "message": "Title is required to post a request",
+                "message": "Your title must start with alphabet",
                 "status": "fail",
             }
 + Request (application/json)
 
         {
-            "title" : "Just edited this request in Apiary",
+            "details" : "3 coders edited this request in Apiary",
         }
 + Response 400 (application/json)
 
             {
-                "message": "Details of the request is required to post a request",
+                "message": "Details must start with alphabets",
                 "status": "fail",
             }
++ Request (application/json)
+
+        {
+            "title": "New request from apiary rrrrrrrrrrrrrrrrrrrrrggfggfg gfhgf ffhgfg",
+        }
+        
++ Response 400 (application/json)
+
+        {
+            "message": "Please enter a shorter title less than 50 characters",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {
+            "details" : "API blueprint request here hjj j jhmklkletjkfjkfg kgjkjkfg jkdjkgjk jkdgjkfgjkfg jkdjkfgjk jkjkfjk jkcjkfgjk jkcgjkfgjkl jhjhgh",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Please summarise the details to 70 characters",
+            "status": "fail",
+        }
 + Response 403 (application/json)
 
             {
