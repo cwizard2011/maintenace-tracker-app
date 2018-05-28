@@ -95,7 +95,7 @@ describe('Request controller', () => {
     });
     it('should not post a request with title longer than 50', async () => {
       const request2 = {
-        title: 'hggjgj ffkkfj jkgjgf fkfkfkfg kdjkdkf djkfkdf kkfkf kdkdfkf kfkfjk kdffjkfk kjkfjkf kjfj k fk ffjf ',
+        title: 'This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit ',
         details: 'New request for new request test',
       };
       const res = await request(app)
@@ -167,7 +167,7 @@ describe('Request controller', () => {
     it('should not post a request with longer details', async () => {
       const request2 = {
         title: 'big bowl',
-        details: 'hfjjfhd  jsjhhhhhhhhh jf fjhfj fjhfj fhf hfjjhjhhhhhhhhhhh hhhhhhhhhhhh hhhhhhhhh hhhhhhhh hhhhhhhhh hhhhhhhh hhhhhhh hhhhhh hhhhhh hhhhhhh',
+        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit',
       };
       const res = await request(app)
         .post('/api/v1/users/requests')
@@ -400,7 +400,7 @@ describe('Request controller', () => {
     it('should not edit a request with title longer than 50', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
       const request2 = {
-        title: 'hggjgj ffkkfj jkgjgf fkfkfkfg kdjkdkf djkfkdf kkfkf kdkdfkf kfkfjk kdffjkfk kjkfjkf kjfj k fk ffjf ',
+        title: 'This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit ',
         details: 'New request for new request test',
       };
       const res = await request(app)
@@ -453,7 +453,7 @@ describe('Request controller', () => {
     it('should not edit a request with longer details', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
       const request2 = {
-        details: 'hfjjfhd  jsjhhhhhhhhh jf fjhfj fjhfj fhf hfjjhjhhhhhhhhhhh hhhhhhhhhhhh hhhhhhhhh hhhhhhhh hhhhhhhhh hhhhhhhh hhhhhhh hhhhhh hhhhhh hhhhhhh',
+        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit',
       };
       const res = await request(app)
         .put(`/api/v1/users/requests/${requestId}`)

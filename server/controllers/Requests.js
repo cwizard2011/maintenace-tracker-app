@@ -1,5 +1,4 @@
 import validate from 'uuid-validate';
-import winston from 'winston';
 import pool from '../models/database';
 
 
@@ -33,7 +32,6 @@ class Requests {
           status: 'success',
         });
       }
-      winston.log('error', err);
       return res.status(404).json({
         message: 'No request for this user',
         status: 'fail',
@@ -69,7 +67,6 @@ class Requests {
           status: 'success',
         });
       }
-      winston.log('error', err);
       return res.status(404).json({
         message: 'You can\'t get a request that does not belong to you',
         status: 'fail',
@@ -91,7 +88,6 @@ class Requests {
     };
     pool.query(query, (err, response) => {
       if (err) {
-        winston.log('error', err);
         return res.status(500).json({
           data: { err },
           message: 'Request not created',
@@ -154,7 +150,6 @@ class Requests {
             status: 'success',
           });
         }
-        winston.log('error', error);
         return res.status(404).json({
           message: 'Request not found in the database',
           status: 'fail',

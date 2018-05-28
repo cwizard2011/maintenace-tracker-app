@@ -1,6 +1,5 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
-import winston from 'winston';
 import Authentication from '../helpers/Authentication';
 import pool from '../models/database';
 
@@ -35,7 +34,6 @@ class UserControllers {
     };
     pool.query(query, (err, response) => {
       if (err) {
-        winston.log('error', err);
         return res.status(500).json({
           message: 'User registration failed',
           status: 'error',
@@ -75,7 +73,6 @@ class UserControllers {
       values: [username],
     };
     pool.query(newQuery, (error, result) => {
-      winston.log('error', error);
       if (error) {
         return res.status(500).json({
           message: 'Login failed',
