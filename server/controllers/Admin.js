@@ -20,7 +20,7 @@ class RequestController {
   */
   static getAllRequest(req, res) {
     pool.query(
-      'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus FROM requests INNER JOIN userlist ON requests.user_id = userlist.id',
+      'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id',
       (err, result) => {
         if (result.rows.length > 0) {
           return res.status(200).json({

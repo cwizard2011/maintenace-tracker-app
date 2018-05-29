@@ -240,7 +240,7 @@ describe('POST /api/v1/auth/signup', () => {
         email: 'email@email.com',
       })
       .expect(409);
-    expect(res.body.message).to.equal('User already exist, pls sign in with your username and password');
+    expect(res.body.message).to.equal('User already exist, please sign in with your username and password');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });
@@ -256,7 +256,7 @@ describe('POST /api/v1/auth/signup', () => {
         email: 'sjuliet07@gmail.com',
       })
       .expect(409);
-    expect(res.body.message).to.equal('User already exist, pls sign in with your username and password');
+    expect(res.body.message).to.equal('User already exist, please sign in with your username and password');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });

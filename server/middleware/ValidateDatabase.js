@@ -27,7 +27,7 @@ class ValidateDatabase {
     pool.query(newQuery, (err, result) => {
       if (result.rows[0]) {
         return res.status(409).json({
-          message: 'User already exist, pls sign in with your username and password',
+          message: 'User already exist, please sign in with your username and password',
           status: 'fail',
         });
       }

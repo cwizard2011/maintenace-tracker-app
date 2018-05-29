@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
+import cors from 'cors';
 import requestRoutes from './routes/requests';
 import userRoutes from './routes/user';
 import adminRoutes from './routes/admin';
@@ -16,6 +17,9 @@ const port = process.env.PORT;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined', { stream: winston.stream }));
+app.use(cors({
+  credentials: true,
+}));
 
 app.get('/', (req, res) => {
   res.status(200).json({
