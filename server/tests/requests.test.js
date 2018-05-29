@@ -93,7 +93,7 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('Your title must start with alphabet');
     });
-    it('should not post a request with title longer than 50', async () => {
+    it('should not post a request with title longer than 30', async () => {
       const request2 = {
         title: 'This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit ',
         details: 'New request for new request test',
@@ -109,7 +109,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please enter a shorter title less than 50 characters');
+      expect(res.body.message).to.equal('Please enter a shorter title less than 30 characters');
     });
     it('should not post a request with no details', async () => {
       const request2 = {
@@ -167,7 +167,7 @@ describe('Request controller', () => {
     it('should not post a request with longer details', async () => {
       const request2 = {
         title: 'big bowl',
-        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit',
+        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit, but as I continue to make it more longer and longer and longer to the extent that I dont even know where I am going to end this long line of rubbish I call a request details',
       };
       const res = await request(app)
         .post('/api/v1/users/requests')
@@ -180,7 +180,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please summarise the details to 70 characters');
+      expect(res.body.message).to.equal('Please summarise the details to 200 characters');
     });
     it('should post a valid request', async () => {
       const request2 = {
@@ -397,7 +397,7 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('Your title must start with alphabet');
     });
-    it('should not edit a request with title longer than 50', async () => {
+    it('should not edit a request with title longer than 30', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
       const request2 = {
         title: 'This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit ',
@@ -414,7 +414,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please enter a shorter title less than 50 characters');
+      expect(res.body.message).to.equal('Please enter a shorter title less than 30 characters');
     });
     it('should edit a user request', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
@@ -453,7 +453,7 @@ describe('Request controller', () => {
     it('should not edit a request with longer details', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
       const request2 = {
-        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit',
+        details: 'This details will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit, but as I continue to make it more longer and longer and longer to the extent that I dont even know where I am going to end this long line of rubbish I call a request details',
       };
       const res = await request(app)
         .put(`/api/v1/users/requests/${requestId}`)
@@ -466,7 +466,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please summarise the details to 70 characters');
+      expect(res.body.message).to.equal('Please summarise the details to 200 characters');
     });
     it('should not edit a user request that the admin has approved or rejected', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e45';

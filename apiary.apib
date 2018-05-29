@@ -305,21 +305,24 @@ To get requests, you have to register and login. Supply the token generated in t
                 "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
                 "title": "request1",
                 "currentstatus": "pending",
-                "details": "new test request"
+                "details": "new test request",
+                "created_at": "2018-05-29 21:06:33 +0000"
             },
             {
                 "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e45",
                 "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
                 "title": "request5",
                 "currentstatus": "approved",
-                "details": "new test request"
+                "details": "new test request",
+                "created_at": "2018-05-29 21:08:33 +0000"
             },
             {
                 "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e43",
                 "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
                 "title": "request2",
                 "currentstatus": "rejected",
-                "details": "new test request"
+                "details": "new test request",
+                "created_at": "2018-05-29 21:09:33 +0000",
             },
         ],
         "message": "Requests successfully retrieved from the database",
@@ -352,7 +355,8 @@ To get a request belonging to a user using the request Id. Supply your login tok
                 "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
                 "title": "request2",
                 "currentstatus": "rejected",
-                "details": "new test request"
+                "details": "new test request",
+                "created_at": "2018-05-29 21:06:33 +0000"
             },
         "message": "One request successfully retrieved from the database",
         "status": "success"
@@ -396,7 +400,8 @@ To edit a pending request, the request must belong to the user and the user must
                     "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
                     "title" : "Just edited this request in Apiary",
                     "currentstatus": "pending",
-                    "details" : "Newly edited request"
+                    "details" : "Newly edited request",
+                    "created_at": "2018-05-29 21:06:33 +0000"
                 },
                 "message": "Request successfully updated",
                 "status": "success"
@@ -478,7 +483,8 @@ To create a new request, the user must supply login token in the header of the r
                         "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
                         "title" : "New request from apiary",
                         "details" : "API blueprint request",
-                        "currentstatus": "pending"
+                        "currentstatus": "pending",
+                        "created_at": "2018-05-29 21:06:33 +0000"
                     }
             },
             "message": "Request created successfully",
@@ -601,7 +607,8 @@ To create a new request, the user must supply login token in the header of the r
             "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e49",
             "title": "request1",
             "details": "new test request",
-            "currentstatus": "pending"
+            "currentstatus": "pending",
+            "created_at": "2018-05-29 21:06:33 +0000"
             },
             {
                 "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
@@ -611,7 +618,8 @@ To create a new request, the user must supply login token in the header of the r
                 "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e45",
                 "title": "request5",
                 "details": "new test request",
-                "currentstatus": "approved"
+                "currentstatus": "approved",
+                "created_at": "2018-05-29 21:07:33 +0000"
             },
             {
                 "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
@@ -621,7 +629,8 @@ To create a new request, the user must supply login token in the header of the r
                 "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e43",
                 "title": "request2",
                 "details": "new test request",
-                "currentstatus": "rejected"
+                "currentstatus": "rejected",
+                "created_at": "2018-05-29 21:09:33 +0000"
             },
         ],
         "message": "All requests successfully retrieved",
@@ -654,7 +663,8 @@ To create a new request, the user must supply login token in the header of the r
             "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e49",
             "title": "request1",
             "details": "new test request",
-            "currentstatus": "approved"
+            "currentstatus": "approved",
+            "created_at": "2018-05-29 21:06:33 +0000"
           },
           "message": "Request has been approved",
           "status": "success",
@@ -698,7 +708,8 @@ To create a new request, the user must supply login token in the header of the r
             "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e49",
             "title": "request1",
             "details": "new test request",
-            "currentstatus": "rejected"
+            "currentstatus": "rejected",
+            "created_at": "2018-05-29 21:09:33 +0000"
           },
           "message": "Request has been successfully rejected",
           "status": "success",
@@ -743,7 +754,8 @@ To create a new request, the user must supply login token in the header of the r
             "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e45",
             "title": "request5",
             "details": "new test request",
-            "currentstatus": "resolved"
+            "currentstatus": "resolved",
+            "created_at": "2018-05-29 21:10:33 +0000"
             },
           },
           "message": "Request has been successfully resolved",

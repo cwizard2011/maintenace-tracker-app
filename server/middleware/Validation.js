@@ -30,9 +30,9 @@ class Validator {
         message: 'Your title must start with alphabet',
         status: 'fail',
       });
-    } else if (title.length > 50) {
+    } else if (title.length > 30) {
       return res.status(400).json({
-        message: 'Please enter a shorter title less than 50 characters',
+        message: 'Please enter a shorter title less than 30 characters',
         status: 'fail',
       });
     } else if (details === undefined || details.trim().length === 0) {
@@ -45,9 +45,9 @@ class Validator {
         message: 'Details must start with alphabets',
         status: 'fail',
       });
-    } else if (details.length > 70) {
+    } else if (details.length > 200) {
       return res.status(400).json({
-        message: 'Please summarise the details to 70 characters',
+        message: 'Please summarise the details to 200 characters',
         status: 'fail',
       });
     }
@@ -74,9 +74,9 @@ class Validator {
         status: 'fail',
       });
     }
-    if (details.length > 70) {
+    if (details.length > 200) {
       return res.status(400).json({
-        message: 'Please summarise the details to 70 characters',
+        message: 'Please summarise the details to 200 characters',
         status: 'fail',
       });
     } else if (!Number.isNaN(parseInt(details, 10))) {
@@ -84,9 +84,9 @@ class Validator {
         message: 'Details must start with alphabets',
         status: 'fail',
       });
-    } else if (title.length > 50) {
+    } else if (title.length > 30) {
       return res.status(400).json({
-        message: 'Please enter a shorter title less than 50 characters',
+        message: 'Please enter a shorter title less than 30 characters',
         status: 'fail',
       });
     }
