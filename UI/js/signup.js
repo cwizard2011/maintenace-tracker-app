@@ -1,8 +1,6 @@
 const url = 'https://peter-maintenance-app.herokuapp.com/api/v1';
 const signupForm = document.getElementById('signup-form');
 
-
-
 signupForm.onsubmit = (e) => {
   e.preventDefault();
 
