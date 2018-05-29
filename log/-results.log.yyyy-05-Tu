@@ -1,0 +1,5 @@
+{"level":"verbose","message":"Verbose info","timestamp":"08:48:07"}
+{"level":"info","message":"Hello world","timestamp":"08:48:07"}
+{"level":"warn","message":"Warning message","timestamp":"08:48:07"}
+{"level":"error","message":"Error info","timestamp":"08:48:07"}
+{"level":"info","message":"::1 - - [29/May/2018:07:48:47 +0000] \"POST /api/v1/auth/login HTTP/1.1\" 200 616 \"-\" \"Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/66.0.3359.181 Safari/537.36\"\n","timestamp":"08:48:47"}

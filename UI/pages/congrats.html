@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Roboto+Slab|Fenix|PT+Sans" rel="stylesheet">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+        <link rel="stylesheet" type="text/css" href="../css/form.css">
+        <title>Maintenance Desk</title>
+        <link rel="icon" type="image/png" href="../images/icon.jpeg" />
+    </head>
+    <body class = "body-image">
+            <div class="nav-bar" id="top-nav">
+                <a href="../index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
+                <a href="#" title = "Login Users" id ="login">Login</a>
+                <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
+            </div>
+        <div class= "container">
+            <div class="center-heading">
+                    <h1>CONGRATULATIONS</h1>
+                    <p>Congrats<span id="congrat-name"></span> Your account has been successfully created, You can now click the Login button to login into your account</p>
+            </div>
+                <div id="signupModal" class="modal">
+                    <div class="modal-content form-field modal-body">
+                      <span class="close">&times;</span>
+                      <h3>Fill the form below to register</h3>
+                         <form id = "signup-form">
+                        <input type="text" placeholder="First Name" id="firstname" required/>
+                        <input type="text" placeholder="Last Name" id="lastname" required/>
+                        <input type="email" placeholder="Email Address" id="email" required/>
+                        <input type="text" placeholder="Username" id="username" required/>
+                        <input type = "password" placeholder = "Password" id="password" required />
+                        <p id="message" class="red-text"></p>
+                        <input type="submit" class="right-btn btn-signup" id="submitForm" value="Submit">
+                      </form>
+                    </div>
+                  </div>
+                  <div id="loginModal" class="modal">
+                        <div class="modal-content form-field modal-body">
+                          <span class="login-close">&times;</span>
+                          <h2 class="center-heading">LOGIN</h2>
+                             <form id = "loginForm">
+                            <input type="text" placeholder="Username" required/>
+                            <input type = "password" placeholder = "Password" required />
+                            <input type="submit" class="right-btn btn-login" value="Login">
+                          </form>
+                        </div>
+                      </div>
+        </div>
+        <script src="../js/nav.js"></script>
+        <script src="../js/loginmodal.js"></script>
+        <script src="../js/signup.js"></script>
+    </body>
+</html> 

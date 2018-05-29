@@ -52,12 +52,13 @@
                     <div class="modal-content form-field modal-body">
                       <span class="close">&times;</span>
                       <h2 class="center-heading">Register</h2>
-                         <form id = "signUpForm">
-                        <input type="text" placeholder="First Name" required/>
-                        <input type="text" placeholder="Last Name" required/>
-                        <input type="email" placeholder="Email Address" required/>
-                        <input type="text" placeholder="Username" required/>
-                        <input type = "password" placeholder = "Password" required />
+                            <form id = "signup-form">
+                            <input type="text" placeholder="First Name" id="firstname" required/>
+                            <input type="text" placeholder="Last Name" id="lastname" required/>
+                            <input type="email" placeholder="Email Address" id="email" required/>
+                            <input type="text" placeholder="Username" id="username" required/>
+                            <input type = "password" placeholder = "Password" id="password" required />
+                            <p id="message" class="red-text"></p>
                         <input type="submit" class="right-btn btn" value="Submit">
                       </form>
                     </div>
@@ -75,6 +76,8 @@
                       </div>
         </div>
         <script src="js/nav.js"></script>
-        <script src="js/modal.js"></script>
+        <script src="js/loginmodal.js"></script>
+        <script src="js/signupmodal.js"></script>
+        <script src="js/signup.js"></script>
     </body>
 </html> 

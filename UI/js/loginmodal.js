@@ -1,30 +1,7 @@
-const signUpForm = document.getElementById('signUpForm');
 const loginForm = document.getElementById('loginForm');
 const loginModal = document.getElementById('loginModal');
 const logBtn = document.getElementById('login')
-const modal = document.getElementById('signupModal');
-const signBtn = document.getElementById('sign-up');
-const span = document.getElementsByClassName("close")[0];
 const loginSpan = document.getElementsByClassName("login-close")[0];
-
-signBtn.onclick = () => {
-    modal.style.display = "block";
-}
-
-span.onclick = () => {
-    modal.style.display = "none";
-}
-
-window.onclick = (event) => {
-    if (event.target == modal) {
-        modal.style.display = "none";
-    }
-}
-signUpForm.onsubmit = (e) => {
-  e.preventDefault();
-  window.location.href = 'pages/dashboard.html';
-
-};
 
 // Login button
 
