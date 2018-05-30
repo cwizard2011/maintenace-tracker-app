@@ -20,6 +20,10 @@ a:active, a:hover, a:visited, a:link {
   text-decoration: none;
   color: rgb(29, 28, 28);
 }
+.red-text {
+  color: red;
+  font-style: italic;
+}
 .ssm-font {
  margin: 10px;
 }
