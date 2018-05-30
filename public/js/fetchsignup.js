@@ -3,13 +3,12 @@ const url = 'https://peter-maintenance-app.herokuapp.com/api/v1';
 /*  global document:true, fetch:true, window:true */
 /*  eslint no-undef: "error"  */
 
+const signupForm = document.getElementById('signup-form');
 document.getElementById('firstname').value = '';
 document.getElementById('lastname').value = '';
 document.getElementById('email').value = '';
 document.getElementById('username').value = '';
 document.getElementById('password').value = '';
-
-const signupForm = document.getElementById('signup-form');
 
 signupForm.onsubmit = (e) => {
   e.preventDefault();
@@ -44,4 +43,3 @@ signupForm.onsubmit = (e) => {
       }
     });
 };
-
