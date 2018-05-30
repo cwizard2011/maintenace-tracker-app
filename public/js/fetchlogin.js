@@ -30,10 +30,10 @@ loginForm.onsubmit = (e) => {
         loginError.innerHTML = users.message;
       }
       if (users.data.role === 'users') {
-        window.localStorage.setItem('token', users.data.token);
+        window.localStorage.setItem('authToken', users.data.token);
         window.location.href = 'pages/dashboard.html';
       } else if (users.data.role === 'admin') {
-        window.localStorage.setItem('token', users.data.token);
+        window.localStorage.setItem('authToken', users.data.token);
         window.location.href = 'pages/admindashboard.html';
       }
     });
