@@ -14,4 +14,5 @@ const isAdmin = (req, res, next) => {
   }
   return next();
 };
+
 export default isAdmin;

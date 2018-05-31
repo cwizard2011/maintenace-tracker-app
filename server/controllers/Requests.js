@@ -32,9 +32,9 @@ class Requests {
           status: 'success',
         });
       }
-      return res.status(404).json({
+      return res.status(200).json({
         message: 'No request for this user',
-        status: 'fail',
+        status: 'success',
       });
     });
   }
@@ -52,7 +52,7 @@ class Requests {
     if (validate(requestId) === false) {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
-        status: 'error',
+        status: 'fail',
       });
     }
     const query = {
@@ -96,7 +96,7 @@ class Requests {
       } return res.status(201).json({
         data: {
           request: {
-            id: response.rows[0].id,
+            request_id: response.rows[0].request_id,
             userId: req.decode.id,
             status: response.rows[0].currentStatus,
             title,

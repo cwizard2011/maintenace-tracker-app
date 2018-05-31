@@ -20,8 +20,8 @@ class UserControllers {
  * @return {Object} response containing the registered user
  */
   static signUp(req, res) {
+    const username = req.body.username.toLowerCase();
     const {
-      username,
       password,
       firstname,
       lastname,
