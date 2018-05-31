@@ -7,7 +7,7 @@
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/form.css">
-        <link rel="stylesheet" type="text/css" href="../css/collapse.css">
+        <link rel="stylesheet" type="text/css" href="../css/modal.css">
         <script src="https://unpkg.com/ionicons@4.1.1/dist/ionicons.js"></script>
         <title>Dashboard</title>
         <link rel="icon" type="image/png" href="../images/icon.jpeg" />
@@ -15,8 +15,8 @@
     <body class = "body-image">
             <div class="nav-bar" id="top-nav">
                 <a href="../index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
-                <a href="../index.html" id="logout-client">Logout</a>
-                <a href="#"><i class="fa user">&#xf2c0;<span>Welcome</span></i></a>
+                <a href="#" class="logout-client">Logout</a>
+                <a href="#"style="background-color: transparent; color: white"><i class="fa user">&#xf2c0;<span>Welcome</span></i></a>
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
             </div>
         <div class= "container">
@@ -29,16 +29,20 @@
                                             <input type="text" placeholder="Request title" id="title" required/>
                                             <textarea placeholder="Type in your request" id="details" required></textarea>
                                             <p id="post-error" class="red-text"></p>
+                                            <p id="post-title" class="red-text"></p>
                                             <input type="submit" class="right-btn btn" value="Send Request">
                                           </form>
                                         </div>
                                       </div>
                         <h3 id="noRequest" class= 'center-heading'></h3>
-                  <div class="content-container" id= "output"></div>   
+                        <p id="reqId"></p>
+                  <div class="content-container" id= "output">
+                  </div>   
         </div>
         <script src = "../js/nav.js"></script>
         <script src="../js/request.js"></script>
         <script src="../js/fetchrequest.js"></script>
         <script src="../js/postrequest.js"></script>
+        <script src="../js/logout.js"></script>
     </body>
 </html> 

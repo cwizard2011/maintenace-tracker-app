@@ -13,6 +13,7 @@ requestForm.onsubmit = (e) => {
   const title = document.getElementById('title').value;
   const details = document.getElementById('details').value;
   const postError = document.getElementById('post-error');
+  const postTitle = document.getElementById('post-title');
   const newPost = {
     title,
     details,
@@ -28,10 +29,18 @@ requestForm.onsubmit = (e) => {
   })
     .then(res => res.json())
     .then((request) => {
-      if (request.status === 'fail') {
-        postError.innerHTML = request.message;
-      } else {
+      if (request.status === 'success') {
         window.location.href = './dashboard.html';
+      } else if (request.message === 'This request has already been logged, Please log a new request') {
+        postTitle.innerHTML = '';
+        postError.innerHTML = request.message;
+      } else if (request.message.errors.details) {
+        postError.innerHTML = '';
+        postTitle.innerHTML = '';
+        postError.innerHTML = request.message.errors.details;
+      } else if (request.message.errors.title) {
+        postError.innerHTML = '';
+        postTitle.innerHTML = request.message.errors.title;
       }
     });
 };

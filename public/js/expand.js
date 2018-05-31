@@ -16,4 +16,3 @@ const expandBtn = () => {
     });
   }
 };
-expandBtn();

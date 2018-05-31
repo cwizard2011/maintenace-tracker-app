@@ -8,14 +8,33 @@ html, body {
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Prosto One', cursive;
 }
+.hidden {
+  display: none;
+}
 .label {
   font-size: 10px;
   color: white;
   padding: 8px;
-  font-family: Arial;
+  margin-top: 5%;
   border-radius: 5px;
+  margin-bottom: 5%;
 }
-.icon{font-weight: bold; padding: 2px;}
+.view-btn {
+  font-size: 10px;
+  color: #ffffff;
+  padding: 8px;
+  margin-top: 5%;
+  border-radius: 5px;
+  margin-left: 2%;
+  background-color: #1388ace8;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+}
+.view-btn:hover {
+  color: white;
+}
+.icon{font-weight: bold; padding: 2px; color:white}
 .success {background-color: #4CAF50;} 
 .pending {background-color: #2196F3;} 
 .danger {background-color: #e8825d;} 
@@ -138,7 +157,32 @@ h1, h2, h3, h4, h5, h6 {
   float: right;
   margin: 8px;
 }
+.request {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: whitesmoke;
+  width: 30%;
+  margin: 8% 30%;
+  padding: 2% 3%;
+  opacity: 0.8;
+}
+.center {
+  text-align: center
+}
 @media only screen and (max-width: 359px) {
+  .request {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: whitesmoke;
+    width: 90%;
+    margin: 2% 2%;
+    padding: 2% 3%;
+    opacity: 0.6;
+  }
   .modal-content {
     background-color: #fefefe;
     margin: auto;
@@ -165,6 +209,17 @@ h1, h2, h3, h4, h5, h6 {
   }
 }
 @media only screen and (max-width: 900px) and (min-width: 360px){
+  .request {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    background: whitesmoke;
+    width: 90%;
+    margin: 5% 2%;
+    padding: 2% 3%;
+    opacity: 0.6;
+  }
   .modal-content {
     background-color: #fefefe;
     margin: auto;

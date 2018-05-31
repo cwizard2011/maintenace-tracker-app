@@ -16,32 +16,58 @@ window.addEventListener('load', () => {
     .then(res => res.json())
     .then((requests) => {
       if (requests.status === 'fail') {
+        requestError.innerHTML = requests.message;
+        window.location.href = '../index.html';
+      }
+      if (requests.data === undefined) {
         requestError.innerHTML = 'You haven\'t create any request, click on new request to send a new request';
       } else {
         let output = '';
         requests.data.forEach((request) => {
-          output += `
+          if (request.currentstatus === 'pending') {
+            output += `
             <div>
               <div class= curved-border>
-                <h4>${request.title}</h4>
-                <h6>Request id: <span>${request.request_id}</span></h6>
-                <div class="wrap-collabsible">
-                  <input id=${request.request_id} class="toggle" type="checkbox">
-                  <label for=${request.request_id} class="lbl-toggle">Details</label>
-                  <div class="collapsible-content">
-                    <div class="content-inner">
-                      <p>Date: <span>${request.created_at}</span></p>
-                      <p>Status: <span class= "label pending"><ion-icon name="pricetag"></ion-icon>${request.currentstatus}</span></p>
-                      <h5>Details: </h5>
-                      <span>${request.details}</span>
-                    </div>
-                  </div>
-                </div>
+                <h3>${request.title}</h3>
+                <p>Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}&title=${request.title}&details=${request.details}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
           </div>
         </div>
           `;
+          } else if (request.currentstatus === 'approved') {
+            output += `
+            <div>
+              <div class= curved-border>
+                <h3>${request.title}</h3>
+                <p>Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
+          </div>
+        </div>
+          `;
+          } else if (request.currentstatus === 'rejected') {
+            output += `
+            <div>
+              <div class= curved-border>
+                <h3>${request.title}</h3>
+                <p>Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
+          </div>
+        </div>
+          `;
+          } else if (request.currentstatus === 'resolved') {
+            output += `
+            <div>
+              <div class= curved-border>
+                <h3>${request.title}</h3>
+                <p>Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
+          </div>
+        </div>
+          `;
+          }
         });
         document.getElementById('output').innerHTML = output;
       }
     });
 });
+

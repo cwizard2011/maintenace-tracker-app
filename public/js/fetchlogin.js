@@ -5,6 +5,7 @@ const loginurl = 'https://peter-maintenance-app.herokuapp.com/api/v1';
 document.getElementById('login-user').value = '';
 document.getElementById('login-password').value = '';
 
+
 const loginForm = document.getElementById('loginForm');
 loginForm.onsubmit = (e) => {
   e.preventDefault();
