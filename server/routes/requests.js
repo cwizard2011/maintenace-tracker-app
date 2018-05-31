@@ -1,5 +1,5 @@
 import Requests from '../controllers/Requests';
-import Validator from '../middleware/Validation';
+import Validators from '../middleware/Validation';
 import Authentication from '../helpers/Authentication';
 import ValidateDatabase from '../middleware/ValidateDatabase';
 
@@ -19,7 +19,7 @@ const requestRoutes = (versionLink, app) => {
   app.post(
     `${versionLink}/users/requests`,
     Authentication.verifyToken,
-    Validator.checkBody,
+    Validators.checkBody,
     ValidateDatabase.checkUserId,
     ValidateDatabase.checkRequest,
     Requests.createRequest,
@@ -27,7 +27,7 @@ const requestRoutes = (versionLink, app) => {
   app.put(
     `${versionLink}/users/requests/:requestId`,
     Authentication.verifyToken,
-    Validator.editReqBody,
+    Validators.editReqBody,
     ValidateDatabase.checkUserRequest,
     ValidateDatabase.checkRequestStatus,
     Requests.editRequest,

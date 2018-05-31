@@ -29,9 +29,9 @@ class RequestController {
             status: 'success',
           });
         }
-        return res.status(404).json({
+        return res.status(200).json({
           message: 'No request in the database',
-          status: 'fail',
+          status: 'success',
         });
       },
     );
@@ -47,7 +47,7 @@ class RequestController {
     if (validate(requestId) === false) {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
-        status: 'error',
+        status: 'fail',
       });
     }
     const newQuery = {
@@ -80,7 +80,7 @@ class RequestController {
     if (validate(requestId) === false) {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
-        status: 'error',
+        status: 'fail',
       });
     }
     const newQuery = {
@@ -113,7 +113,7 @@ class RequestController {
     if (validate(requestId) === false) {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
-        status: 'error',
+        status: 'fail',
       });
     }
     const newQuery = {

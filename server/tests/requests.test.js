@@ -55,7 +55,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Title is required to post a request');
+      expect(res.body.message.errors.title[0]).to.equal('The title field is required.');
     });
     it('should not post a request with no title', async () => {
       const request2 = {
@@ -73,25 +73,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Title is required to post a request');
-    });
-    it('should not post a request with invalid title', async () => {
-      const request2 = {
-        title: '4 big fool',
-        details: 'New request for new request test',
-      };
-      const res = await request(app)
-        .post('/api/v1/users/requests')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body).not.to.have.property('data');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Your title must start with alphabet');
+      expect(res.body.message.errors.title[0]).to.equal('The title field is required.');
     });
     it('should not post a request with title longer than 30', async () => {
       const request2 = {
@@ -109,7 +91,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please enter a shorter title less than 30 characters');
+      expect(res.body.message.errors.title[0]).to.equal('The title may not be greater than 30 characters.');
     });
     it('should not post a request with no details', async () => {
       const request2 = {
@@ -126,7 +108,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Details of the request is required to post a request');
+      expect(res.body.message.errors.details[0]).to.equal('The details field is required.');
     });
     it('should not post a request with empty details', async () => {
       const request2 = {
@@ -144,9 +126,9 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Details of the request is required to post a request');
+      expect(res.body.message.errors.details[0]).to.equal('The details field is required.');
     });
-    it('should not post a request with invalid details', async () => {
+    it('should not post a request with short details', async () => {
       const request2 = {
         title: 'big bowl',
         details: '5 pigs are parturating',
@@ -162,7 +144,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Details must start with alphabets');
+      expect(res.body.message.errors.details[0]).to.equal('The details must be at least 30 characters.');
     });
     it('should not post a request with longer details', async () => {
       const request2 = {
@@ -180,12 +162,12 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please summarise the details to 200 characters');
+      expect(res.body.message.errors.details[0]).to.equal('The details may not be greater than 150 characters.');
     });
     it('should post a valid request', async () => {
       const request2 = {
-        title: 'big bowl',
-        details: 'This is a new request',
+        title: 'Need for fixing refrigerator',
+        details: 'The refrigerator in the cafeteria is damaged and need to be repaired or replaced with immediate effect',
       };
       const res = await request(app)
         .post('/api/v1/users/requests')
@@ -203,15 +185,15 @@ describe('Request controller', () => {
     });
     it('should not allow admin to post a request', async () => {
       const request2 = {
-        title: 'big bowl',
-        details: 'This is a new request',
+        title: 'A pen drive got broken',
+        details: 'The pen drive used for transfer of files in the people department got broken today',
       };
       const res = await request(app)
         .post('/api/v1/users/requests')
         .set('Accept', 'application/json')
         .set('token', adminToken)
         .send(request2)
-        .expect(403);
+        .expect(405);
 
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('fail');
@@ -221,8 +203,8 @@ describe('Request controller', () => {
     });
     it('should not post an existing request', async () => {
       const request2 = {
-        title: 'big bowl',
-        details: 'This is a new request',
+        title: 'Request for bulb replacement',
+        details: 'Two bulbs got burnt due to high voltage and needs immediate replacement',
       };
       const res = await request(app)
         .post('/api/v1/users/requests')
@@ -264,9 +246,9 @@ describe('Request controller', () => {
         .get('/api/v1/users/requests')
         .set('Accept', 'application/json')
         .set('token', userToken2)
-        .expect(404);
+        .expect(200);
 
-      expect(res.body.status).to.equal('fail');
+      expect(res.body.status).to.equal('success');
       expect(res.body.message).to.equal('No request for this user');
     });
     it('should get all requests from the database', async () => {
@@ -300,9 +282,8 @@ describe('Request controller', () => {
         .set('Accept', 'application/json')
         .set('token', userToken)
         .expect(400);
-      expect(res.body.status).to.equal('error');
+      expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Invalid Id, please provide a valid uuid');
     });
     it('should not get request that doesn\'t belong to a user', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
@@ -333,7 +314,6 @@ describe('Request controller', () => {
       const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
       const request2 = {
         title: 'big bowl 2',
-        details: 'This is a new request',
       };
       const res = await request(app)
         .put(`/api/v1/users/requests/${requestId}`)
@@ -355,10 +335,9 @@ describe('Request controller', () => {
         .set('token', userToken)
         .send({
           title: 'new request',
-          details: 'new new new request',
         })
         .expect(400);
-      expect(res.body.status).to.equal('error');
+      expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('Invalid Id, please provide a valid uuid');
     });
@@ -366,7 +345,6 @@ describe('Request controller', () => {
       const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
       const request2 = {
         title: 'big bowl 2',
-        details: 'This is a new request',
       };
       const res = await request(app)
         .put(`/api/v1/users/requests/${requestId}`)
@@ -379,29 +357,10 @@ describe('Request controller', () => {
       expect(res.body).to.have.property('message');
       expect(res.body.message).to.equal('You can\'t edit a request that is not yours');
     });
-    it('should not edit a request that the title start with number', async () => {
-      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
-      const request2 = {
-        title: '4 big fool',
-      };
-      const res = await request(app)
-        .put(`/api/v1/users/requests/${requestId}`)
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body).not.to.have.property('data');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Your title must start with alphabet');
-    });
     it('should not edit a request with title longer than 30', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
       const request2 = {
         title: 'This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit ',
-        details: 'New request for new request test',
       };
       const res = await request(app)
         .put(`/api/v1/users/requests/${requestId}`)
@@ -414,7 +373,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please enter a shorter title less than 30 characters');
+      expect(res.body.message.errors.title[0]).to.equal('The title may not be greater than 30 characters.');
     });
     it('should edit a user request', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
@@ -424,31 +383,12 @@ describe('Request controller', () => {
         .set('token', userToken)
         .send({
           title: 'edited in test mode',
-          details: 'newly edited request',
         })
         .expect(200);
       expect(res.body.status).to.equal('success');
       expect(res.body).to.have.property('message');
       expect(res.body.data).to.be.an('object');
       expect(res.body.message).to.equal('Request successfully updated');
-    });
-    it('should not edit a request with details starting with number', async () => {
-      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
-      const request2 = {
-        details: '5 pigs are parturating',
-      };
-      const res = await request(app)
-        .put(`/api/v1/users/requests/${requestId}`)
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .send(request2)
-        .expect(400);
-
-      expect(res.body).to.be.an('object');
-      expect(res.body.status).to.equal('fail');
-      expect(res.body).not.to.have.property('data');
-      expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Details must start with alphabets');
     });
     it('should not edit a request with longer details', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
@@ -466,7 +406,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('Please summarise the details to 200 characters');
+      expect(res.body.message.errors.details[0]).to.equal('The details may not be greater than 150 characters.');
     });
     it('should not edit a user request that the admin has approved or rejected', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e45';
@@ -475,10 +415,9 @@ describe('Request controller', () => {
         .set('Accept', 'application/json')
         .set('token', userToken)
         .send({
-          title: 'edited in test mode1',
-          details: 'newly edited request',
+          title: 'edited for testing',
         })
-        .expect(403);
+        .expect(405);
       expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
       expect(res.body).to.be.an('object');

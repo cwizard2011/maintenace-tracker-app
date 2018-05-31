@@ -31,6 +31,11 @@ requestRoutes('/api/v1', app);
 userRoutes('/api/v1', app);
 adminRoutes('/api/v1', app);
 
+app.all('*', (req, res) => res.status(404).json({
+  message: 'Invalid route, please double check your route',
+  status: 'fail',
+}));
+
 app.listen(port);
 
 export default app;

@@ -71,7 +71,7 @@ describe('Request controller', () => {
       expect(res.body).to.be.an('object');
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('Invalid Id, please provide a valid uuid');
-      expect(res.body.status).to.equal('error');
+      expect(res.body.status).to.equal('fail');
     });
     it('should not approve a request when user not authenticated', async () => {
       const requestId = '1424fff';
@@ -100,7 +100,7 @@ describe('Request controller', () => {
         .put(`/api/v1/requests/${requestId}/approve`)
         .set('Accept', 'application/json')
         .set('token', adminToken)
-        .expect(403);
+        .expect(405);
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('The status of this request has been changed, you can\'t approve or disapprove again, please check the status');
       expect(res.body.status).to.equal('fail');
@@ -129,7 +129,7 @@ describe('Request controller', () => {
       expect(res.body).to.be.an('object');
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('Invalid Id, please provide a valid uuid');
-      expect(res.body.status).to.equal('error');
+      expect(res.body.status).to.equal('fail');
     });
     it('should not disapprove a request when user not authenticated', async () => {
       const requestId = '1424fff';
@@ -162,7 +162,7 @@ describe('Request controller', () => {
         .put(`/api/v1/requests/${requestId}/disapprove`)
         .set('Accept', 'application/json')
         .set('token', adminToken)
-        .expect(403);
+        .expect(405);
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('The status of this request has been changed, you can\'t approve or disapprove again, please check the status');
       expect(res.body.status).to.equal('fail');
@@ -191,7 +191,7 @@ describe('Request controller', () => {
       expect(res.body).to.be.an('object');
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('Invalid Id, please provide a valid uuid');
-      expect(res.body.status).to.equal('error');
+      expect(res.body.status).to.equal('fail');
     });
     it('should not resolve a request when user not authenticated', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e45';
@@ -224,7 +224,7 @@ describe('Request controller', () => {
         .put(`/api/v1/requests/${requestId}/resolve`)
         .set('Accept', 'application/json')
         .set('token', adminToken)
-        .expect(403);
+        .expect(405);
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('This request has not been approved, Please check the current status of the request');
       expect(res.body.status).to.equal('fail');
@@ -235,7 +235,7 @@ describe('Request controller', () => {
         .put(`/api/v1/requests/${requestId}/resolve`)
         .set('Accept', 'application/json')
         .set('token', adminToken)
-        .expect(403);
+        .expect(405);
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('This request has not been approved, Please check the current status of the request');
       expect(res.body.status).to.equal('fail');

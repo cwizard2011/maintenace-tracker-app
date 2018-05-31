@@ -16,8 +16,8 @@ class ValidateDatabase {
    * @param {function} done - callback function to call the next middleware
    */
   static checkUser(req, res, done) {
+    const username = req.body.username.toLowerCase();
     const {
-      username,
       email,
     } = req.body;
     const newQuery = {
@@ -27,7 +27,7 @@ class ValidateDatabase {
     pool.query(newQuery, (err, result) => {
       if (result.rows[0]) {
         return res.status(409).json({
-          message: 'User already exist, please sign in with your username and password',
+          message: 'Username or email has already been registered, please change your email or username, or login with your password',
           status: 'fail',
         });
       }
@@ -49,9 +49,6 @@ class ValidateDatabase {
       values: [title, req.decode.id],
     };
     pool.query(newQuery, (err, result) => {
-      if (err) {
-        return winston.log('error', err);
-      }
       if (result.rows[0]) {
         return res.status(409).json({
           message: 'This request has already been logged, Please log a new request',
@@ -74,15 +71,12 @@ class ValidateDatabase {
       values: [req.decode.id],
     };
     if (req.decode.user_role === 'admin') {
-      return res.status(403).json({
+      return res.status(405).json({
         message: 'Administrators are not allowed to create request',
         status: 'fail',
       });
     }
     pool.query(newQuery, (err, result) => {
-      if (err) {
-        return winston.log('error', err);
-      }
       if (result.rows === null) {
         return res.status(401).json({
           message: 'You can\'t post and get request, please signup',
@@ -103,10 +97,9 @@ class ValidateDatabase {
   static checkUserRequest(req, res, done) {
     const { requestId } = req.params;
     if (validate(requestId) === false) {
-      winston.log('error', 'Invalid Id, please provide a valid uuid');
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
-        status: 'error',
+        status: 'fail',
       });
     }
     const newQuery = {
@@ -114,9 +107,6 @@ class ValidateDatabase {
       values: [requestId, req.decode.id],
     };
     pool.query(newQuery, (err, result) => {
-      if (err) {
-        return winston.log('error', err);
-      }
       if (result.rows.length === 0) {
         return res.status(401).json({
           message: 'You can\'t edit a request that is not yours',
@@ -148,17 +138,14 @@ class ValidateDatabase {
       values: [requestId, 'pending'],
     };
     pool.query(newQuery, (err, result) => {
-      if (err) {
-        return winston.log('error', err);
-      }
       if (result.rows.length === 0 && req.decode.user_role === 'admin') {
-        return res.status(403).json({
+        return res.status(405).json({
           message: 'The status of this request has been changed, you can\'t approve or disapprove again, please check the status',
           status: 'fail',
         });
       }
       if (result.rows.length === 0) {
-        return res.status(403).json({
+        return res.status(405).json({
           message: 'Admin has already looked into this request, Please check the current status of the request',
           status: 'fail',
         });
@@ -177,10 +164,9 @@ class ValidateDatabase {
   static checkRequestId(req, res, done) {
     const { requestId } = req.params;
     if (validate(requestId) === false) {
-      winston.log('error', 'Invalid Id, please provide a valid uuid');
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
-        status: 'error',
+        status: 'fail',
       });
     }
     const newQuery = {
@@ -188,9 +174,6 @@ class ValidateDatabase {
       values: [requestId],
     };
     pool.query(newQuery, (err, result) => {
-      if (err) {
-        return winston.log('error', err);
-      }
       if (result === undefined) {
         return res.status(404).json({
           message: 'This request is not found in the database',
@@ -211,7 +194,6 @@ class ValidateDatabase {
   static checkApproved(req, res, done) {
     const { requestId } = req.params;
     if (validate(requestId) === false) {
-      winston.log('error', 'Invalid Id, please provide a valid uuid');
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'error',
@@ -222,11 +204,8 @@ class ValidateDatabase {
       values: [requestId, 'approved'],
     };
     pool.query(newQuery, (err, result) => {
-      if (err) {
-        return winston.log('error', err);
-      }
       if (result.rows.length === 0) {
-        return res.status(403).json({
+        return res.status(405).json({
           message: 'This request has not been approved, Please check the current status of the request',
           status: 'fail',
         });
