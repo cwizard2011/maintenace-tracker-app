@@ -17,8 +17,7 @@ Maintenance Tracker App is an application that provides users with the ability t
     
 ## Create a new user [/api/v1/auth/signup]
 ### Create a New User [POST]
-To create a new user, username, password, firstname, lastname and email must be supplied
-NB: The response data are not valid on production, can only be used for testing on Apiary. On production, token will be generated
+Token will be generated on production when new user sign up
 
 + Request (application/json)
 
@@ -298,8 +297,7 @@ NB: The response data are not valid on production, can only be used for testing 
         }
 ## Login a user [/api/v1/auth/login]
 ### Post a user login [POST]
-To login as a user, username and password must be supplied
-NB: On production, id, username, email, role and token will be returned which can be used to get and post request
+Token will be generated on production to access all route when users sign in
 
 + Request (application/json)
 
@@ -372,7 +370,7 @@ NB: On production, id, username, email, role and token will be returned which ca
 ## Get all user requests [/api/v1/users/requests]
 
 ### List All Requests [GET]
-To get requests, you have to register and login. Supply the token generated in the header of the request
+Users are to supply token in the header of the request in production
 + Response 200 (application/json)
 
         {
@@ -421,7 +419,7 @@ To get requests, you have to register and login. Supply the token generated in t
 ## GET request by Id [/api/v1/users/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e43]
 
 ### Get a request [GET]
-To get a request belonging to a user using the request Id. Supply your login token in the header
+To get a request belonging to a user using the request Id on production, you have to supply your login token in the header
 
 + Response 200 (application/json)
 
