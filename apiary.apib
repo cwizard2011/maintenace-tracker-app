@@ -46,21 +46,6 @@ NB: The response data are not valid on production, can only be used for testing 
         }
 + Request (application/json)
 
-        {   
-                "username": "2d",
-                "password": "password2018",
-                "firstname": "Peter",
-                "lastname" : "Adeola",
-                "email": "newaccount@newaccount.com"
-        }
-+ Response 400 (application/json)
-
-        {
-            "message": "Invalid username, username can only be a min. of 3 and max of 10 alphanumeric characters starting with letters",
-            "status": "fail",
-        }
-+ Request (application/json)
-
         {
                 "password": "password2018",
                 "firstname": "Peter",
@@ -70,7 +55,7 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 400 (application/json)
 
         {
-            "message": "You must provide a username",
+            "message": "The username field is required.",
             "status": "fail",
         }
 + Request (application/json)
@@ -84,7 +69,7 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 400 (application/json)
 
         {
-            "message": "Password must be supplied",
+            "message": "The password field is required.",
             "status": "fail",
         }
 + Request (application/json)
@@ -99,7 +84,37 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 400 (application/json)
 
         {
-            "message": "Password must be alphanumeric and should contain a minimum of 8 characters",
+            "message": "The password must be at least 8 characters.",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "gggfd34510j"
+                "firstname": "Pe",
+                "lastname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The firstname must be at least 5 characters.",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "gggfd34510j"
+                "firstname": "Peter",
+                "lastname" : "Ade",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The lastname must be at least 5 characters.",
             "status": "fail",
         }
 + Request (application/json)
@@ -110,10 +125,42 @@ NB: The response data are not valid on production, can only be used for testing 
                 "lastname" : "Adeola",
                 "email": "newaccount@newaccount.com"
         }
+        
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "gggfd34510j"
+                "firstname": "PeterAdeolaOlawale",
+                "lastname" : "Adeola",
+                "email": "newaccount@newaccount.com"
+        }
 + Response 400 (application/json)
 
         {
-            "message": "You must provide your first Name",
+            "message": "The firstname may not be greater than 10 characters.",
+            "status": "fail",
+        }
+        
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "gggfd34510j"
+                "firstname": "Peter",
+                "lastname" : "AdeolaPeterAdoye",
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The lastname may not be greater than 10 characters.",
+            "status": "fail",
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The firstname field is required.",
             "status": "fail",
         }
 + Request (application/json)
@@ -127,7 +174,7 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 400 (application/json)
 
         {
-            "message": "You must provide your last Name",
+            "message": "The lastname field is required.",
             "status": "fail",
         }
 + Request (application/json)
@@ -135,14 +182,44 @@ NB: The response data are not valid on production, can only be used for testing 
         {   
                 "username": "ccwizard",
                 "password": "septem1234"
-                "firstname" : "Adeola Peter Oluwadarasimi kanmisola Ajayi",
-                "lastname": "Adeoye Adeola Oluwadarasimi Challenge david"
+                "firstname" : "AdeolaPeterOluwadarasimikanmisolaAjayi",
+                "lastname": "Adeoye"
                 "email": "newaccount@newaccount.com"
         }
 + Response 400 (application/json)
 
         {
-            "message": "Name too long, please restrict name to 20 characters including spaces",
+            "message": "The firstname may not be greater than 10 characters",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "firstname" : "Adeola",
+                "lastname": "AdeoyePeterOluwadarasimikanmisolaAjayi"
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The lastname may not be greater than 10 characters",
+            "status": "fail",
+        }
++ Request (application/json)
+
+        {   
+                "username": "ccwizard",
+                "password": "septem1234"
+                "firstname" : "Adeola",
+                "lastname": "Peter123"
+                "email": "newaccount@newaccount.com"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The lastname field must contain only alphabetic characters.",
             "status": "fail",
         }
 + Request (application/json)
@@ -151,13 +228,13 @@ NB: The response data are not valid on production, can only be used for testing 
                 "username": "ccwizard",
                 "password": "septem1234"
                 "firstname" : "Adeola123",
-                "lastname": "Peter123"
+                "lastname": "Peter"
                 "email": "newaccount@newaccount.com"
         }
 + Response 400 (application/json)
 
         {
-            "message": "Invalid Name, name can only contain alphabets",
+            "message": "The firstname field must contain only alphabetic characters.",
             "status": "fail",
         }
 + Request (application/json)
@@ -171,7 +248,7 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 400 (application/json)
 
         {
-            "message": "You must provide an email address",
+            "message": "The email field is required.",
             "status": "fail",
         }
 + Request (application/json)
@@ -186,7 +263,7 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 400 (application/json)
 
         {
-            "message": "Invalid email, please enter correct email",
+            "message": "The email format is invalid.",
             "status": "fail",
         }
 + Request (application/json)
@@ -201,7 +278,7 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 409 (application/json)
 
         {
-            "message": "User already exist, pls sign in with your username and password",
+            "message": "Username or email has already been registered, please change your email or username, or login with your password",
             "status": "fail",
         }
 + Request (application/json)
@@ -216,7 +293,7 @@ NB: The response data are not valid on production, can only be used for testing 
 + Response 409 (application/json)
 
         {
-            "message": "User already exist, pls sign in with your username and password",
+            "message": "Username or email has already been registered, please change your email or username, or login with your password",
             "status": "fail",
         }
 ## Login a user [/api/v1/auth/login]
@@ -250,7 +327,7 @@ NB: On production, id, username, email, role and token will be returned which ca
 + Response 400 (application/json)
 
         {
-            "message": "Please provide your password",
+            "message": "The password field is required.",
             "status": "fail"
         }
 + Request (application/json)
@@ -262,7 +339,7 @@ NB: On production, id, username, email, role and token will be returned which ca
 + Response 400 (application/json)
 
         {
-            "message": "Please provide your username",
+            "message": "The username field is required.",
             "status": "fail"
         }
 + Request (application/json)
@@ -328,11 +405,11 @@ To get requests, you have to register and login. Supply the token generated in t
         "message": "Requests successfully retrieved from the database",
         "status": "success"
         }
-+ Response 404 (application/json)
++ Response 200 (application/json)
 
         {
             "message": "No request for this user",
-            "status": "fail",
+            "status": "success",
         }
 + Response 401 (application/json)
 
@@ -365,7 +442,7 @@ To get a request belonging to a user using the request Id. Supply your login tok
 
             {
                 "message": "Invalid Id, please provide a valid uuid",
-                "status": "error",
+                "status": "fail",
             }
 + Response 404 (application/json)
 
@@ -389,7 +466,6 @@ To edit a pending request, the request must belong to the user and the user must
 
         {
             "title" : "Just edited this request in Apiary",
-            "details" : "Newly edited request"
         }
         
 + Response 200 (application/json)
@@ -412,28 +488,7 @@ To edit a pending request, the request must belong to the user and the user must
                 "message": "You can't edit a request that is not yours",
                 "status": "fail",
             }
-+ Request (application/json)
 
-        {
-            "title" : "4 Newly edited request"
-        }
-+ Response 400 (application/json)
-
-            {
-                "message": "Your title must start with alphabet",
-                "status": "fail",
-            }
-+ Request (application/json)
-
-        {
-            "details" : "3 coders edited this request in Apiary",
-        }
-+ Response 400 (application/json)
-
-            {
-                "message": "Details must start with alphabets",
-                "status": "fail",
-            }
 + Request (application/json)
 
         {
@@ -443,7 +498,7 @@ To edit a pending request, the request must belong to the user and the user must
 + Response 400 (application/json)
 
         {
-            "message": "Please enter a shorter title less than 50 characters",
+            "message": "The title may not be greater than 30 characters.",
             "status": "fail",
         }
 + Request (application/json)
@@ -454,7 +509,7 @@ To edit a pending request, the request must belong to the user and the user must
 + Response 400 (application/json)
 
         {
-            "message": "Please summarise the details to 70 characters",
+            "message": "The details may not be greater than 150 characters.",
             "status": "fail",
         }
 + Response 403 (application/json)
@@ -494,25 +549,25 @@ To create a new request, the user must supply login token in the header of the r
 
         {
             "title": "This title will be long. Then it will become longer. Oh it it becoming longer. It is growing longer, long, longer, longest. It is about to reach the limit, but not yet. Oh my God, It has reached the limit",
-            "details" : "API blueprint request here",
+            "details" : "API blueprint request here and details cannot be less than 30 characters and more than 150",
         }
         
 + Response 400 (application/json)
 
         {
-            "message": "Please enter a shorter title less than 50 characters",
+            "message": "The title may not be greater than 30 characters.",
             "status": "fail",
         }
         
 + Request (application/json)
 
         {
-            "details" : "New request for posting"
+            "details" : "New request for posting, I just have to make this details longer"
         }
 + Response 400 (application/json)
 
         {
-            "message": "Title is required to post a request",
+            "message": "The title field is required.",
             "status": "fail",
         }
 + Request (application/json)
@@ -523,36 +578,9 @@ To create a new request, the user must supply login token in the header of the r
 + Response 400 (application/json)
 
         {
-            "message": "Details of the request is required to post a request",
+            "message": "The details field is required.",
             "status": "fail",
         }
-        
-+ Request (application/json)
-
-        {
-            "title": "4 New request from apiary",
-            "details" : "API blueprint request here",
-        }
-+ Response 400 (application/json)
-
-        {
-            "message": "Your title must start with alphabet",
-            "status": "fail",
-        }
-
-+ Request (application/json)
-
-        {
-            "title": "New request from apiary",
-            "details" : "4 API blueprint request here",
-        }
-+ Response 400 (application/json)
-
-        {
-            "message": "Details must start with alphabets",
-            "status": "fail",
-        }
-        
 + Request (application/json)
 
         {
@@ -562,7 +590,7 @@ To create a new request, the user must supply login token in the header of the r
 + Response 400 (application/json)
 
         {
-            "message": "Please summarise the details to 70 characters",
+            "message": "The details may not be greater than 150 characters.",
             "status": "fail",
         }
 
@@ -570,7 +598,7 @@ To create a new request, the user must supply login token in the header of the r
 
         {
             "title": "New request from administrator",
-            "details" : "API blueprint request here",
+            "details" : "API blueprint request here> Its so funny that an admin wants to also create request of requests",
         }
 + Response 403 (application/json)
 
@@ -583,7 +611,7 @@ To create a new request, the user must supply login token in the header of the r
 
         {
             "title": "New request from apiary",
-            "details" : "API blueprint request",
+            "details" : "API blueprint request. This is a recurring request",
         }
 + Response 409 (application/json)
 
@@ -673,7 +701,7 @@ To create a new request, the user must supply login token in the header of the r
 
         {
             "message": "Invalid Id, please provide a valid uuid",
-            "status": "error",
+            "status": "fail",
         }
 + Response 401 (application/json)
 
@@ -718,7 +746,7 @@ To create a new request, the user must supply login token in the header of the r
 
         {
             "message": "Invalid Id, please provide a valid uuid",
-            "status": "error",
+            "status": "fail",
         }
 + Response 401 (application/json)
 
@@ -766,7 +794,7 @@ To create a new request, the user must supply login token in the header of the r
 
         {
             "message": "Invalid Id, please provide a valid uuid",
-            "status": "error",
+            "status": "fail",
         }
 + Response 401 (application/json)
 
