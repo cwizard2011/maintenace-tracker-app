@@ -62,8 +62,8 @@ class Validators {
    */
   static checkUser(req, res, next) {
     const validation = new Validator(req.body, {
-      username: 'required|min:5|max:8|regex:/^[a-zA-Z][a-zA-Z0-9]+$/',
-      password: 'required|min:8|max:30|regex:/^(?=.*\\d)(?=.*[a-zA-Z])[a-zA-Z\\d]+$/',
+      username: 'required|min:5|max:8|alpha_num',
+      password: 'required|min:8|max:30|alpha_num',
       email: 'required|email',
       firstname: 'required|min:5|max:10|alpha',
       lastname: 'required|min:5|max:10|alpha',

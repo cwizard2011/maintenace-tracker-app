@@ -35,7 +35,7 @@ describe('POST /api/v1/auth/signup', () => {
         email: 'invalid@email.com',
       })
       .expect(400);
-    expect(res.body.message.errors.password[0]).to.equal('The password format is invalid.');
+    expect(res.body.message.errors.password[0]).to.equal('The password field must be alphanumeric.');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });
@@ -63,11 +63,11 @@ describe('POST /api/v1/auth/signup', () => {
         username: 'adeola',
         firstname: 'Peter',
         lastname: 'Adeoye',
-        password: 'passwordabc',
+        password: 'password abc',
         email: 'invalid@email.com',
       })
       .expect(400);
-    expect(res.body.message.errors.password[0]).to.equal('The password format is invalid.');
+    expect(res.body.message.errors.password[0]).to.equal('The password field must be alphanumeric.');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });
@@ -76,14 +76,14 @@ describe('POST /api/v1/auth/signup', () => {
       .post('/api/v1/auth/signup')
       .set('Accept', 'application/json')
       .send({
-        username: '123dfcs',
+        username: '123d@fcs',
         firstname: 'Peter',
         lastname: 'Adeoye',
         password: '123abc345',
         email: 'invalid@email.com',
       })
       .expect(400);
-    expect(res.body.message.errors.username[0]).to.equal('The username format is invalid.');
+    expect(res.body.message.errors.username[0]).to.equal('The username field must be alphanumeric.');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });
