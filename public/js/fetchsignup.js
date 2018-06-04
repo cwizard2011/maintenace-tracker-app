@@ -36,10 +36,22 @@ signupForm.onsubmit = (e) => {
   })
     .then(res => res.json())
     .then((users) => {
-      if (users.status === 'fail') {
-        message.innerHTML = users.message;
-      } else {
+      if (users.status === 'success') {
         window.location.href = 'pages/congrats.html';
+      } else if (users.message === 'Username or email has already been registered, please change your email or username, or login with your password') {
+        message.innerHTML = users.message;
+      } else if (users.message.errors.firstname) {
+        message.innerHTML = '';
+        message.innerHTML = users.message.errors.firstname;
+      } else if (users.message.errors.lastname) {
+        message.innerHTML = '';
+        message.innerHTML = users.message.errors.lastname;
+      } else if (users.message.errors.username) {
+        message.innerHTML = '';
+        message.innerHTML = users.message.errors.username;
+      } else if (users.message.errors.password) {
+        message.innerHTML = '';
+        message.innerHTML = users.message.errors.password;
       }
     });
 };
