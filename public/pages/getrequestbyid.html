@@ -21,14 +21,41 @@
             </div>
         <div class= "container">
                   <div class="request" id= "display">
+                      <h3 class='center' id="getReqErr"></h3>
                     <p id="params" class="hidden"></p>
+                    <p><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
                   </div>
+                  
+                    <div id="modal">
+                        <div class="modal-content form-field">
+                          <div class="header">
+                          <a href="#" class="close">&times;</a>
+                            <h3 class=center>EDIT REQUEST</h3>
+                          </div>
+                          <div class="copy">
+                          <form id = "updateForm">
+                          <input type="text" id="title" required/>
+                          <textarea id="details" required></textarea>
+                          <p id="param" class="hidden"></p>
+                          <p id="edit-error" class="red-text"></p>
+                          <input type="submit" class="right-btn btn" value="Update">
+                        </form>
+                          </div>
+                          <div class="cf footer">
+                            
+                          </div>
+                        </div>
+                        <div class="overlay"></div>
+                    </div> 
+
+                  
         </div>
         <Script type="text/javascript">
         
         </Script>
         <script src = "../js/nav.js"></script>
         <script src = "../js/getrequestbyid.js"></script>
+        <script src = "../js/editrequest.js"></script>
         <script src="../js/logout.js"></script>
     </body>
 </html> 
