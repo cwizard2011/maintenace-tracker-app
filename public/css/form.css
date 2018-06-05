@@ -45,10 +45,15 @@ h1, h2, h3, h4, h5, h6 {
   color: white;
 }
 .icon{font-weight: bold; padding: 2px; color:white}
+ .success:hover, .pending:hover, .danger:hover{
+  color: black;
+  background-color: rgb(11, 137, 240);
+}
+.blue { color: #2196F3;}
 .success {background-color: #4CAF50;} 
 .pending {background-color: #2196F3;} 
 .danger {background-color: #e8825d;} 
-.modal {
+.modals {
   display: none; 
   position: fixed;
   z-index: 1; 
@@ -61,12 +66,12 @@ h1, h2, h3, h4, h5, h6 {
   background-color: rgb(0,0,0); /* Fallback color */
   background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
 }
-.modal-body {
+.modals-body {
   max-height: calc(100vh - 210px);
   overflow-y: auto;
 }
 
-.modal-content {
+.modals-content {
   background-color: #fefefe;
   margin: auto;
   padding: 20px;
@@ -194,7 +199,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 2% 3%;
     opacity: 0.6;
   }
-  .modal-content {
+  .modals-content {
     background-color: #fefefe;
     margin: auto;
     padding: 10px;
@@ -231,7 +236,7 @@ h1, h2, h3, h4, h5, h6 {
     padding: 2% 3%;
     opacity: 0.6;
   }
-  .modal-content {
+  .modals-content {
     background-color: #fefefe;
     margin: auto;
     padding: 20px;

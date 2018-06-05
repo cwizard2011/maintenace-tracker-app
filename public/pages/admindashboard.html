@@ -1,11 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <he        <meta charset="UTF-8">
+    <head> 
+        <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <link href="https://fonts.googleapis.com/css?family=Prosto+One|Roboto+Condensed" rel="stylesheet"> 
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/form.css">
+        <link rel="stylesheet" type="text/css" href="../css/modal.css">
         <script src="https://unpkg.com/ionicons@4.1.1/dist/ionicons.js"></script>
         <title>Admin Dashboard</title>
         <link rel="icon" type="image/png" href="../images/icon.jpeg" />
@@ -19,6 +21,8 @@
             </div>
         <div class= "container">
             <h3 id="noAdminRequest" class="center"></h3>
+            <p id="adminReqId"></p>
+            <p id="action-msg" class="center blue"></p>
           <div class = "min-container">
             <div class="sort">
                 <button class="sortlinks" onclick="sortRequest(event, 'all')" id="defaultOpen">All</button>
@@ -35,7 +39,6 @@
               <div id="rejected" class="sort-content"></div>
               </div> 
         </div>
-        <script src = "../js/details.js"></script>
         <script src = "../js/nav.js"></script>
         <script src="../js/sort.js"></script>
         <script src="../js/admin.js"></script>
