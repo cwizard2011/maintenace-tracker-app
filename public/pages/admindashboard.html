@@ -18,187 +18,27 @@
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
             </div>
         <div class= "container">
+            <h3 id="noAdminRequest" class="center"></h3>
           <div class = "min-container">
             <div class="sort">
                 <button class="sortlinks" onclick="sortRequest(event, 'all')" id="defaultOpen">All</button>
-                <button class="sortlinks" onclick="sortRequest(event, 'new')">New</button>
+                <button class="sortlinks" onclick="sortRequest(event, 'pending')" >Pending</button>
                 <button class="sortlinks" onclick="sortRequest(event, 'approved')">Approved</button>
                 <button class="sortlinks" onclick="sortRequest(event, 'resolved')">Resolved</button>
                 <button class="sortlinks" onclick="sortRequest(event, 'rejected')">Rejected</button>
                 
               </div>
-              <div id="all" class="sort-content">
-                    <div class="content-border">
-                        <span class="ssm-font">Request for AC repair</span>
-                        <span class="ssm-font">Sender Id: <span>#1254765</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class="ssm-font">28-05-18</span></span>
-                        <span class="ssm-font">Status: <span class="label pending"><ion-icon name="pause"></ion-icon>Pending</span></span>
-                        <span class="ssm-font">Details:
-                        <span>The AC stops working at intervals and also blows hot breeze</span></span>
-                       <div class="access-button">
-                        <button class="right-btn btn">Approve</button>
-                        <button class="right-btn btn danger">Reject</button>
-                       </div>
-                    </div>
-                  </div>
-                <div class="content-border">
-                    <span class="ssm-font">Need for chair replacement</span>
-                    <span class="ssm-font">Sender Id: <span>#547253</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class= "ssm-font">27-05-18</span></span>
-                        <span class="ssm-font">Status: <span class="label pending"><ion-icon name="pause"></ion-icon>Pending</span></span>
-                        <span class="sm-font">Details:
-                        <span class= "ssm-font">Six chairs in the customer care section needs to be repaired due to broken legs</span></span>
-                       <div class="access-button">
-                        <button class="right-btn btn">Approve</button>
-                        <button class="right-btn btn danger">Reject</button>
-                       </div>
-                    </div>
-                </div>
-                <div class="content-border">
-                  <span class="ssm-font">Need for bulb replacement</span>
-                  <span class="ssm-font">Sender Id: <span>#153782</span></span>
-                  <button class="sort-btn">Details</button>
-                  <div class="open">
-                      <span class="ssm-font">Date: <span class= "ssm-font">22-04-18</span></span>
-                      <span class="ssm-font">Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></span>
-                      <span class="ssm-font">Details:
-                      <span class= "ssm-font">Three bulbs got burnt in the conference room, we need you to fix them as soon as possible</span></span>
-                </div>
-            </div>
-                <div class="content-border">
-                  <span class="ssm-font">Request for New flash drives</span>
-                  <span class="ssm-font">Sender Id: <span>#1672337</span></span>
-                  <button class="sort-btn">Details</button>
-                  <div class="open">
-                      <span class="ssm-font">Date: <span class= "ssm-font">18-04-18</span></span>
-                      <span class="ssm-font">Status: <span class="label danger"><ion-icon name="close"></ion-icon>Rejected</span></span>
-                      <span class="ssm-font">Details:
-                      <span class= "ssm-font">Two of our flash in the production department stopped working, can you get us new ones?</span></span>
-                </div>
-                </div>
-                <div class="content-border">
-                    <span class="ssm-font">Damaged PCs need repair</span>
-                    <span class="ssm-font">Sender Id: <span>#1746739</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class= "ssm-font">17-04-18</span></span>
-                        <span class="ssm-font">Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></span>
-                        <span class="ssm-font">Details:
-                        <span class= "ssm-font">One of the PCs in the reception is not coming up, please send someone down to check it, its delaying our work</span></span>
-                  </div>
-                </div>
-                <div class="content-border">
-                    <span class="ssm-font">Damaged printers needs repair</span>
-                    <span class="ssm-font">Sender Id: <span>#126445</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class= "ssm-font">17-04-18</span></span>
-                        <span class="ssm-font">Status: <span class="label success"><ion-icon name="done-all"></ion-icon>Approved</span></span>
-                        <span class="ssm-font">Details:
-                        <span class= "ssm-font">The printer in the Managers office stop printing clearly, looks like it needs catridge replacement.</span></span>
-                        <div class="access-button">
-                            <button class="right-btn btn">Resolve</button>
-                        </div>
-                  </div>
-                </div>
-                
-              </div>
-              
-              <div id="new" class="sort-content">
-                <div class="content-border">
-                    <span class="ssm-font">Request for AC repair</span>
-                    <span class="ssm-font">Sender Id: <span>#1254765</span></span>
-                <button class="sort-btn">Details</button>
-                <div class="open">
-                    <span class="ssm-font">Date: <span class="ssm-font">28-05-18</span></span>
-                    <span class="ssm-font">Status: <span class="label pending"><ion-icon name="pause"></ion-icon>Pending</span></span>
-                    <span class="ssm-font">Details:
-                    <span>The AC stops working at intervals and also blows hot breeze</span></span>
-                   <div class="access-button">
-                    <button class="right-btn btn">Approve</button>
-                    <button class="right-btn btn danger">Reject</button>
-                   </div>
-                </div>
-              </div>
-            <div class="content-border">
-                <span class="ssm-font">Need for chair replacement</span>
-                <span class="ssm-font">Sender Id: <span>#547253</span></span>
-                <button class="sort-btn">Details</button>
-                <div class="open">
-                    <span class="ssm-font">Date: <span class= "ssm-font">27-05-18</span></span>
-                    <span class="ssm-font">Status: <span class="label pending"><ion-icon name="pause"></ion-icon>Pending</span></span>
-                    <span class="sm-font">Details:
-                    <span class= "ssm-font">Six chairs in the customer care section needs to be repaired due to broken legs</span></span>
-                   <div class="access-button">
-                    <button class="right-btn btn">Approve</button>
-                    <button class="right-btn btn danger">Reject</button>
-                   </div>
-                </div>
-            </div>
-              </div>
-              
-              <div id="approved" class="sort-content">
-                <div class="content-border">
-                    <span class="ssm-font">Damaged printers needs repair</span>
-                    <span class="ssm-font">Sender Id: <span>#126445</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class= "ssm-font">17-04-18</span></span>
-                        <span class="ssm-font">Status: <span class="label success"><ion-icon name="done-all"></ion-icon>Approved</span></span>
-                        <span class="ssm-font">Details:
-                        <span class= "ssm-font">The printer in the Managers office stop printing clearly, looks like it needs catridge replacement.</span></span>
-                        <div class="access-button">
-                            <button class="right-btn btn">Resolve</button>
-                        </div>
-                  </div>
-                </div>
-              </div>
-              <div id="resolved" class="sort-content">
-                <div class="content-border">
-                    <span class="ssm-font">Damaged PCs need repair</span>
-                    <span class="ssm-font">Sender Id: <span>#1746739</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class= "ssm-font">17-04-18</span></span>
-                        <span class="ssm-font">Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></span>
-                        <span class="ssm-font">Details:
-                        <span class= "ssm-font">One of the PCs in the reception is not coming up, please send someone down to check it, its delaying our work</span></span>
-                  </div>
-                </div>
-                <div class="content-border">
-                    <span class="ssm-font">Need for bulb replacement</span>
-                    <span class="ssm-font">Sender Id: <span>#153782</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class= "ssm-font">22-04-18</span></span>
-                        <span class="ssm-font">Status: <span class="label success"><ion-icon name="build"></ion-icon>Resolved</span></span>
-                        <span class="ssm-font">Details:
-                        <span class= "ssm-font">Three bulbs got burnt in the conference room, we need you to fix them as soon as possible</span></span>
-                  </div>
-              </div>
-              </div>
-              <div id="rejected" class="sort-content">
-                <div class="content-border">
-                    <span class="ssm-font">Request for New flash drives</span>
-                    <span class="ssm-font">Sender Id: <span>#1672337</span></span>
-                    <button class="sort-btn">Details</button>
-                    <div class="open">
-                        <span class="ssm-font">Date: <span class= "ssm-font">18-04-18</span></span>
-                        <span class="ssm-font">Status: <span class="label danger"><ion-icon name="close"></ion-icon>Rejected</span></span>
-                        <span class="ssm-font">Details:
-                        <span class= "ssm-font">Two of our flash in the production department stopped working, can you get us new ones?</span></span>
-                  </div>
-                  </div>
+              <div id="all" class="sort-content"></div>
+              <div id="pending" class="sort-content"></div>
+              <div id="approved" class="sort-content"></div>
+              <div id="resolved" class="sort-content"></div>
+              <div id="rejected" class="sort-content"></div>
               </div> 
-        </div>
         </div>
         <script src = "../js/details.js"></script>
         <script src = "../js/nav.js"></script>
         <script src="../js/sort.js"></script>
+        <script src="../js/admin.js"></script>
         <script src="../js/logout.js"></script>
     </body>
 </html> 
