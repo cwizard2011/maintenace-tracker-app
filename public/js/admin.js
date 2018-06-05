@@ -1,7 +1,6 @@
 /*  global window:true, fetch:true, document:true, localStorage:true */
-/*  eslint no-undef: "error", no-unused-vars: "error"  */
-/* eslint no-unused-vars: ["error", { "vars": "local" }] */
-/* global requestIds:true */
+/*  eslint no-undef: "error" */
+/* eslint no-unused-vars: 0 */
 
 const adminUrl = 'https://peter-maintenance-app.herokuapp.com/api/v1';
 const adminToken = localStorage.getItem('authToken');
@@ -23,6 +22,25 @@ const approveRequest = (requestId) => {
       } else {
         window.location.href = './admindashboard.html';
         actionMessage.innerHTML = approved.message;
+      }
+    });
+};
+const rejectRequest = (requestId) => {
+  fetch(`${adminUrl}/requests/${requestId}/disapprove`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${adminToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then((rejected) => {
+      if (rejected.status === 'fail') {
+        actionMessage.innerHTML = rejected.message;
+      } else {
+        window.location.href = './admindashboard.html';
+        actionMessage.innerHTML = rejected.message;
       }
     });
 };
