@@ -12,7 +12,7 @@ h1, h2, h3, h4, h5, h6 {
   display: none;
 }
 .label {
-  font-size: 10px;
+  font-size: 12px;
   color: white;
   padding: 8px;
   margin-top: 5%;
@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
   margin-bottom: 5%;
 }
 .view-btn {
-  font-size: 10px;
+  font-size: 12px;
   color: #ffffff;
   padding: 8px;
   margin-top: 5%;
@@ -163,13 +163,14 @@ h1, h2, h3, h4, h5, h6 {
   justify-content: center;
   align-items: center;
   background: whitesmoke;
-  width: 30%;
-  margin: 8% 30%;
+  width: 50%;
+  margin: 8% 20%;
   padding: 2% 3%;
   opacity: 0.8;
 }
 .center {
-  text-align: center
+  text-align: center;
+  font-weight: bold;
 }
 @media only screen and (max-width: 359px) {
   .request {

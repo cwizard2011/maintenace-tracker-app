@@ -30,7 +30,7 @@ window.addEventListener('load', () => {
               <div class= curved-border>
                 <h3>${request.title}</h3>
                 <p>Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span>
-                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}&title=${request.title}&details=${request.details}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}&title=${request.title}&details=${request.details}" class="view-btn"><ion-icon name="create"></ion-icon>Details</a></span></p>
           </div>
         </div>
           `;
@@ -40,7 +40,7 @@ window.addEventListener('load', () => {
               <div class= curved-border>
                 <h3>${request.title}</h3>
                 <p>Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span>
-                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}&title=${request.title}&details=${request.details}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
           </div>
         </div>
           `;
@@ -50,7 +50,7 @@ window.addEventListener('load', () => {
               <div class= curved-border>
                 <h3>${request.title}</h3>
                 <p>Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span>
-                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}&title=${request.title}&details=${request.details}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
           </div>
         </div>
           `;
@@ -60,7 +60,7 @@ window.addEventListener('load', () => {
               <div class= curved-border>
                 <h3>${request.title}</h3>
                 <p>Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span>
-                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
+                <span class="icon"><a href="./getrequestbyid.html?requestId=${request.request_id}&title=${request.title}&details=${request.details}" class="view-btn" id=${request.request_id}><ion-icon name="create"></ion-icon>Details</a></span></p>
           </div>
         </div>
           `;
