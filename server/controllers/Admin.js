@@ -37,6 +37,42 @@ class RequestController {
     );
   }
   /**
+   * @static method to view a request by Id
+   *
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   * @returns {Object} return object as response
+   *
+  */
+  static viewOneRequest(req, res) {
+    const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'fail',
+      });
+    }
+    const query = {
+      text: 'SELECT * FROM requests WHERE request_id = $1',
+      values: [requestId],
+    };
+    pool.query(query, (err, result) => {
+      if (result.rows[0]) {
+        return res.status(200).json({
+          data: result.rows[0],
+          message: 'One request successfully retrieved from the database',
+          status: 'success',
+        });
+      }
+      return res.status(404).json({
+        message: 'You can\'t get a request that does not belong to you',
+        status: 'fail',
+      });
+    });
+    return null;
+  }
+  /**
    *@static: Method for approving a request
    *
    * @param {object} req - request object

@@ -253,4 +253,60 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('success');
     });
   });
+  describe('GET /api/v1/requests/:requestId', () => {
+    it('should not get request if user is not login', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const res = await request(app)
+        .get(`/api/v1/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .expect(401);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Please login with your username and password');
+      expect(res.body).not.to.have.a.property('data');
+    });
+    it('should not get request all request if user is not an admin', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const res = await request(app)
+        .get(`/api/v1/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(403);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('You are not authorized to access this resources');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should return 404 if request Id not found', async () => {
+      const requestId = 'e2cfede6-7bf5-491c-9be8-a1d30ab3ce8f';
+      const res = await request(app)
+        .get(`/api/v1/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(404);
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('You can\'t get a request that does not belong to you');
+    });
+    it('should return 400 if request id is invalid', async () => {
+      const requestId = '1324dsg';
+      const res = await request(app)
+        .get(`/api/v1/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(400);
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+    });
+    it('should get a user request', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const res = await request(app)
+        .get(`/api/v1/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body).to.have.property('message');
+      expect(res.body.data).to.be.an('object');
+      expect(res.body.message).to.equal('One request successfully retrieved from the database');
+    });
+  });
 });
