@@ -1,7 +1,7 @@
 import { Pool } from 'pg';
 import dotenv from 'dotenv';
 import winston from 'winston';
-import queries from './dbModel';
+import queries, { prod } from './dbModel';
 import getDbConfig from './databaseConfig';
 
 dotenv.config();
@@ -19,9 +19,14 @@ if (env === 'test') {
 }
 
 const pool = new Pool(getDbConfig(connectionsString));
-
-pool.query(queries, (err, res) => {
-  winston.log('info', (err, res));
-});
+if (env === 'production') {
+  pool.query(prod, (err, res) => {
+    winston.log('info', (err, res));
+  });
+} else {
+  pool.query(queries, (err, res) => {
+    winston.log('info', (err, res));
+  });
+}
 
 export default pool;

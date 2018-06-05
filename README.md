@@ -44,7 +44,7 @@ Maintenance tracker has the following features:
 - You can view the app using ```localhost:PORT/```
 - Run ```npm run test``` to run all endpoints test
 
-You can also access [maintenance-tracker-app](http://peter-maintenance-app.herokuapp.com/) api on heroku
+You can also access [maintenance-tracker-app](http://peter-maintenance-app.herokuapp.com/) api on heroku and Maintenance tracker client [Here](https://maintenance-tracker-client.herokuapp.com/)
 
 # TESTING WITH POSTMAN
 The API contains different endpoints with their respective payload in the table below
@@ -69,6 +69,10 @@ The API contains different endpoints with their respective payload in the table 
 - [Babel](https://babeljs.io/) used for transpiling codes from ES6 to ES5
 - [Mocha](https://mochajs.org/) used for setting up tests
 - [PostgreSQL](https://www.postgresql.org/) used for setting up relational database
+- [Vanilla Js](https://developer.mozilla.org/en-US/docs/Web/JavaScript) for frontend design
+- [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) for frontend design
+- [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) for styling frontend
+- [FETCH API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for making Ajax call from the client to the API
 
 The full API documentation can be Viewed [Here](https://maintenancetracker2.docs.apiary.io/#)
 
