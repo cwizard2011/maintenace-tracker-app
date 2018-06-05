@@ -44,6 +44,25 @@ const rejectRequest = (requestId) => {
       }
     });
 };
+const resolveRequest = (requestId) => {
+  fetch(`${adminUrl}/requests/${requestId}/resolve`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${adminToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then((resolved) => {
+      if (resolved.status === 'fail') {
+        actionMessage.innerHTML = resolved.message;
+      } else {
+        window.location.href = './admindashboard.html';
+        actionMessage.innerHTML = resolved.message;
+      }
+    });
+};
 window.addEventListener('load', () => {
   fetch(`${adminUrl}/requests`, {
     method: 'GET',
