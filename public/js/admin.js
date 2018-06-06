@@ -89,11 +89,10 @@ window.addEventListener('load', () => {
           if (request.currentstatus === 'pending') {
             output += `
               <div class= content-border>
-               <p>Title: <span class="ssm-font">${request.title}</span>
-               <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-               <p><span class="ssm-font">Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span>
-               <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-               </p>
+               <p>Title: <span class="ssm-font">${request.title}</span></p>
+               <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+               <p><span class="ssm-font">Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span></p>
+               <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
                <p>Details: <span class="ssm-font">${request.details}</span></p>
                <p><button class="detail-btn pending action-approve" onclick="approveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Approve</button>
                <button class="detail-btn danger action-reject" onclick="rejectRequest('${request.request_id}')"><ion-icon name="close"></ion-icon>Reject</button>
@@ -102,11 +101,10 @@ window.addEventListener('load', () => {
           `;
             pending += `
             <div class= content-border>
-            <p>Title: <span class="ssm-font">${request.title}</span>
-            <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-            <p><span class="ssm-font">Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span>
-            <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-            </p>
+            <p>Title: <span class="ssm-font">${request.title}</span></p>
+            <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+            <p><span class="ssm-font">Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span></p>
+            <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
             <p>Details: <span class="ssm-font">${request.details}</span></p>
             <p><button class="detail-btn pending action-approve" onclick="approveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Approve</button>
             <button class="detail-btn danger action-reject" onclick="rejectRequest('${request.request_id}')"><ion-icon name="close"></ion-icon>Reject</button>
@@ -116,67 +114,59 @@ window.addEventListener('load', () => {
           } else if (request.currentstatus === 'approved') {
             output += `
             <div class= content-border>
-            <p>Title: <span class="ssm-font">${request.title}</span>
-            <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span>
-            <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-            </p>
+            <p>Title: <span class="ssm-font">${request.title}</span></p>
+            <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span></p>
+            <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
             <p>Details: <span class="ssm-font">${request.details}</span></p>
-            <p><button class="detail-btn pending action-resolve" onclick="resolveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Resolve</button>
-            </p>
+            <p><button class="detail-btn pending action-resolve" onclick="resolveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Resolve</button></p>
            </div>
           `;
             approved += `
             <div class= content-border>
-            <p>Title: <span class="ssm-font">${request.title}</span>
-            <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span>
-            <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-            </p>
+            <p>Title: <span class="ssm-font">${request.title}</span></p>
+            <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span></p>
+            <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
             <p>Details: <span class="ssm-font">${request.details}</span></p>
-            <p><button class="detail-btn pending action-resolve" onclick="resolveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Resolve</button>
-            </p>
+            <p><button class="detail-btn pending action-resolve" onclick="resolveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Resolve</button></p>
            </div>
             `;
           } else if (request.currentstatus === 'rejected') {
             output += `
             <div class= content-border>
-            <p>Title: <span class="ssm-font">${request.title}</span>
-            <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-            <p><span class="ssm-font">Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span>
-            <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-            </p>
+            <p>Title: <span class="ssm-font">${request.title}</span></p>
+            <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+            <p><span class="ssm-font">Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span></p>
+            <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
             <p>Details: <span class="ssm-font">${request.details}</span></p>
            </div>
             `;
             rejected += `
             <div class= content-border>
-            <p>Title: <span class="ssm-font">${request.title}</span>
-            <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-            <p><span class="ssm-font">Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span>
-            <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-            </p>
+            <p>Title: <span class="ssm-font">${request.title}</span></p>
+            <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+            <p><span class="ssm-font">Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span></p>
+            <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
             <p>Details: <span class="ssm-font">${request.details}</span></p>
            </div>
           `;
           } else if (request.currentstatus === 'resolved') {
             output += `
             <div class= content-border>
-            <p>Title: <span class="ssm-font">${request.title}</span>
-            <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span>
-            <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-            </p>
+            <p>Title: <span class="ssm-font">${request.title}</span></p>
+            <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span></p>
+            <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
             <p>Details: <span class="ssm-font">${request.details}</span></p>
            </div>
           `;
             resolved += `
             <div class= content-border>
-            <p>Title: <span class="ssm-font">${request.title}</span>
-            <span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
-            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span>
-            <span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span>
-            </p>
+            <p>Title: <span class="ssm-font">${request.title}</span></p>
+            <p><span class="ssm-font">Sender: <span>${request.firstname} ${request.lastname}</span></span></p>
+            <p><span class="ssm-font">Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span></p>
+            <p><span class="ssm-font">Created at: <span>${new Date(request.created_at).toLocaleString('en-GB', { hour12: true })}</span></span></p>
             <p>Details: <span class="ssm-font">${request.details}</span></p>
            </div>
             `;

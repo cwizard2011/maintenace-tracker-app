@@ -223,6 +223,18 @@ h1, h2, h3, h4, h5, h6 {
       font-size: 0.8em;
       padding: 6px;
   }
+  .label {
+    font-size: 8px;
+    padding: 5px;
+  }
+  .view-btn {
+    font-size: 8px;
+    padding: 5px;
+  }
+  .detail-btn {
+    font-size: 8px;
+    padding: 5px;
+  }
 }
 @media only screen and (max-width: 900px) and (min-width: 360px){
   .request {
@@ -256,5 +268,17 @@ h1, h2, h3, h4, h5, h6 {
   .form-field input[type="submit"]{
       font-size: 1em;
       padding: 8px;
+  }
+  .label {
+    font-size: 10px;
+    padding: 7px;
+  }
+  .view-btn {
+    font-size: 10px;
+    padding: 7px;
+  }
+  .detail-btn {
+    font-size: 10px;
+    padding: 7px;
   }
 }

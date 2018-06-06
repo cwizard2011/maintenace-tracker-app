@@ -17,7 +17,6 @@ body {
 }
 span {
   font-style: italic;
-  font-weight: bold
 }
 
 a:active, a:hover, a:visited, a:link {
@@ -30,6 +29,7 @@ a:active, a:hover, a:visited, a:link {
 }
 .ssm-font {
  margin: 10px 10px;
+ font-style: normal;
 }
 .container {
   display: flex;
@@ -176,7 +176,7 @@ figcaption {
   display: flex;
   flex-direction: column;
   width: 70%;
-  margin: 5% auto;
+  margin: 1% auto;
 }
 .sort {
   display: flex;
@@ -254,15 +254,18 @@ figcaption {
   body {
     background-size: 100% 100%;
   }
+  p {
+    font-size: 0.8em;
+  }
   .sort button {
     background-color: inherit;
     float: left;
     border: 1px solid #56a6bfe8;
     outline: none;
     cursor: pointer;
-    padding: 9px 5px;
+    padding: 7px 4px;
     transition: 0.3s;
-    font-size: 10px;
+    font-size: 8px;
   }
   .sort-btn {
     background-color:  #1388ace8;
@@ -285,6 +288,10 @@ figcaption {
     flex-direction: column;
   }
   .btn {
+    -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    box-shadow: inset 0px 1px 0px 0px #45D6D6;
+    background-color: #1388ace8;
     font-size: 12px;
     padding: 7px 9px;
   }
@@ -378,6 +385,9 @@ figcaption {
     text-transform: uppercase;
     margin-top: 12px;
   }
+  .nav-bar {
+    background-color: #1388ace8;
+  }
   .nav-bar a:not(:first-child) {display: none;}
   .nav-bar a.nav-icon {
     float: right;
@@ -422,9 +432,9 @@ figcaption {
       border: 1px solid #56a6bfe8;
       outline: none;
       cursor: pointer;
-      padding: 10px 8px;
+      padding: 7px 5px;
       transition: 0.3s;
-      font-size: 12px;
+      font-size: 10px;
     }
     .access-button {
       display: flex;
