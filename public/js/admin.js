@@ -19,9 +19,10 @@ const approveRequest = (requestId) => {
     .then((approved) => {
       if (approved.status === 'fail') {
         actionMessage.innerHTML = approved.message;
+        actionMessage.innerHTML = '';
       } else {
-        window.location.href = './admindashboard.html';
         actionMessage.innerHTML = approved.message;
+        actionMessage.innerHTML = '';
       }
     });
 };
@@ -38,9 +39,10 @@ const rejectRequest = (requestId) => {
     .then((rejected) => {
       if (rejected.status === 'fail') {
         actionMessage.innerHTML = rejected.message;
+        actionMessage.innerHTML = '';
       } else {
-        window.location.href = './admindashboard.html';
         actionMessage.innerHTML = rejected.message;
+        actionMessage.innerHTML = '';
       }
     });
 };
@@ -57,13 +59,14 @@ const resolveRequest = (requestId) => {
     .then((resolved) => {
       if (resolved.status === 'fail') {
         actionMessage.innerHTML = resolved.message;
+        actionMessage.innerHTML = '';
       } else {
-        window.location.href = './admindashboard.html';
         actionMessage.innerHTML = resolved.message;
+        actionMessage.innerHTML = '';
       }
     });
 };
-window.addEventListener('load', () => {
+const fetchRequest = () => {
   fetch(`${adminUrl}/requests`, {
     method: 'GET',
     mode: 'cors',
@@ -179,5 +182,7 @@ window.addEventListener('load', () => {
         document.getElementById('resolved').innerHTML = resolved;
       }
     });
-});
+};
+window.addEventListener('load', fetchRequest);
+window.addEventListener('click', fetchRequest);
 
