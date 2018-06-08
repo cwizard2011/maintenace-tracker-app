@@ -18,7 +18,9 @@ body {
 span {
   font-style: italic;
 }
-
+.request-details {
+  left: 1%
+}
 a:active, a:hover, a:visited, a:link {
   text-decoration: none;
   color: rgb(29, 28, 28);

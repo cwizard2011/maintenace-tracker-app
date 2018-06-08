@@ -33,70 +33,50 @@ window.addEventListener('load', () => {
       }
       if (request.data.currentstatus === 'pending') {
         display += `
-        <div class=center>
+        <div class="request-details">
           <h3>Request Details</h3>
-          <h4>Title</h4>
-          <span>${request.data.title}</span>
-          <h4>Request Id</h4>
-          <span>${request.data.request_id}</span>
-          <h4>Status</h4>
-          <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.data.currentstatus}</span>
-          <h4>Details</h4>
-          <span>${request.data.details}</span>
-          <h4>Created Date</h4>
-          <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span>
-          <p><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p class=ssm-font>Title: <span>${request.data.title}</span></p>
+          <p>Request Id: <span>${request.data.request_id}</span></p>
+          <p>Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.data.currentstatus}</span></p>
+          <p>Details: <span>${request.data.details}</span></p>
+          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
         </div>
       `;
       } else if (request.data.currentstatus === 'approved') {
         display += `
-        <div class=center>
+        <div class="request-details">
           <h3>Request Details</h3>
-          <h4>Title</h4>
-          <span>${request.data.title}</span>
-          <h4>Request Id</h4>
-          <span>${request.data.request_id}</span>
-          <h4>Status</h4>
-          <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.data.currentstatus}</span>
-          <h4>Details</h4>
-          <span>${request.data.details}</span>
-          <h4>Created Date</h4>
-          <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span>
-          <p><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p>Title: <span>${request.data.title}</span></p>
+          <p>Request Id: <span>${request.data.request_id}</span></p>
+          <p>Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.data.currentstatus}</span></p>
+          <p>Details: <span>${request.data.details}</span></p>
+          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
         </div>
       `;
       } else if (request.data.currentstatus === 'rejected') {
         display += `
-        <div class=center>
+        <div class="request-details">
           <h3>Request Details</h3>
-          <h4>Title</h4>
-          <span>${request.data.title}</span>
-          <h4>Request Id</h4>
-          <span>${request.data.request_id}</span>
-          <h4>Status</h4>
-          <span class= "label danger"><ion-icon name="close"></ion-icon>${request.data.currentstatus}</span>
-          <h4>Details</h4>
-          <span>${request.data.details}</span>
-          <h4>Created Date</h4>
-          <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span>
-          <p><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p>Title: <span>${request.data.title}</span></p>
+          <p>Request Id: <span>${request.data.request_id}</span></p>
+          <p>Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.data.currentstatus}</span></p>
+          <p>Details: <span>${request.data.details}</span></p>
+          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
         </div>
       `;
       } else if (request.data.currentstatus === 'resolved') {
         display += `
-        <div class=center>
+        <div class="request-details">
           <h3>Request Details</h3>
-          <h4>Title</h4>
-          <span>${request.data.title}</span>
-          <h4>Request Id</h4>
-          <span>${request.data.request_id}</span>
-          <h4>Status</h4>
-          <span class= "label success"><ion-icon name="build"></ion-icon>${request.data.currentstatus}</span>
-          <h4>Details</h4>
-          <span>${request.data.details}</span>
-          <h4>Created Date</h4>
-          <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span>
-          <p><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p>Title: <span>${request.data.title}</span></p>
+          <p>Request Id: <span>${request.data.request_id}</span></p>
+          <p>Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.data.currentstatus}</span></p>
+          <p>Details: <span>${request.data.details}</span></p>
+          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
         </div>
       `;
       }

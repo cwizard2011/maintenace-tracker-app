@@ -37,7 +37,10 @@ signupForm.onsubmit = (e) => {
     .then(res => res.json())
     .then((users) => {
       if (users.status === 'success') {
-        window.location.href = 'pages/congrats.html';
+        message.innerHTML = '';
+        message.innerHTML = users.message;
+        window.localStorage.setItem('authToken', users.data.token);
+        window.location.href = 'pages/dashboard.html';
       } else if (users.message === 'Username or email has already been registered, please change your email or username, or login with your password') {
         message.innerHTML = users.message;
       } else if (users.message.errors.firstname) {
@@ -52,6 +55,9 @@ signupForm.onsubmit = (e) => {
       } else if (users.message.errors.password) {
         message.innerHTML = '';
         message.innerHTML = users.message.errors.password;
+      } else if (users.message.errors.email) {
+        message.innerHTML = '';
+        message.innerHTML = users.message.errors.email;
       }
     });
 };
