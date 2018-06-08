@@ -65,8 +65,8 @@ class Validators {
       username: 'required|min:5|max:8|alpha_num',
       password: 'required|min:8|max:30|alpha_num',
       email: 'required|email',
-      firstname: 'required|min:5|max:10|alpha',
-      lastname: 'required|min:5|max:10|alpha',
+      firstname: 'required|min:3|max:10|alpha',
+      lastname: 'required|min:3|max:10|alpha',
     });
     if (validation.passes()) {
       return next();
@@ -84,17 +84,19 @@ class Validators {
    * @param {function} next - callback function calling on the next middleware
    */
   static checkLogin(req, res, next) {
-    const validation = new Validator(req.body, {
-      username: 'required',
-      password: 'required',
-    });
-    if (validation.passes()) {
-      return next();
+    const { username, email, password } = req.body;
+    if (username === undefined && email === undefined) {
+      return res.status(400).json({
+        message: 'Username or email is required to login',
+        status: 'fail',
+      });
+    } else if (password === undefined) {
+      return res.status(400).json({
+        message: 'Password is required to login',
+        status: 'fail',
+      });
     }
-    return res.status(400).json({
-      message: validation.errors,
-      status: 'fail',
-    });
+    return next();
   }
 }
 export default Validators;

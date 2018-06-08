@@ -67,10 +67,10 @@ class UserControllers {
  * @return {Object} response containing the logged-in user
  */
   static login(req, res) {
-    const { username, password } = req.body;
+    const { username, email, password } = req.body;
     const newQuery = {
-      text: 'SELECT * FROM userlist WHERE username = $1',
-      values: [username],
+      text: 'SELECT * FROM userlist WHERE username = $1 OR email = $2',
+      values: [username, email],
     };
     pool.query(newQuery, (error, result) => {
       if (error) {
@@ -80,7 +80,7 @@ class UserControllers {
         });
       } else if (result.rows[0] === undefined) {
         return res.status(401).json({
-          message: 'Username or password incorrect, please provide valid credential',
+          message: 'Email/Username or password incorrect, please provide valid credential',
           status: 'fail',
         });
       } else if (bcrypt.compareSync(password, result.rows[0].password)) {
@@ -98,7 +98,7 @@ class UserControllers {
         });
       }
       return res.status(401).json({
-        message: 'Username or password incorrect, try again',
+        message: 'Email/Username or password incorrect, try again',
         status: 'fail',
       });
     });

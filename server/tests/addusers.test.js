@@ -208,7 +208,7 @@ describe('POST /api/v1/auth/signup', () => {
         email: 'email@email.com',
       })
       .expect(400);
-    expect(res.body.message.errors.firstname[0]).to.equal('The firstname must be at least 5 characters.');
+    expect(res.body.message.errors.firstname[0]).to.equal('The firstname must be at least 3 characters.');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });
@@ -224,7 +224,7 @@ describe('POST /api/v1/auth/signup', () => {
         email: 'email@email.com',
       })
       .expect(400);
-    expect(res.body.message.errors.lastname[0]).to.equal('The lastname must be at least 5 characters.');
+    expect(res.body.message.errors.lastname[0]).to.equal('The lastname must be at least 3 characters.');
     expect(res.body).to.have.property('message');
     expect(res.body).to.not.have.property('data');
   });
@@ -335,7 +335,7 @@ describe('POST /auth/login', () => {
       })
       .expect(400);
     expect(res.body).to.have.a.property('message');
-    expect(res.body.message.errors.password[0]).to.equal('The password field is required.');
+    expect(res.body.message).to.equal('Password is required to login');
     expect(res.body).to.not.have.property('data');
   });
   it('should not login a user without username', async () => {
@@ -359,7 +359,7 @@ describe('POST /auth/login', () => {
       })
       .expect(401);
     expect(res.body).to.have.a.property('message');
-    expect(res.body.message).to.equal('Username or password incorrect, please provide valid credential');
+    expect(res.body.message).to.equal('Email/Username or password incorrect, please provide valid credential');
     expect(res.body).to.not.have.property('data');
   });
   it('should not login a user if password incorrect', async () => {
@@ -372,7 +372,7 @@ describe('POST /auth/login', () => {
       })
       .expect(401);
     expect(res.body).to.have.a.property('message');
-    expect(res.body.message).to.equal('Username or password incorrect, try again');
+    expect(res.body.message).to.equal('Email/Username or password incorrect, try again');
     expect(res.body).to.not.have.property('data');
   });
   it('should login a user with valid username and password', async () => {
@@ -381,6 +381,20 @@ describe('POST /auth/login', () => {
       .set('Accept', 'application/json')
       .send({
         username: 'juliet',
+        password: 'password123',
+      })
+      .expect(200);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('You are now logged in');
+    expect(res.body.data).to.have.a.property('username');
+    expect(res.body.data).to.have.a.property('token');
+  });
+  it('should login a user with valid email and password', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .set('Accept', 'application/json')
+      .send({
+        email: 'sjuliet07@gmail.com',
         password: 'password123',
       })
       .expect(200);
