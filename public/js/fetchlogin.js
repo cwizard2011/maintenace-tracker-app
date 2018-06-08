@@ -15,6 +15,7 @@ loginForm.onsubmit = (e) => {
   const loginError = document.getElementById('login-error');
   const newLogin = {
     username: loginUser,
+    email: loginUser,
     password: loginPassword,
   };
   fetch(`${loginurl}/auth/login`, {
