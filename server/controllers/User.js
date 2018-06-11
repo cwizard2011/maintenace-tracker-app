@@ -2,6 +2,7 @@ import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
 import Authentication from '../helpers/Authentication';
 import pool from '../models/database';
+import Mailer from '../helpers/Mailer';
 
 const salt = bcrypt.genSaltSync(10);
 
@@ -39,6 +40,7 @@ class UserControllers {
           status: 'error',
         });
       }
+      Mailer.welcomeMail(email, firstname);
       return res.status(201).json({
         data: {
           user: {
@@ -100,6 +102,34 @@ class UserControllers {
       return res.status(401).json({
         message: 'Email/Username or password incorrect, try again',
         status: 'fail',
+      });
+    });
+  }
+  /**
+   * @static Method for retrieving users profile
+   *
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   */
+  static userProfile(req, res) {
+    const query = {
+      text: 'SELECT * FROM userlist WHERE id = $1',
+      values: [req.decode.id],
+    };
+    pool.query(query, (err, response) => {
+      const {
+        firstname, lastname, email,
+      } = response.rows[0];
+      return res.status(200).json({
+        data: {
+          firstname,
+          lastname,
+          email,
+          memberSince: response.rows[0].created_at,
+          profilePics: response.rows[0].profile_img,
+        },
+        message: 'Profile successfully retrieved',
+        status: 'success',
       });
     });
   }

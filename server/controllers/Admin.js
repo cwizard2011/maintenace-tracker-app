@@ -1,5 +1,6 @@
 import validate from 'uuid-validate';
 import pool from '../models/database';
+import Mailer from '../helpers/Mailer';
 
 
 /**
@@ -20,7 +21,7 @@ class RequestController {
   */
   static getAllRequest(req, res) {
     pool.query(
-      'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id',
+      'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id ORDER BY requests.created_at DESC',
       (err, result) => {
         if (result.rows.length > 0) {
           return res.status(200).json({
@@ -44,6 +45,7 @@ class RequestController {
    */
   static approveRequest(req, res) {
     const { requestId } = req.params;
+    const updatedAt = new Date();
     if (validate(requestId) === false) {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
@@ -51,11 +53,12 @@ class RequestController {
       });
     }
     const newQuery = {
-      text: 'UPDATE requests SET currentstatus = $1 WHERE request_id = $2 RETURNING *;',
-      values: ['approved', requestId],
+      text: 'UPDATE requests SET currentstatus = $1, updated_at = $3 WHERE request_id = $2 RETURNING *;',
+      values: ['approved', requestId, updatedAt],
     };
     pool.query(newQuery, (err, result) => {
       if (result) {
+        Mailer.sendRequestStatus(requestId);
         return res.status(200).json({
           data: result.rows[0],
           message: 'Request has been approved',
@@ -77,6 +80,7 @@ class RequestController {
    */
   static rejectRequest(req, res) {
     const { requestId } = req.params;
+    const updatedAt = new Date();
     if (validate(requestId) === false) {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
@@ -84,11 +88,12 @@ class RequestController {
       });
     }
     const newQuery = {
-      text: 'UPDATE requests SET currentstatus = $1 WHERE request_id = $2 RETURNING *;',
-      values: ['rejected', requestId],
+      text: 'UPDATE requests SET currentstatus = $1, updated_at = $3 WHERE request_id = $2 RETURNING *;',
+      values: ['rejected', requestId, updatedAt],
     };
     pool.query(newQuery, (err, result) => {
       if (result) {
+        Mailer.sendRequestStatus(requestId);
         return res.status(200).json({
           data: result.rows[0],
           message: 'Request has been successfully rejected',
@@ -110,6 +115,7 @@ class RequestController {
    */
   static resolveRequest(req, res) {
     const { requestId } = req.params;
+    const updatedAt = new Date();
     if (validate(requestId) === false) {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
@@ -117,11 +123,12 @@ class RequestController {
       });
     }
     const newQuery = {
-      text: 'UPDATE requests SET currentstatus = $1 WHERE request_id = $2 RETURNING *;',
-      values: ['resolved', requestId],
+      text: 'UPDATE requests SET currentstatus = $1, updated_at = $3 WHERE request_id = $2 RETURNING *;',
+      values: ['resolved', requestId, updatedAt],
     };
     pool.query(newQuery, (err, result) => {
       if (result) {
+        Mailer.sendRequestStatus(requestId);
         return res.status(200).json({
           data: result.rows[0],
           message: 'Request has been successfully resolved',
