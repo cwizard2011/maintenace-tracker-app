@@ -1,5 +1,6 @@
 import validate from 'uuid-validate';
 import pool from '../models/database';
+import Mailer from '../helpers/Mailer';
 
 
 /**
@@ -21,7 +22,7 @@ class Requests {
 
   static getAllRequest(req, res) {
     const query = {
-      text: 'SELECT * FROM requests WHERE user_id = $1',
+      text: 'SELECT * FROM requests WHERE user_id = $1  ORDER BY created_at DESC',
       values: [req.decode.id],
     };
     pool.query(query, (err, result) => {
@@ -93,7 +94,9 @@ class Requests {
           message: 'Request not created',
           status: 'error',
         });
-      } return res.status(201).json({
+      }
+      Mailer.sendNewRequest(title);
+      return res.status(201).json({
         data: {
           request: {
             request_id: response.rows[0].request_id,
@@ -138,9 +141,10 @@ class Requests {
         title,
         details,
       } = updateRequest;
+      const updatedAt = new Date();
       const update = {
-        text: 'UPDATE requests SET title = $1, details = $2 WHERE request_id = $3 AND user_id = $4 RETURNING *',
-        values: [title, details, requestId, req.decode.id],
+        text: 'UPDATE requests SET title = $1, details = $2, updated_at = $5 WHERE request_id = $3 AND user_id = $4 RETURNING *',
+        values: [title, details, requestId, req.decode.id, updatedAt],
       };
       pool.query(update, (error, result) => {
         if (result) {

@@ -1,6 +1,7 @@
 import UserControllers from '../controllers/User';
 import Validators from '../middleware/Validation';
 import ValidateDatabase from '../middleware/ValidateDatabase';
+import Authentication from '../helpers/Authentication';
 
 const userRoutes = (versionLink, app) => {
   app.post(
@@ -13,6 +14,11 @@ const userRoutes = (versionLink, app) => {
     `${versionLink}/auth/login`,
     Validators.checkLogin,
     UserControllers.login,
+  );
+  app.get(
+    `${versionLink}/users/profile`,
+    Authentication.verifyToken,
+    UserControllers.userProfile,
   );
 };
 
