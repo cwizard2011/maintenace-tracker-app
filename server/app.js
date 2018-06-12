@@ -3,9 +3,11 @@ import bodyParser from 'body-parser';
 import dotenv from 'dotenv';
 import morgan from 'morgan';
 import cors from 'cors';
+import fileUpload from 'express-fileupload';
 import requestRoutes from './routes/requests';
 import userRoutes from './routes/user';
 import adminRoutes from './routes/admin';
+import imageRoutes from './routes/imageUpload';
 import winston from '../config/winston';
 
 
@@ -20,6 +22,7 @@ app.use(morgan('combined', { stream: winston.stream }));
 app.use(cors({
   credentials: true,
 }));
+app.use(fileUpload());
 
 app.get('/', (req, res) => {
   res.status(200).json({
@@ -29,6 +32,7 @@ app.get('/', (req, res) => {
 });
 requestRoutes('/api/v1', app);
 userRoutes('/api/v1', app);
+imageRoutes('/api/v1', app);
 adminRoutes('/api/v1', app);
 
 app.all('*', (req, res) => res.status(404).json({
