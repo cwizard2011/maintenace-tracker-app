@@ -20,6 +20,12 @@ const userRoutes = (versionLink, app) => {
     Authentication.verifyToken,
     UserControllers.userProfile,
   );
+  app.put(
+    `${versionLink}/users/password/update`,
+    Authentication.verifyToken,
+    Validators.checkPasswordUpdate,
+    UserControllers.updatePassword,
+  );
 };
 
 export default userRoutes;
