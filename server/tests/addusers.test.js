@@ -414,28 +414,28 @@ describe('Request controller', () => {
       expect(res.body.data).to.have.a.property('username');
       expect(res.body.data).to.have.a.property('token');
     });
-    describe('GET /api/v1/users/profile', () => {
-      it('should not return profile info if user not logged in', async () => {
-        const res = await request(app)
-          .get('/api/v1/users/profile')
-          .set('Accept', 'application/json')
-          .expect(401);
-        expect(res.body).to.have.a.property('message');
-        expect(res.body.message).to.equal('Please login with your username and password');
-        expect(res.body.status).to.equal('fail');
-      });
-      it('should not return profile info for authenticated user', async () => {
-        const res = await request(app)
-          .get('/api/v1/users/profile')
-          .set('Accept', 'application/json')
-          .set('token', userToken)
-          .expect(200);
-        expect(res.body).to.have.a.property('message');
-        expect(res.body).to.have.a.property('data');
-        expect(res.body.data).to.be.an('object');
-        expect(res.body.message).to.equal('Profile successfully retrieved');
-        expect(res.body.status).to.equal('success');
-      });
+  });
+  describe('GET /api/v1/users/profile', () => {
+    it('should not return profile info if user not logged in', async () => {
+      const res = await request(app)
+        .get('/api/v1/users/profile')
+        .set('Accept', 'application/json')
+        .expect(401);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Please login with your username and password');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should not return profile info for authenticated user', async () => {
+      const res = await request(app)
+        .get('/api/v1/users/profile')
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(200);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body).to.have.a.property('data');
+      expect(res.body.data).to.be.an('object');
+      expect(res.body.message).to.equal('Profile successfully retrieved');
+      expect(res.body.status).to.equal('success');
     });
   });
 });

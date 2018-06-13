@@ -51,7 +51,12 @@ class UserControllers {
             fullname: `${response.rows[0].firstname} ${response.rows[0].lastname}`,
           },
           token: jwt.sign(
-            response.rows[0],
+            {
+              id: response.rows[0].id,
+              username,
+              email,
+              user_role: response.rows[0].user_role,
+            },
             process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY },
           ),
         },
@@ -82,11 +87,16 @@ class UserControllers {
         });
       } else if (result.rows[0] === undefined) {
         return res.status(401).json({
-          message: 'Email/Username or password incorrect, please provide valid credential',
+          message: 'Email/username invalid, please provide valid credentials',
           status: 'fail',
         });
       } else if (bcrypt.compareSync(password, result.rows[0].password)) {
-        const token = Authentication.generateToken(result.rows[0]);
+        const token = Authentication.generateToken({
+          id: result.rows[0].id,
+          username,
+          email,
+          user_role: result.rows[0].user_role,
+        });
         return res.status(200).json({
           data: {
             id: result.rows[0].id,
@@ -100,7 +110,7 @@ class UserControllers {
         });
       }
       return res.status(401).json({
-        message: 'Email/Username or password incorrect, try again',
+        message: 'Password incorrect, try again',
         status: 'fail',
       });
     });
@@ -131,6 +141,61 @@ class UserControllers {
         message: 'Profile successfully retrieved',
         status: 'success',
       });
+    });
+  }
+  /**
+   * @static Method for changing user password
+   *
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   */
+  static updatePassword(req, res) {
+    const {
+      oldpassword, newpassword,
+    } = req.body;
+    const query = {
+      text: 'SELECT * FROM userlist WHERE id = $1',
+      values: [req.decode.id],
+    };
+    pool.query(query, (err, response) => {
+      if (!bcrypt.compareSync(oldpassword, response.rows[0].password)) {
+        return res.status(401).json({
+          message: 'Old password incorrect, please check the old password again',
+          status: 'fail',
+        });
+      } else if (bcrypt.compareSync(newpassword, response.rows[0].password)) {
+        return res.status(409).json({
+          message: 'New password is the same as previous password, please change your new password',
+          status: 'fail',
+        });
+      }
+      const hashedPassword = bcrypt.hashSync(newpassword, salt);
+      const updateAt = new Date();
+
+      const updateQuery = {
+        text: 'UPDATE userlist SET password = $1, updated_at = $2 WHERE id = $3 RETURNING *;',
+        values: [hashedPassword, updateAt, req.decode.id],
+      };
+      pool.query(updateQuery, (error, result) => {
+        if (result.rows[0]) {
+          res.status(200).json({
+            data: {
+              token: jwt.sign(
+                {
+                  id: result.rows[0].id,
+                  username: result.rows[0].username,
+                  email: result.rows[0].email,
+                  user_role: result.rows[0].user_role,
+                },
+                process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRY },
+              ),
+            },
+            message: 'Your password has been successfully updated',
+            status: 'success',
+          });
+        }
+      });
+      return null;
     });
   }
 }
