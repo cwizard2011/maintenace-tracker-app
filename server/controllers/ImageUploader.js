@@ -21,7 +21,8 @@ class ImageController {
     try {
       if (!req.files) {
         res.status(400).json({
-          error: 'No image was uploaded',
+          message: 'No image was attached, please attach an image',
+          status: 'fail',
         });
       } else {
         const updatedAt = new Date();
@@ -57,6 +58,37 @@ class ImageController {
         res.sendStatus(500);
       }
     }
+  }
+  /**
+   * Retrieve uploaded image
+   *
+   * @static
+   *
+   * @param {Object} req - request object
+   * @param {Object} res - response object
+   *
+   *
+   *
+   * @returns {void}
+   */
+  static retrieveImage(req, res) {
+    const query = {
+      text: 'SELECT profile_img FROM userlist WHERE id = $1;',
+      values: [req.decode.id],
+    };
+    pool.query(query, (err, response) => {
+      if (response.rows[0].profile_img === null) {
+        return res.status(200).json({
+          message: 'Please upload a profile image',
+          status: 'success',
+        });
+      }
+      return res.status(200).json({
+        data: response.rows[0],
+        message: 'Profile image successfully retrieved',
+        status: 'success',
+      });
+    });
   }
 }
 
