@@ -244,14 +244,14 @@ describe('Request controller', () => {
         .post('/api/v1/auth/signup')
         .set('Accept', 'application/json')
         .send({
-          username: 'peterade2018',
+          username: 'peterade2018adeyemipeters',
           firstname: 'Peter',
           lastname: 'Adeoye',
           password: '123abc345',
           email: 'email@email.com',
         })
         .expect(400);
-      expect(res.body.message.errors.username[0]).to.equal('The username may not be greater than 8 characters.');
+      expect(res.body.message.errors.username[0]).to.equal('The username may not be greater than 15 characters.');
       expect(res.body).to.have.property('message');
       expect(res.body).to.not.have.property('data');
     });
@@ -267,7 +267,7 @@ describe('Request controller', () => {
           email: 'email@email.com',
         })
         .expect(400);
-      expect(res.body.message.errors.firstname[0]).to.equal('The firstname may not be greater than 10 characters.');
+      expect(res.body.message.errors.firstname[0]).to.equal('The firstname may not be greater than 15 characters.');
       expect(res.body).to.have.property('message');
       expect(res.body).to.not.have.property('data');
     });
@@ -278,12 +278,12 @@ describe('Request controller', () => {
         .send({
           username: 'peter75',
           firstname: 'Peter',
-          lastname: 'Adeoyeolaoluwa',
+          lastname: 'AdeoyeolaoluwaIamtoolong',
           password: '123abc345',
           email: 'email@email.com',
         })
         .expect(400);
-      expect(res.body.message.errors.lastname[0]).to.equal('The lastname may not be greater than 10 characters.');
+      expect(res.body.message.errors.lastname[0]).to.equal('The lastname may not be greater than 15 characters.');
       expect(res.body).to.have.property('message');
       expect(res.body).to.not.have.property('data');
     });
@@ -370,7 +370,20 @@ describe('Request controller', () => {
         })
         .expect(401);
       expect(res.body).to.have.a.property('message');
-      expect(res.body.message).to.equal('Email/Username or password incorrect, please provide valid credential');
+      expect(res.body.message).to.equal('Email/username invalid, please provide valid credentials');
+      expect(res.body).to.not.have.property('data');
+    });
+    it('should not login a user if email incorrect', async () => {
+      const res = await request(app)
+        .post('/api/v1/auth/login')
+        .set('Accept', 'application/json')
+        .send({
+          email: 'incorrect1@gmail.com',
+          password: 'password2',
+        })
+        .expect(401);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Email/username invalid, please provide valid credentials');
       expect(res.body).to.not.have.property('data');
     });
     it('should not login a user if password incorrect', async () => {
@@ -383,7 +396,7 @@ describe('Request controller', () => {
         })
         .expect(401);
       expect(res.body).to.have.a.property('message');
-      expect(res.body.message).to.equal('Email/Username or password incorrect, try again');
+      expect(res.body.message).to.equal('Password incorrect, try again');
       expect(res.body).to.not.have.property('data');
     });
     it('should login a user with valid username and password', async () => {
@@ -411,7 +424,7 @@ describe('Request controller', () => {
         .expect(200);
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('You are now logged in');
-      expect(res.body.data).to.have.a.property('username');
+      expect(res.body.data).to.have.a.property('email');
       expect(res.body.data).to.have.a.property('token');
     });
   });

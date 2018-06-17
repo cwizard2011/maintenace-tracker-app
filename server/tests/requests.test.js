@@ -131,7 +131,7 @@ describe('Request controller', () => {
     it('should not post a request with short details', async () => {
       const request2 = {
         title: 'big bowl',
-        details: '5 pigs are parturating',
+        details: '5 pigs',
       };
       const res = await request(app)
         .post('/api/v1/users/requests')
@@ -144,7 +144,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
       expect(res.body).not.to.have.property('data');
       expect(res.body).to.have.property('message');
-      expect(res.body.message.errors.details[0]).to.equal('The details must be at least 30 characters.');
+      expect(res.body.message.errors.details[0]).to.equal('The details must be at least 10 characters.');
     });
     it('should not post a request with longer details', async () => {
       const request2 = {

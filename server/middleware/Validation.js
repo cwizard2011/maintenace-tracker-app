@@ -19,7 +19,7 @@ class Validators {
   static checkBody(req, res, next) {
     const validation = new Validator(req.body, {
       title: 'required|min:5|max:30|regex:/[\\w\\W]*/',
-      details: 'required|min:30|max:150|regex:/[\\w\\W]*/',
+      details: 'required|min:10|max:150|regex:/[\\w\\W]*/',
     });
     if (validation.passes()) {
       return next();
@@ -42,7 +42,7 @@ class Validators {
   static editReqBody(req, res, next) {
     const validation = new Validator(req.body, {
       title: 'min:5|max:30|regex:/[\\w\\W]*/',
-      details: 'min:30|max:150|regex:/[\\w\\W]*/',
+      details: 'min:10|max:150|regex:/[\\w\\W]*/',
     });
     if (validation.passes()) {
       return next();
@@ -62,11 +62,32 @@ class Validators {
    */
   static checkUser(req, res, next) {
     const validation = new Validator(req.body, {
-      username: 'required|min:5|max:8|alpha_num',
+      username: 'required|min:5|max:15|alpha_num',
       password: 'required|min:8|max:30|alpha_num',
       email: 'required|email',
-      firstname: 'required|min:3|max:10|alpha',
-      lastname: 'required|min:3|max:10|alpha',
+      firstname: 'required|min:3|max:15|alpha',
+      lastname: 'required|min:3|max:15|alpha',
+    });
+    if (validation.passes()) {
+      return next();
+    }
+    return res.status(400).json({
+      message: validation.errors,
+      status: 'fail',
+    });
+  }
+
+  /**
+   *@static: Method for checking oldpassword field and newpassword field
+   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} next - callback function calling on the next middleware
+   */
+  static checkPasswordUpdate(req, res, next) {
+    const validation = new Validator(req.body, {
+      oldpassword: 'required',
+      newpassword: 'required|min:8|max:30|alpha_num',
     });
     if (validation.passes()) {
       return next();
