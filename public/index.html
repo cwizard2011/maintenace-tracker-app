@@ -14,7 +14,6 @@
             <div class="nav-bar" id="top-nav">
                 <a href="index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
                 <a href="#" title = "Login Users" id ="login">Login</a>
-                <a href="#" title = "SignUp Users" id="sign-up">Register</a>
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
             </div>
         <div class= "container">
@@ -48,34 +47,45 @@
                         </figure>
                     </div>
                 </div>
-                <div id="signupModal" class="modals">
-                    <div class="modals-content form-field modals-body">
-                      <span class="close">&times;</span>
-                      <h2 class="center-heading">Register</h2>
-                            <form id = "signup-form">
-                            <input type="text" placeholder="First Name" id="firstname" required/>
-                            <input type="text" placeholder="Last Name" id="lastname" required/>
-                            <input type="email" placeholder="Email Address" id="email" required/>
-                            <input type="text" placeholder="Username" id="username" required/>
-                            <input type = "password" placeholder = "Password" id="password" required />
-                            <p id="message" class="red-text"></p>
-                        <input type="submit" class="right-btn btn" value="Submit">
-                      </form>
-                    </div>
-                  </div>
                   <div id="loginModal" class="modals">
                         <div class="modals-content form-field modals-body">
                           <span class="login-close">&times;</span>
                           <h2 class="center-heading">Login</h2>
                              <form id = "loginForm">
                             <input type="text" placeholder="Username/email" id="login-user" required/>
+                            <p id="user-error" class="red-text"></p>
                             <input type = "password" placeholder = "Password" id="login-password" required />
-                            <p id="login-error" class="red-text"></p>
-                            <input type="submit" class="right-btn btn" value="Login">
+                            <p id="password-error" class="red-text"></p>
+                            <input type="submit" class="right-btn btn" value="Login" />
+                            <h6>Don't have an account, you can <span><a href="#" title = "SignUp Users" id="sign-up" style="color:#1388ace8;">Register Here</a></span></h6>
+                          </form>
+                        </div>
+                      </div>
+                      <div id="signupModal" class="modals">
+                        <div class="modals-content form-field modals-body">
+                          <span class="close">&times;</span>
+                          <h2 class="center-heading">Register</h2>
+                                <form id = "signup-form">
+                                <input type="text" placeholder="First Name" id="firstname" required/>
+                                <p id="error-firstname" class="red-text"></p>
+                                <input type="text" placeholder="Last Name" id="lastname" required/>
+                                <p id="error-lastname" class="red-text"></p>
+                                <input type="email" placeholder="Email Address" id="email" required/>
+                                <p id="error-email" class="red-text"></p>
+                                <input type="text" placeholder="Username" id="username" required/>
+                                <p id="error-username" class="red-text"></p>
+                                <input type = "password" placeholder = "Password" id="password" required />
+                                <p id="message" class="red-text"></p>
+                            <input type="submit" class="right-btn btn" value="Submit">
                           </form>
                         </div>
                       </div>
         </div>
+            <footer>
+                <div>
+                  Maintenance Tracker by Adeoye Peter &copy; <script>document.write(new Date().getFullYear());</script>
+                </div>
+              </footer>
         <script src="js/nav.js"></script>
         <script src="js/loginmodal.js"></script>
         <script src="js/signupmodal.js"></script>

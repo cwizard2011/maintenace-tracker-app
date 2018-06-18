@@ -8,13 +8,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/form.css">
         <link rel="stylesheet" type="text/css" href="../css/modal.css">
+        <link rel="stylesheet" type="text/css" href="../css/table.css">
         <script src="https://unpkg.com/ionicons@4.1.1/dist/ionicons.js"></script>
         <title>Admin Dashboard</title>
         <link rel="icon" type="image/png" href="../images/icon.jpeg" />
     </head>
     <body class = "body-image">
             <div class="nav-bar" id="top-nav">
-                <a href="../index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
+                <a href="./admindashboard.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
                 <a href="#" class="logout-client">Logout</a>
                 <a href="#"style="background-color: transparent; color: white"><i class="fa user">&#xf2c0; Profile</i></a>
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
@@ -32,13 +33,144 @@
                 <button class="sortlinks" onclick="sortRequest(event, 'rejected')">Rejected</button>
                 
               </div>
-              <div id="all" class="sort-content"></div>
-              <div id="pending" class="sort-content"></div>
-              <div id="approved" class="sort-content"></div>
-              <div id="resolved" class="sort-content"></div>
-              <div id="rejected" class="sort-content"></div>
-              </div> 
+              <div id="all" class="sort-content">
+                    <table>
+                        <thead>
+                          <tr>
+                            <th scope="col">S/N</th>
+                            <th scope="col">Title</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Sender</th>
+                            <th scope="col">Details</th>
+                            <th scope="col">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody id="body-all">
+            
+                        </tbody>
+            </table>
+              </div>
+              <div id="pending" class="sort-content">
+                            <table>
+                                <thead>
+                                  <tr>
+                                    <th scope="col">S/N</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Sender</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="body-pending">
+                                </tbody>
+                    </table>
+              </div>
+              <div id="approved" class="sort-content">
+                            <table>
+                                <thead>
+                                  <tr>
+                                    <th scope="col">S/N</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Sender</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="approve-all">
+                                </tbody>
+                    </table>
+              </div>
+              <div id="resolved" class="sort-content">
+                            <table>
+                                <thead>
+                                  <tr>
+                                    <th scope="col">S/N</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Sender</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="resolve-all">
+                                </tbody>
+                    </table>
+              </div>
+              <div id="rejected" class="sort-content">
+                    <div>
+                            <table>
+                                <thead>
+                                  <tr>
+                                    <th scope="col">S/N</th>
+                                    <th scope="col">Title</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Sender</th>
+                                    <th scope="col">Details</th>
+                                    <th scope="col">Actions</th>
+                                  </tr>
+                                </thead>
+                                <tbody id="reject-all">
+                                </tbody>
+                    </table>
+                          </div>
+              </div>
+              </div>
+              <div id="confirm">
+                <div class="confirm-content form-field">
+                    <a href="#" class="close">&times;</a>
+                  <div class="header">
+                    <h3 class=center>REQUEST DETAILS</h3>
+                  </div>
+                  <div class="copy">
+                    <p>
+                      <label for="id">Request Id</label>
+                    </p>
+                  <p id="id-request"></p>
+                  <p>
+                      <label for="sender">Sender</label>
+                  </p>
+                  <p id="id-sender"></p>
+                  <p>
+                      <label for="title">Title</label>
+                  </p>
+                  <p>
+                    <label for="email">Email</label>
+                </p>
+                <p id="id-email"></p>
+                <p>
+                    <label for="title">Title</label>
+                </p>
+                  <p id="id-title"></p>
+                  <p>
+                      <label for="details">Details</label>
+                    </p>
+                  <p id="id-details"></p>
+                  <p>
+                    <label for="status">Status</label>
+                </p>
+                <p id="id-status"></p>
+                <p>
+                    <label for="title">Title</label>
+                </p>
+                  <p>
+                      <label for="date">Date</label>
+                    </p>
+                  <p id="id-date"></p>
+                  </div>
+                  <div class="cf footer">
+                    
+                  </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
         </div>
+        <footer>
+            <div>
+              Maintenance Tracker by Adeoye Peter &copy; <script>document.write(new Date().getFullYear());</script>
+            </div>
+          </footer>
         <script src = "../js/nav.js"></script>
         <script src="../js/sort.js"></script>
         <script src="../js/admin.js"></script>

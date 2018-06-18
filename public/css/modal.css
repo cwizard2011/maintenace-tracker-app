@@ -58,7 +58,7 @@
 	z-index: 10;
 }
 
-.modal {
+#confirm {
 	left:50%;
 	margin:-250px 0 0 -40%;
 	opacity: 0;
@@ -73,34 +73,40 @@
 	-webkit-transition: all 0.4s ease-in-out;
 }
 	/* Make the modal appear when targeted */
-	.modal:target {
+	#confirm:target {
 		opacity: 1;
 		top:50%;
 		visibility: visible;
 	}
-.modal .header,#modal .footer {
+#confirm .header,#confirm .footer {
 	border-bottom: 1px solid #e7e7e7;
 	border-radius: 5px 5px 0 0;
 }
-	.modal .footer {
+.confirm-content {
+	background: #f7f7f7;
+	position: relative;
+	z-index: 20;
+	border-radius:5px;
+}
+	.confirm .footer {
 		border:none;
 		border-top: 1px solid #e7e7e7;
 		border-radius: 0 0 5px 5px;
 	}
-.modal h2 {
+#confirm h2 {
 	margin:0;
 }
-.modal .btn {
+#confirm .btn {
 	float:right;
 }
-.modal .copy,#modal .header, #modal .footer {
+#confirm .copy,#confirm .header, #confirm .footer {
 	padding:15px;
 }
-.modal .copy {
+.confirm .copy {
 	background: #fff;
 }
 
-.modal .overlay {
+.confirm .overlay {
 	background-color: #000;
 	background: rgba(0,0,0,.5);
 	height: 100%;
@@ -130,6 +136,18 @@
     border-radius: 5px;
     right: 3%;
 	}
+	#confirm:target {
+    opacity: 1;
+    top: 80%;
+    visibility: visible;
+	}
+	.confirm-content {
+    background: #f7f7f7;
+    position: relative;
+    z-index: 20;
+    border-radius: 5px;
+    right: 3%;
+	}
 }
 @media only screen and (min-width: 600px) and (max-width: 799px) {
 	#modal:target {
@@ -144,6 +162,18 @@
     border-radius: 5px;
     right: 3%;
 	}
+	#confirm:target {
+    opacity: 1;
+    top: 75%;
+    visibility: visible;
+	}
+	.confirm-content {
+    background: #f7f7f7;
+    position: relative;
+    z-index: 20;
+    border-radius: 5px;
+    right: 3%;
+	}
 }
 @media only screen and (min-width: 800px) and (max-width: 1000px ) {
 	#modal:target {
@@ -152,6 +182,18 @@
     visibility: visible;
 	}
 	.modal-content {
+    background: #f7f7f7;
+    position: relative;
+    z-index: 20;
+    border-radius: 5px;
+    right: 3%;
+	}
+	#confirm:target {
+    opacity: 1;
+    top: 70%;
+    visibility: visible;
+	}
+	.confirm-content {
     background: #f7f7f7;
     position: relative;
     z-index: 20;

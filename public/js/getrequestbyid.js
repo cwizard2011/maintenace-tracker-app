@@ -39,7 +39,8 @@ window.addEventListener('load', () => {
           <p>Request Id: <span>${request.data.request_id}</span></p>
           <p>Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.data.currentstatus}</span></p>
           <p>Details: <span>${request.data.details}</span></p>
-          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p>Created on: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p>Updated on: <span> ${new Date(request.data.updated_at).toLocaleString('en-GB', { hour12: true })} </span></p>
           <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
         </div>
       `;
@@ -51,8 +52,8 @@ window.addEventListener('load', () => {
           <p>Request Id: <span>${request.data.request_id}</span></p>
           <p>Status: <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.data.currentstatus}</span></p>
           <p>Details: <span>${request.data.details}</span></p>
-          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
-          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p>Created on: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p>Updated on: <span> ${new Date(request.data.updated_at).toLocaleString('en-GB', { hour12: true })} </span></p>
         </div>
       `;
       } else if (request.data.currentstatus === 'rejected') {
@@ -63,8 +64,8 @@ window.addEventListener('load', () => {
           <p>Request Id: <span>${request.data.request_id}</span></p>
           <p>Status: <span class= "label danger"><ion-icon name="close"></ion-icon>${request.data.currentstatus}</span></p>
           <p>Details: <span>${request.data.details}</span></p>
-          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
-          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p>Created on: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p>Updated on: <span> ${new Date(request.data.updated_at).toLocaleString('en-GB', { hour12: true })} </span></p>
         </div>
       `;
       } else if (request.data.currentstatus === 'resolved') {
@@ -75,11 +76,16 @@ window.addEventListener('load', () => {
           <p>Request Id: <span>${request.data.request_id}</span></p>
           <p>Status: <span class= "label success"><ion-icon name="build"></ion-icon>${request.data.currentstatus}</span></p>
           <p>Details: <span>${request.data.details}</span></p>
-          <p>Created Date: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
-          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p>Created on: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
+          <p>Updated on: <span> ${new Date(request.data.updated_at).toLocaleString('en-GB', { hour12: true })} </span></p>
         </div>
       `;
       }
       document.getElementById('display').innerHTML = display;
+    }).catch(() => {
+      getReqError.innerHTML = 'Couldn\'t fetch request from the database at the moment, please check your internet connection and reload the page';
+      setTimeout(() => {
+        getReqError.innerHTML = '';
+      }, 2000);
     });
 });

@@ -68,6 +68,11 @@ window.addEventListener('load', () => {
         });
         document.getElementById('output').innerHTML = output;
       }
+    }).catch(() => {
+      requestError.innerHTML = 'Couldn\'t fetch request from the database at the moment, please check your internet connection and reload the page';
+      setTimeout(() => {
+        requestError.innerHTML = '';
+      }, 2000);
     });
 });
 
