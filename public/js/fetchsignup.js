@@ -19,6 +19,10 @@ signupForm.onsubmit = (e) => {
   const username = document.getElementById('username').value;
   const password = document.getElementById('password').value;
   const message = document.getElementById('message');
+  const errorFirstname = document.getElementById('error-firstname');
+  const errorLastname = document.getElementById('error-lastname');
+  const errorUsername = document.getElementById('error-username');
+  const errorEmail = document.getElementById('error-email');
   const newUserReg = {
     firstname,
     lastname,
@@ -40,24 +44,45 @@ signupForm.onsubmit = (e) => {
         message.innerHTML = '';
         message.innerHTML = users.message;
         window.localStorage.setItem('authToken', users.data.token);
-        window.location.href = 'pages/dashboard.html';
+        setTimeout(() => {
+          window.location.href = 'pages/dashboard.html';
+        }, 500);
       } else if (users.message === 'Username or email has already been registered, please change your email or username, or login with your password') {
-        message.innerHTML = users.message;
+        message.innerHTML = '';
+        errorFirstname.innerHTML = '';
+        errorLastname.innerHTML = '';
+        errorUsername.innerHTML = '';
+        errorEmail.innerHTML = users.message;
       } else if (users.message.errors.firstname) {
         message.innerHTML = '';
-        message.innerHTML = users.message.errors.firstname;
+        errorFirstname.innerHTML = users.message.errors.firstname;
+        errorLastname.innerHTML = '';
+        errorUsername.innerHTML = '';
+        errorEmail.innerHTML = '';
       } else if (users.message.errors.lastname) {
         message.innerHTML = '';
-        message.innerHTML = users.message.errors.lastname;
+        errorFirstname.innerHTML = '';
+        errorLastname.innerHTML = users.message.errors.lastname;
+        errorUsername.innerHTML = '';
+        errorEmail.innerHTML = '';
       } else if (users.message.errors.username) {
         message.innerHTML = '';
-        message.innerHTML = users.message.errors.username;
+        errorFirstname.innerHTML = '';
+        errorLastname.innerHTML = '';
+        errorUsername.innerHTML = users.message.errors.username;
+        errorEmail.innerHTML = '';
       } else if (users.message.errors.password) {
-        message.innerHTML = '';
+        errorFirstname.innerHTML = '';
+        errorLastname.innerHTML = '';
+        errorUsername.innerHTML = '';
+        errorEmail.innerHTML = '';
         message.innerHTML = users.message.errors.password;
       } else if (users.message.errors.email) {
+        errorFirstname.innerHTML = '';
+        errorLastname.innerHTML = '';
+        errorUsername.innerHTML = '';
+        errorEmail.innerHTML = users.message.errors.email;
         message.innerHTML = '';
-        message.innerHTML = users.message.errors.email;
       }
     });
 };

@@ -12,7 +12,8 @@ loginForm.onsubmit = (e) => {
 
   const loginUser = document.getElementById('login-user').value;
   const loginPassword = document.getElementById('login-password').value;
-  const loginError = document.getElementById('login-error');
+  const userError = document.getElementById('user-error');
+  const passwordError = document.getElementById('password-error');
   const newLogin = {
     username: loginUser,
     email: loginUser,
@@ -28,8 +29,13 @@ loginForm.onsubmit = (e) => {
   })
     .then(res => res.json())
     .then((users) => {
-      if (users.status === 'fail') {
-        loginError.innerHTML = users.message;
+      if (users.message === 'Email/username invalid, please provide valid credentials') {
+        passwordError.innerHTML = '';
+        userError.innerHTML = users.message;
+      }
+      if (users.message === 'Password incorrect, try again') {
+        userError.innerHTML = '';
+        passwordError.innerHTML = users.message;
       }
       if (users.data.role === 'users') {
         window.localStorage.setItem('authToken', users.data.token);
