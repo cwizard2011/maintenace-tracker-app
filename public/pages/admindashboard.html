@@ -8,13 +8,14 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/form.css">
         <link rel="stylesheet" type="text/css" href="../css/modal.css">
+        <link rel="stylesheet" type="text/css" href="../css/table.css">
         <script src="https://unpkg.com/ionicons@4.1.1/dist/ionicons.js"></script>
         <title>Admin Dashboard</title>
         <link rel="icon" type="image/png" href="../images/icon.jpeg" />
     </head>
     <body class = "body-image">
             <div class="nav-bar" id="top-nav">
-                <a href="../index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
+                <a href="./admindashboard.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
                 <a href="#" class="logout-client">Logout</a>
                 <a href="#"style="background-color: transparent; color: white"><i class="fa user">&#xf2c0; Profile</i></a>
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
@@ -24,23 +25,95 @@
             <p id="adminReqId"></p>
             <p id="action-msg" class="center blue"></p>
           <div class = "min-container">
-            <div class="sort">
-                <button class="sortlinks" onclick="sortRequest(event, 'all')" id="defaultOpen">All</button>
-                <button class="sortlinks" onclick="sortRequest(event, 'pending')" >Pending</button>
-                <button class="sortlinks" onclick="sortRequest(event, 'approved')">Approved</button>
-                <button class="sortlinks" onclick="sortRequest(event, 'resolved')">Resolved</button>
-                <button class="sortlinks" onclick="sortRequest(event, 'rejected')">Rejected</button>
-                
+              <div class="sort">
+                  <p><a href="#" class="previous round" id="previousBtn">&#8249;</a>
+                    <a href="#" class="next round" id="nextBtn">&#8250;</a></p>
+                  <p class="page">Showing: <span id="requestNo">0 </span> Requests</p>
+                  <p class="page">On page: <span id="pageNo"></span></p>
+                  <p>
+                    <select id="mySelect">
+                      <option selected disabled hidden>Sort Request</option>
+                        <option value="all" id="all-request"><button >All</button></option>
+                          <option value="pending"><button>Pending</button></option>
+                          <option value="approved"><button>Approved</button></option>
+                          <option value= "resolved"><button>Resolved</button></option>
+                          <option value="rejected"><button>Rejected</button></option>
+                      </select>
+                  </p>
               </div>
-              <div id="all" class="sort-content"></div>
-              <div id="pending" class="sort-content"></div>
-              <div id="approved" class="sort-content"></div>
-              <div id="resolved" class="sort-content"></div>
-              <div id="rejected" class="sort-content"></div>
-              </div> 
+              <div id="all" class="sort-default">
+                    <table role="table" id="request-table">
+                        <thead role="rowgroup">
+                          <tr role="row">
+                            <th role="columnheader">S/N</th>
+                            <th role="columnheader">Title</th>
+                            <th role="columnheader">Status</th>
+                            <th role="columnheader">Sender</th>
+                            <th role="columnheader">Details</th>
+                            <th role="columnheader">Actions</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+            
+                        </tbody>
+            </table>
+              </div>
+              </div>
+              <div id="confirm">
+                <div class="confirm-content form-field">
+                    <a href="#" class="close">&times;</a>
+                  <div class="header">
+                    <h3 class=center>REQUEST DETAILS</h3>
+                  </div>
+                  <div class="copy">
+                    <p>
+                      <label for="id">Request Id</label>
+                    </p>
+                  <p id="id-request"></p>
+                  <p>
+                      <label for="sender">Sender</label>
+                  </p>
+                  <p id="id-sender"></p>
+                  <p>
+                      <label for="title">Title</label>
+                  </p>
+                  <p>
+                    <label for="email">Email</label>
+                </p>
+                <p id="id-email"></p>
+                <p>
+                    <label for="title">Title</label>
+                </p>
+                  <p id="id-title"></p>
+                  <p>
+                      <label for="details">Details</label>
+                    </p>
+                  <p id="id-details"></p>
+                  <p>
+                    <label for="status">Status</label>
+                </p>
+                <p id="id-status"></p>
+                <p>
+                    <label for="title">Title</label>
+                </p>
+                  <p>
+                      <label for="date">Date</label>
+                    </p>
+                  <p id="id-date"></p>
+                  </div>
+                  <div class="cf footer">
+                    
+                  </div>
+                </div>
+                <div class="overlay"></div>
+            </div>
         </div>
+        <footer>
+            <div>
+              Maintenance Tracker by Adeoye Peter &copy; <script>document.write(new Date().getFullYear());</script>
+            </div>
+          </footer>
         <script src = "../js/nav.js"></script>
-        <script src="../js/sort.js"></script>
         <script src="../js/admin.js"></script>
         <script src="../js/logout.js"></script>
     </body>

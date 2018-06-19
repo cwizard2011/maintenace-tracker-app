@@ -46,5 +46,10 @@ updateForm.onsubmit = (e) => {
         editError.innerHTML = '';
         editError.innerHTML = requests.message.errors.title;
       }
+    }).catch(() => {
+      editError.innerHTML = 'Couldn\'t edit request at the moment, please check your internet connection and try again';
+      setTimeout(() => {
+        editError.innerHTML = '';
+      }, 2000);
     });
 };

@@ -14,7 +14,7 @@
     </head>
     <body class = "body-image">
             <div class="nav-bar" id="top-nav">
-                <a href="../index.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
+                <a href="./dashboard.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
                 <a href="#" class="logout-client">Logout</a>
                 <a href="#"style="background-color: transparent; color: white"><i class="fa user">&#xf2c0; <span>Profile</span></i></a>
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
@@ -26,10 +26,12 @@
                                           <span class="close">&times;</span>
                                           <h3 class="center-heading">New complaint</h3>
                                              <form id = "reqForm">
-                                            <input type="text" placeholder="Request title" id="title" required/>
-                                            <textarea placeholder="Type in your request" id="details" required></textarea>
-                                            <p id="post-error" class="red-text"></p>
+                                            <label>Request Title</label>
+                                            <input type="text" id="title" required/>
                                             <p id="post-title" class="red-text"></p>
+                                            <label>Request Details</label>
+                                            <textarea id="details" required></textarea>
+                                            <p id="post-error" class="red-text"></p>
                                             <input type="submit" class="right-btn btn" value="Send Request">
                                           </form>
                                         </div>
@@ -39,6 +41,11 @@
                   <div class="content-container" id= "output">
                   </div>   
         </div>
+        <footer>
+                <div>
+                  Maintenance Tracker by Adeoye Peter &copy; <script>document.write(new Date().getFullYear());</script>
+                </div>
+              </footer>
         <script src = "../js/nav.js"></script>
         <script src="../js/request.js"></script>
         <script src="../js/fetchrequest.js"></script>

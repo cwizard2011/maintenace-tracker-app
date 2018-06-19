@@ -32,15 +32,25 @@ requestForm.onsubmit = (e) => {
       if (request.status === 'success') {
         window.location.href = './dashboard.html';
       } else if (request.message === 'This request has already been logged, Please log a new request') {
-        postTitle.innerHTML = '';
-        postError.innerHTML = request.message;
+        postTitle.innerHTML = request.message;
+        setTimeout(() => {
+          postTitle.innerHTML = '';
+        }, 2000);
       } else if (request.message.errors.details) {
-        postError.innerHTML = '';
-        postTitle.innerHTML = '';
         postError.innerHTML = request.message.errors.details;
+        setTimeout(() => {
+          postError.innerHTML = '';
+        }, 2000);
       } else if (request.message.errors.title) {
-        postError.innerHTML = '';
         postTitle.innerHTML = request.message.errors.title;
+        setTimeout(() => {
+          postTitle.innerHTML = '';
+        }, 2000);
       }
+    }).catch(() => {
+      postError.innerHTML = 'Couldn\'t fetch request from the database at the moment, please check your internet connection and reload the page';
+      setTimeout(() => {
+        postError.innerHTML = '';
+      }, 2000);
     });
 };
