@@ -214,6 +214,37 @@ class ValidateDatabase {
     });
     return null;
   }
+  /**
+   * @static: Method for checking a pending request
+   *
+   * @param {object} req request object
+   * @param {object} res response object
+   * @param {function} done callback function
+   */
+  static checkPending(req, res, done) {
+    const { requestId } = req.params;
+    if (validate(requestId) === false) {
+      winston.log('error', 'Invalid Id, please provide a valid uuid');
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'error',
+      });
+    }
+    const newQuery = {
+      text: 'SELECT * FROM requests WHERE request_id = $1 AND currentStatus = $2',
+      values: [requestId, 'pending'],
+    };
+    pool.query(newQuery, (err, result) => {
+      if (result.rows[0]) {
+        return res.status(405).json({
+          message: 'This is a pending request, you can\'t reset a pending request',
+          status: 'fail',
+        });
+      }
+      return done();
+    });
+    return null;
+  }
 }
 
 export default ValidateDatabase;

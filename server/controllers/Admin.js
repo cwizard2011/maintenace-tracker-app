@@ -142,5 +142,40 @@ class RequestController {
     });
     return null;
   }
+  /**
+   *@static: Method for resetting the status of a request to pending
+   *
+   * @param {object} req - request object
+   * @param {object} res - response object
+   */
+  static resetRequest(req, res) {
+    const { requestId } = req.params;
+    const updatedAt = new Date();
+    if (validate(requestId) === false) {
+      return res.status(400).json({
+        message: 'Invalid Id, please provide a valid uuid',
+        status: 'fail',
+      });
+    }
+    const newQuery = {
+      text: 'UPDATE requests SET currentstatus = $1, updated_at = $3 WHERE request_id = $2 RETURNING *;',
+      values: ['pending', requestId, updatedAt],
+    };
+    pool.query(newQuery, (err, result) => {
+      if (result) {
+        Mailer.sendRequestStatus(requestId);
+        return res.status(200).json({
+          data: result.rows[0],
+          message: 'The status of this request has been sucessfully reset',
+          status: 'success',
+        });
+      }
+      return res.status(408).json({
+        message: 'Something went wrong, request timeout, try again later',
+        status: 'fail',
+      });
+    });
+    return null;
+  }
 }
 export default RequestController;
