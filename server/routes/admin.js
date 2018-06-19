@@ -34,6 +34,14 @@ const adminRoutes = (versionLink, app) => {
     ValidateDatabase.checkApproved,
     RequestController.resolveRequest,
   );
+  app.put(
+    `${versionLink}/requests/:requestId/reset`,
+    Authentication.verifyToken,
+    isAdmin,
+    ValidateDatabase.checkRequestId,
+    ValidateDatabase.checkPending,
+    RequestController.resetRequest,
+  );
 };
 
 export default adminRoutes;
