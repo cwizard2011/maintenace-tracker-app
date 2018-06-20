@@ -60,5 +60,18 @@ describe('Request controller', () => {
       expect(res.body.message).to.equal('No image was attached, please attach an image');
       expect(res.body.status).to.equal('fail');
     });
+    it('should upload image', async () => {
+      const res = await request(app)
+        .put('/api/v1/users/profile/image')
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .attach('image', path.join(__dirname, 'images/profile.jpeg'))
+        .expect(200);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body).to.have.a.property('data');
+      expect(res.body.data).to.be.an('object');
+      expect(res.body.message).to.equal('Image uploaded successfully');
+      expect(res.body.status).to.equal('success');
+    });
   });
 });

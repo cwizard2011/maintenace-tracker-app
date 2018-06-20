@@ -98,6 +98,63 @@ class Validators {
     });
   }
   /**
+   *@static: Method for checking password reset field
+   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} next - callback function calling on the next middleware
+   */
+  static checkPasswordReset(req, res, next) {
+    const validation = new Validator(req.body, {
+      id: 'required',
+      token: 'required',
+      password: 'required|min:8|max:30|alpha_num',
+    });
+    if (validation.passes()) {
+      return next();
+    }
+    return res.status(400).json({
+      message: validation.errors,
+      status: 'fail',
+    });
+  }
+  /**
+   *@static: Method for checking password reset request field
+   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} next - callback function calling on the next middleware
+   */
+  static checkPasswordRequest(req, res, next) {
+    const { email, username } = req.body;
+    if (email === undefined && username === undefined) {
+      return res.status(400).json({
+        message: 'Username or email is required to to make request for password reset',
+        status: 'fail',
+      });
+    }
+    return next();
+  }
+  /**
+   *@static: Method for validating email
+   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} next - callback function calling on the next middleware
+   */
+  static checkEmail(req, res, next) {
+    const validation = new Validator(req.body, {
+      email: 'email',
+    });
+    if (validation.passes()) {
+      return next();
+    }
+    return res.status(400).json({
+      message: validation.errors,
+      status: 'fail',
+    });
+  }
+  /**
    *@static: Method for checking if username or password is provided before signing in a user
    *
    * @param {object} req -request object

@@ -83,6 +83,34 @@ class Mailer {
       Mailer.emailSender(email, subject, message);
     });
   }
+  /**
+   *@static - Method to send email to users for password reset
+
+   * @param {String} firstname - Firstname of the user
+   * @param {String} id - Id of the user
+   * @param {Object} token - generated token
+   * @param {String} email - email address of the user
+   */
+  static async passwordReset(firstname, id, token, email) {
+    const subject = 'New Password reset link';
+    const message = `<p>Dear <b>${firstname}</b>, kindly click <a href="maintenance-tracker-client.herokuapp.com/pages/resetpassword.html?i=${id}&t=${token}">Reset password</a> to create a new password</p>
+    <p><b>**Note</b> if you didnt make request for password reset, you are advised to login to your account and change both your account and email password to a stronger
+    one to protect your account from attackers</p>`;
+    Mailer.emailSender(email, subject, message);
+  }
+  /**
+   *@static - Method to send email to users for password reset
+   * @param {String} firstname - Firstname of the user
+   * @param {String} id - Id of the user
+   * @param {Object} token - generated token
+   * @param {String} email - email address of the user
+   */
+  static async passwordChangeNotification(firstname, email) {
+    const subject = 'Password successfully changed';
+    const message = `<p>Dear <b>${firstname}</b>, your password has been successfully changed</p>
+    <p><b>**Note</b> if you didnt make request for password reset, kindly change your email password and click <a href="maintenance-tracker-client.herokuapp.com/pages/forgotpassword.html">Here</a> to request for a new password</p>`;
+    Mailer.emailSender(email, subject, message);
+  }
 }
 
 export default Mailer;

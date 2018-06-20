@@ -1,9 +1,11 @@
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcryptjs';
+import dotenv from 'dotenv';
 import Authentication from '../helpers/Authentication';
 import pool from '../models/database';
 import Mailer from '../helpers/Mailer';
 
+dotenv.config();
 const salt = bcrypt.genSaltSync(10);
 
 /**
@@ -178,6 +180,8 @@ class UserControllers {
       };
       pool.query(updateQuery, (error, result) => {
         if (result.rows[0]) {
+          const { firstname, email } = result.rows[0];
+          Mailer.passwordChangeNotification(firstname, email);
           res.status(200).json({
             data: {
               token: jwt.sign(
@@ -196,6 +200,128 @@ class UserControllers {
         }
       });
       return null;
+    });
+  }
+  /**
+   * @static Method for resetting user password
+   *
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   */
+  static passwordReset(req, res) {
+    const { email, username } = req.body;
+    const query = {
+      text: 'SELECT * FROM userlist WHERE email = $1 OR username = $2;',
+      values: [email, username],
+    };
+    pool.query(query, (error, result) => {
+      if (result.rows[0]) {
+        const payload = {
+          id: result.rows[0].id,
+          email: result.rows[0].email,
+          username,
+        };
+        const { firstname } = result.rows[0];
+        const secret = `${result.rows[0].password} '-' ${result.updated_at}`;
+        const token = jwt.sign(payload, secret, {
+          expiresIn: process.env.JWT_PASSWORD_RESET_EXPIRY,
+        });
+        Mailer.passwordReset(firstname, payload.id, token, payload.email);
+        return res.status(200).json({
+          data: {
+            token,
+          },
+          message: 'Password reset link has been successfully sent to your email, please check your email',
+          status: 'success',
+        });
+      }
+      return res.status(404).json({
+        message: 'User not found in the database',
+        status: 'fail',
+      });
+    });
+  }
+  /**
+   * @static Method to decode token for password reset
+   *
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   */
+  static resetPassword(req, res) {
+    const { id, token } = req.params;
+    const query = {
+      text: 'SELECT * FROM userlist WHERE id = $1;',
+      values: [id],
+    };
+    pool.query(query, (err, result) => {
+      if (result.rows[0]) {
+        const secret = `${result.rows[0].password} '-' ${result.updated_at}`;
+        const payload = jwt.decode(token, secret);
+        return res.status(200).json({
+          data: {
+            payload,
+          },
+          message: 'Token successfully decoded, please enter a new password in the provided form',
+          status: 'success',
+        });
+      }
+      return res.status(404).json({
+        message: 'User not found in the database',
+        status: 'fail',
+      });
+    });
+  }
+  /**
+   * @static - Method to create a new password
+   *
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   */
+  static createNewPassword(req, res) {
+    const { id, token, password } = req.body;
+    const query = {
+      text: 'SELECT * FROM userlist WHERE id = $1;',
+      values: [id],
+    };
+    pool.query(query, (err, result) => {
+      if (result.rows[0]) {
+        const secret = `${result.rows[0].password} '-' ${result.updated_at}`;
+        const payload = jwt.decode(token, secret);
+
+        const hashedPassword = bcrypt.hashSync(password, salt);
+        const updateAt = new Date();
+        const resetQuery = {
+          text: 'UPDATE userlist SET password = $1, updated_at = $2 WHERE id = $3 RETURNING *;',
+          values: [hashedPassword, updateAt, payload.id],
+        };
+        pool.query(resetQuery, (error, response) => {
+          if (response.rows[0]) {
+            const { firstname, email } = response.rows[0];
+            Mailer.passwordChangeNotification(firstname, email);
+            res.status(200).json({
+              data: {
+                id,
+                email: response.rows[0].email,
+                username: response.rows[0].username,
+                createdAt: response.rows[0].created_at,
+                updatedAt: response.rows[0].updated_at,
+              },
+              message: 'Password has been successfully changed, please login with your new password',
+              status: 'success',
+            });
+          } else {
+            res.status(404).json({
+              message: 'User not found in the database',
+              status: 'fail',
+            });
+          }
+        });
+      } else {
+        res.status(404).json({
+          message: 'User not found in the database',
+          status: 'fail',
+        });
+      }
     });
   }
 }
