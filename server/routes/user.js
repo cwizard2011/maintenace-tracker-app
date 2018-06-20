@@ -26,6 +26,21 @@ const userRoutes = (versionLink, app) => {
     Validators.checkPasswordUpdate,
     UserControllers.updatePassword,
   );
+  app.post(
+    `${versionLink}/auth/passwordreset`,
+    Validators.checkPasswordRequest,
+    Validators.checkEmail,
+    UserControllers.passwordReset,
+  );
+  app.get(
+    `${versionLink}/auth/resetpassword/:id/:token`,
+    UserControllers.resetPassword,
+  );
+  app.post(
+    `${versionLink}/auth/resetpassword`,
+    Validators.checkPasswordReset,
+    UserControllers.createNewPassword,
+  );
 };
 
 export default userRoutes;

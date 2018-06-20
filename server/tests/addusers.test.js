@@ -452,4 +452,3 @@ describe('Request controller', () => {
     });
   });
 });
-
