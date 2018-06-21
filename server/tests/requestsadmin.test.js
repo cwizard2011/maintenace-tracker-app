@@ -106,7 +106,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
     });
     it('should approve a request if user is an admin', async () => {
-      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e49';
       const res = await request(app)
         .put(`/api/v1/requests/${requestId}/approve`)
         .set('Accept', 'application/json')
@@ -215,7 +215,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
     });
     it('should not resolve a pending request', async () => {
-      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e49';
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e70';
       const res = await request(app)
         .put(`/api/v1/requests/${requestId}/resolve`)
         .set('Accept', 'application/json')
@@ -284,7 +284,7 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('fail');
     });
     it('should not reset a pending request', async () => {
-      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e49';
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e70';
       const res = await request(app)
         .put(`/api/v1/requests/${requestId}/reset`)
         .set('Accept', 'application/json')

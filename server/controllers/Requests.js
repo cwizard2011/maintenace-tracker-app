@@ -1,6 +1,5 @@
 import validate from 'uuid-validate';
 import pool from '../models/database';
-import Mailer from '../helpers/Mailer';
 
 
 /**
@@ -95,7 +94,6 @@ class Requests {
           status: 'error',
         });
       }
-      Mailer.sendNewRequest(title);
       return res.status(201).json({
         data: {
           request: {
@@ -160,6 +158,33 @@ class Requests {
         });
       });
       return null;
+    });
+  }
+  /**
+   * @static - Method to delete a pending request
+   *
+   * @param {Object} req - Request Object
+   * @param {Object} res - Response Object
+   */
+  static deleteRequest(req, res) {
+    const { requestId } = req.params;
+
+    const query = {
+      text: 'DELETE FROM requests WHERE request_id = $1 AND user_id = $2 RETURNING *;',
+      values: [requestId, req.decode.id],
+    };
+    pool.query(query, (err, result) => {
+      if (result.rows[0]) {
+        return res.status(200).json({
+          data: result.rows[0],
+          message: 'Request successfully deleted',
+          status: 'success',
+        });
+      }
+      return res.status(404).json({
+        message: 'Request not found in the database',
+        status: 'fail',
+      });
     });
   }
 }

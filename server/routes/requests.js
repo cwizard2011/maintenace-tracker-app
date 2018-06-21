@@ -32,6 +32,13 @@ const requestRoutes = (versionLink, app) => {
     ValidateDatabase.checkRequestStatus,
     Requests.editRequest,
   );
+  app.delete(
+    `${versionLink}/users/requests/:requestId`,
+    Authentication.verifyToken,
+    ValidateDatabase.checkUserRequest,
+    ValidateDatabase.checkRequestStatus,
+    Requests.deleteRequest,
+  );
 };
 
 export default requestRoutes;
