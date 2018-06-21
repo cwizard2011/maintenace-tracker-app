@@ -108,8 +108,8 @@ class ValidateDatabase {
     };
     pool.query(newQuery, (err, result) => {
       if (result.rows.length === 0) {
-        return res.status(401).json({
-          message: 'You can\'t edit a request that is not yours',
+        return res.status(404).json({
+          message: 'This request doesn\'t belong to you',
           status: 'fail',
         });
       }
@@ -134,7 +134,7 @@ class ValidateDatabase {
       });
     }
     const newQuery = {
-      text: 'SELECT * FROM requests WHERE request_id = $1 AND currentStatus = $2',
+      text: 'SELECT * FROM requests WHERE request_id = $1 AND currentstatus = $2',
       values: [requestId, 'pending'],
     };
     pool.query(newQuery, (err, result) => {

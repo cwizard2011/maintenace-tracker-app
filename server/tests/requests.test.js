@@ -320,12 +320,12 @@ describe('Request controller', () => {
         .set('Accept', 'application/json')
         .set('token', userToken)
         .send(request2)
-        .expect(401);
+        .expect(404);
 
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('You can\'t edit a request that is not yours');
+      expect(res.body.message).to.equal('This request doesn\'t belong to you');
     });
     it('should return 400 if request id is invalid', async () => {
       const requestId = '1324dsg';
@@ -351,11 +351,11 @@ describe('Request controller', () => {
         .set('Accept', 'application/json')
         .set('token', userToken2)
         .send(request2)
-        .expect(401);
+        .expect(404);
       expect(res.body).to.be.an('object');
       expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
-      expect(res.body.message).to.equal('You can\'t edit a request that is not yours');
+      expect(res.body.message).to.equal('This request doesn\'t belong to you');
     });
     it('should not edit a request with title longer than 30', async () => {
       const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
@@ -417,6 +417,68 @@ describe('Request controller', () => {
         .send({
           title: 'edited for testing',
         })
+        .expect(405);
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+      expect(res.body).to.be.an('object');
+      expect(res.body.message).to.equal('Admin has already looked into this request, Please check the current status of the request');
+    });
+  });
+  describe('DELETE /api/v1/users/requests/:requestId', () => {
+    it('should not delete a request not found', async () => {
+      const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
+      const res = await request(app)
+        .delete(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(404);
+
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('This request doesn\'t belong to you');
+    });
+    it('should return 400 if request id is invalid', async () => {
+      const requestId = '1324dsg';
+      const res = await request(app)
+        .delete(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(400);
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('Invalid Id, please provide a valid uuid');
+    });
+    it('should not delete a request that doesn\'t belong to you', async () => {
+      const requestId = 'd5043ca9-ed83-489c-9bc9-0b420577b7b5';
+      const res = await request(app)
+        .delete(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken2)
+        .expect(404);
+      expect(res.body).to.be.an('object');
+      expect(res.body.status).to.equal('fail');
+      expect(res.body).to.have.property('message');
+      expect(res.body.message).to.equal('This request doesn\'t belong to you');
+    });
+    it('should delete a user request', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e42';
+      const res = await request(app)
+        .delete(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(200);
+      expect(res.body.status).to.equal('success');
+      expect(res.body).to.have.property('message');
+      expect(res.body.data).to.be.an('object');
+      expect(res.body.message).to.equal('Request successfully deleted');
+    });
+    it('should not delete a user request that the admin has approved or rejected', async () => {
+      const requestId = '0ce529f4-8854-41ec-b67c-fbcb4e716e45';
+      const res = await request(app)
+        .delete(`/api/v1/users/requests/${requestId}`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
         .expect(405);
       expect(res.body.status).to.equal('fail');
       expect(res.body).to.have.property('message');
