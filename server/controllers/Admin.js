@@ -29,10 +29,15 @@ class RequestController {
             message: 'All requests successfully retrieved',
             status: 'success',
           });
+        } else if (result.rows.length === 0) {
+          return res.status(200).json({
+            message: 'No request in the database',
+            status: 'success',
+          });
         }
-        return res.status(200).json({
-          message: 'No request in the database',
-          status: 'success',
+        return res.status(408).json({
+          message: 'Something went wrong, request timeout, try again later',
+          status: 'fail',
         });
       },
     );
@@ -175,6 +180,35 @@ class RequestController {
       });
     });
     return null;
+  }
+  /**
+   * @static - Method to retrieve all users from the database
+   *
+   * @param {Object} req - Request object
+   * @param {Object} res - Response object
+   */
+  static getUsers(req, res) {
+    const query = {
+      text: 'SELECT id, username, email, firstname, lastname, user_role, created_at, updated_at FROM userlist ORDER BY created_at DESC;',
+    };
+    pool.query(query, (err, response) => {
+      if (response.rows.length > 0) {
+        return res.status(200).json({
+          data: response.rows,
+          message: 'Users successfully retrieved from the database',
+          status: 'success',
+        });
+      } else if (response.rows.length === 0) {
+        return res.status(200).json({
+          message: 'No User in the database',
+          status: 'success',
+        });
+      }
+      return res.status(408).json({
+        message: 'Something went wrong, request timeout, try again later',
+        status: 'fail',
+      });
+    });
   }
 }
 export default RequestController;
