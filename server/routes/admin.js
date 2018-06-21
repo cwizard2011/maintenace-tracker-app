@@ -2,6 +2,7 @@ import RequestController from '../controllers/Admin';
 import Authentication from '../helpers/Authentication';
 import ValidateDatabase from '../middleware/ValidateDatabase';
 import isAdmin from '../middleware/isAdmin';
+import UserControllers from '../controllers/User';
 
 const adminRoutes = (versionLink, app) => {
   app.get(
@@ -47,6 +48,12 @@ const adminRoutes = (versionLink, app) => {
     ValidateDatabase.checkRequestId,
     ValidateDatabase.checkPending,
     RequestController.resetRequest,
+  );
+  app.put(
+    `${versionLink}/user/role/:userId/update`,
+    Authentication.verifyToken,
+    isAdmin,
+    UserControllers.updateUserRole,
   );
 };
 

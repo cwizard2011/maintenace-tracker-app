@@ -57,6 +57,42 @@ describe('POST /api/v1/auth/passwordreset', () => {
     expect(res.body.status).to.equal('success');
   });
 });
+describe('GET /api/v1/auth/resetpassword/:id/:token', () => {
+  it('should not decode payload if id is invalid not supplied', async () => {
+    const id = '55';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM';
+    const res = await request(app)
+      .get(`/api/v1/auth/resetpassword/${id}/${token}`)
+      .set('Accept', 'application/json')
+      .expect(400);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('Invalid id, please use a valid user uuid');
+    expect(res.body.status).to.equal('fail');
+  });
+  it('should not decode payload if user not found', async () => {
+    const id = '48a698a0-1641-5aca-bc1b-de9b1a482ee9';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM';
+    const res = await request(app)
+      .get(`/api/v1/auth/resetpassword/${id}/${token}`)
+      .set('Accept', 'application/json')
+      .expect(404);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('User not found in the database');
+    expect(res.body.status).to.equal('fail');
+  });
+  it('should decode payload if id and token are valid', async () => {
+    const id = '48a698a0-1641-5aca-bc1b-de9b1a482ee1';
+    const token = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM';
+    const res = await request(app)
+      .get(`/api/v1/auth/resetpassword/${id}/${token}`)
+      .set('Accept', 'application/json')
+      .expect(200);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.data).to.have.a.property('payload');
+    expect(res.body.message).to.equal('Token successfully decoded, please enter a new password in the provided form');
+    expect(res.body.status).to.equal('success');
+  });
+});
 describe('POST /api/v1/auth/resetpassword', () => {
   it('should not reset password if token is not supplied', async () => {
     const res = await request(app)
@@ -95,6 +131,34 @@ describe('POST /api/v1/auth/resetpassword', () => {
       .expect(400);
     expect(res.body).to.have.a.property('message');
     expect(res.body.message.errors.password[0]).to.equal('The password field is required.');
+    expect(res.body.status).to.equal('fail');
+  });
+  it('should not reset password if id is invalid', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/resetpassword')
+      .set('Accept', 'application/json')
+      .send({
+        id: '48',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM',
+        password: 'september123',
+      })
+      .expect(400);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('Invalid id, please use a valid user uuid');
+    expect(res.body.status).to.equal('fail');
+  });
+  it('should not reset password if token is invalid', async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/resetpassword')
+      .set('Accept', 'application/json')
+      .send({
+        id: '48a698a0-1641-5aca-bc1b-de9b1a482ee1',
+        token: 'eyJhbGciOiJIUzI1NiIsInR5cCIkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2EtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM',
+        password: 'september123',
+      })
+      .expect(400);
+    expect(res.body).to.have.a.property('message');
+    expect(res.body.message).to.equal('Invalid token, please use a valid token');
     expect(res.body.status).to.equal('fail');
   });
   it('should reset password if token, id and password are supplied', async () => {

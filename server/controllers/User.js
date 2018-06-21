@@ -254,21 +254,27 @@ class UserControllers {
       values: [id],
     };
     pool.query(query, (err, result) => {
-      if (result.rows[0]) {
+      if (result === undefined) {
+        res.status(400).json({
+          message: 'Invalid id, please use a valid user uuid',
+          status: 'fail',
+        });
+      } else if (result.rows[0]) {
         const secret = `${result.rows[0].password} '-' ${result.updated_at}`;
         const payload = jwt.decode(token, secret);
-        return res.status(200).json({
+        res.status(200).json({
           data: {
             payload,
           },
           message: 'Token successfully decoded, please enter a new password in the provided form',
           status: 'success',
         });
+      } else {
+        res.status(404).json({
+          message: 'User not found in the database',
+          status: 'fail',
+        });
       }
-      return res.status(404).json({
-        message: 'User not found in the database',
-        status: 'fail',
-      });
     });
   }
   /**
@@ -284,10 +290,20 @@ class UserControllers {
       values: [id],
     };
     pool.query(query, (err, result) => {
-      if (result.rows[0]) {
+      if (result === undefined) {
+        res.status(400).json({
+          message: 'Invalid id, please use a valid user uuid',
+          status: 'fail',
+        });
+      } else if (result.rows[0]) {
         const secret = `${result.rows[0].password} '-' ${result.updated_at}`;
         const payload = jwt.decode(token, secret);
-
+        if (payload === null) {
+          return res.status(400).json({
+            message: 'Invalid token, please use a valid token',
+            status: 'fail',
+          });
+        }
         const hashedPassword = bcrypt.hashSync(password, salt);
         const updateAt = new Date();
         const resetQuery = {
@@ -322,7 +338,80 @@ class UserControllers {
           status: 'fail',
         });
       }
+      return null;
     });
+  }
+  /**
+   * @static - Method to update user role
+   *
+   * @param {String} req - Id of the user
+   * @param {Object} res - Response object
+   */
+  static updateUserRole(req, res) {
+    try {
+      const { userId } = req.params;
+      const updateAt = new Date();
+      const query = {
+        text: 'SELECT * FROM userlist WHERE id = $1;',
+        values: [userId],
+      };
+      pool.query(query, (err, result) => {
+        if (result === undefined) {
+          res.status(400).json({
+            message: 'Invalid id, please use a valid uuid',
+            status: 'fail',
+          });
+        } else if (result.rows[0].user_role === 'users') {
+          const updateAdmin = {
+            text: 'UPDATE userlist SET user_role= $1, updated_at = $2 WHERE id= $3 RETURNING username, email, user_role, firstname',
+            values: ['admin', updateAt, userId],
+          };
+          pool.query(updateAdmin, (error, response) => {
+            if (response.rows[0]) {
+              res.status(200).json({
+                data: response.rows[0],
+                message: 'Users role successfully upgraded to admin',
+                status: 'success',
+              });
+            } else {
+              res.status(408).json({
+                message: 'Something went wrong, request timeout, try again later',
+                status: 'fail',
+              });
+            }
+          });
+        } else if (result.rows[0].user_role === 'admin') {
+          const removeAdmin = {
+            text: 'UPDATE userlist SET user_role= $1, updated_at = $2 WHERE id= $3 RETURNING username, email, user_role, firstname',
+            values: ['users', updateAt, userId],
+          };
+          pool.query(removeAdmin, (error, response) => {
+            if (response.rows[0]) {
+              res.status(200).json({
+                data: response.rows[0],
+                message: 'User has been stripped of admin priviledges',
+                status: 'success',
+              });
+            } else {
+              res.status(408).json({
+                message: 'Something went wrong, request timeout, try again later',
+                status: 'fail',
+              });
+            }
+          });
+        } else {
+          res.status(408).json({
+            message: 'Something went wrong, request timeout, try again later',
+            status: 'fail',
+          });
+        }
+      });
+    } catch (err) {
+      res.status(500).json({
+        message: 'Oops something went wrong on my end here, the engineers will fix it soon',
+        status: 'fail',
+      });
+    }
   }
 }
 export default UserControllers;

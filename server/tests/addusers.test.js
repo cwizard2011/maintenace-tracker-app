@@ -7,6 +7,7 @@ import app from '../app';
 
 const { expect } = chai;
 let userToken;
+let adminToken;
 describe('Request controller', () => {
   before(async () => {
     const res = await request(app)
@@ -17,6 +18,16 @@ describe('Request controller', () => {
         password: 'password123',
       });
     userToken = res.body.data.token;
+  });
+  before(async () => {
+    const res = await request(app)
+      .post('/api/v1/auth/login')
+      .set('Accept', 'application/json')
+      .send({
+        username: 'cwizard',
+        password: 'password123',
+      });
+    adminToken = res.body.data.token;
   });
   describe('POST /api/v1/auth/signup', () => {
     it('should return error if no password', async () => {
@@ -448,6 +459,99 @@ describe('Request controller', () => {
       expect(res.body).to.have.a.property('data');
       expect(res.body.data).to.be.an('object');
       expect(res.body.message).to.equal('Profile successfully retrieved');
+      expect(res.body.status).to.equal('success');
+    });
+  });
+  describe('GET /api/v1/users', () => {
+    it('should not get lists of users if user is not login', async () => {
+      const res = await request(app)
+        .get('/api/v1/users')
+        .set('Accept', 'application/json')
+        .expect(401);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Please login with your username and password');
+      expect(res.body).not.to.have.a.property('data');
+    });
+    it('should not get list of all users if user is not an admin', async () => {
+      const res = await request(app)
+        .get('/api/v1/users')
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(403);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('You are not authorized to access this resources');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should get list of all users for admin', async () => {
+      const res = await request(app)
+        .get('/api/v1/users')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('array');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Users successfully retrieved from the database');
+      expect(res.body.status).to.equal('success');
+    });
+  });
+  describe('PUT /api/v1/user/role/:userId/update', () => {
+    it('should not update a user role with invalid id', async () => {
+      const userId = '1424fff';
+      const res = await request(app)
+        .put(`/api/v1/user/role/${userId}/update`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Invalid id, please use a valid uuid');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should not update a user role if user not authenticated', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee1';
+      const res = await request(app)
+        .put(`/api/v1/user/role/${userId}/update`)
+        .set('Accept', 'application/json')
+        .expect(401);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Please login with your username and password');
+      expect(res.body).not.to.have.a.property('data');
+    });
+    it('should not update a user role if  user is not an admin', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee1';
+      const res = await request(app)
+        .put(`/api/v1/user/role/${userId}/update`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(403);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('You are not authorized to access this resources');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should update a user role to admin', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee1';
+      const res = await request(app)
+        .put(`/api/v1/user/role/${userId}/update`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('object');
+      expect(res.body.data.user_role).to.equal('admin');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Users role successfully upgraded to admin');
+      expect(res.body.status).to.equal('success');
+    });
+    it('should update an admin role to user', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee1';
+      const res = await request(app)
+        .put(`/api/v1/user/role/${userId}/update`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('object');
+      expect(res.body.data.user_role).to.equal('users');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('User has been stripped of admin priviledges');
       expect(res.body.status).to.equal('success');
     });
   });
