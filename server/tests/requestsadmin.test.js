@@ -307,4 +307,36 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('success');
     });
   });
+  describe('GET /api/v1/users', () => {
+    it('should not get lists of users if user is not login', async () => {
+      const res = await request(app)
+        .get('/api/v1/users')
+        .set('Accept', 'application/json')
+        .expect(401);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Please login with your username and password');
+      expect(res.body).not.to.have.a.property('data');
+    });
+    it('should not get list of all users if user is not an admin', async () => {
+      const res = await request(app)
+        .get('/api/v1/users')
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(403);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('You are not authorized to access this resources');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should get list of all users for admin', async () => {
+      const res = await request(app)
+        .get('/api/v1/users')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('array');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Users successfully retrieved from the database');
+      expect(res.body.status).to.equal('success');
+    });
+  });
 });

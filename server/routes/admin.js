@@ -10,6 +10,12 @@ const adminRoutes = (versionLink, app) => {
     isAdmin,
     RequestController.getAllRequest,
   );
+  app.get(
+    `${versionLink}/users`,
+    Authentication.verifyToken,
+    isAdmin,
+    RequestController.getUsers,
+  );
   app.put(
     `${versionLink}/requests/:requestId/approve`,
     Authentication.verifyToken,
