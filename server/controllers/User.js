@@ -413,5 +413,60 @@ class UserControllers {
       });
     }
   }
+  /**
+   * @static Method to delete a user
+   *
+   * @param {string} req - user Id
+   * @param {object} res - response object
+   */
+  static deleteUser(req, res) {
+    const { userId } = req.params;
+    const query = {
+      text: 'SELECT * FROM userlist WHERE id = $1',
+      values: [userId],
+    };
+    pool.query(query, (err, response) => {
+      if (response === undefined) {
+        res.status(400).json({
+          message: 'Invalid id, please use a valid uuid',
+          status: 'fail',
+        });
+      } else if (response.rows.length === 0) {
+        res.status(404).json({
+          message: 'User not found in the database',
+          status: 'fail',
+        });
+      } else if (response.rows[0].user_role === 'users') {
+        const delUser = {
+          text: 'DELETE FROM userlist WHERE id = $1 RETURNING *',
+          values: [response.rows[0].id],
+        };
+        pool.query(delUser, (error, result) => {
+          if (result.rows[0]) {
+            res.status(200).json({
+              data: result.rows[0],
+              message: 'User successfully deleted',
+              status: 'success',
+            });
+          } else {
+            res.status(408).json({
+              message: 'Something went wrong, request timeout, try again later',
+              status: 'fail',
+            });
+          }
+        });
+      } else if (response.rows[0].user_role === 'admin') {
+        res.status(405).json({
+          message: 'You can\'t delete an admin, you have to remove the admin privileges first',
+          status: 'fail',
+        });
+      } else {
+        res.status(408).json({
+          message: 'Something went wrong, request timeout, try again later',
+          status: 'fail',
+        });
+      }
+    });
+  }
 }
 export default UserControllers;
