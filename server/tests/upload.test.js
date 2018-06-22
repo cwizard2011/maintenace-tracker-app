@@ -8,7 +8,7 @@ import app from '../app';
 const { expect } = chai;
 let userToken;
 
-describe('Request controller', () => {
+describe('Image controller', () => {
   before(async () => {
     const res = await request(app)
       .post('/api/v1/auth/login')

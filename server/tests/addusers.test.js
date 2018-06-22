@@ -555,4 +555,74 @@ describe('Request controller', () => {
       expect(res.body.status).to.equal('success');
     });
   });
+
+  describe('DELETE /api/v1/users/:userId/remove', () => {
+    it('should not delete a user if id is invalid', async () => {
+      const userId = '1424fff';
+      const res = await request(app)
+        .delete(`/api/v1/users/${userId}/remove`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(400);
+      expect(res.body).to.be.an('object');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Invalid id, please use a valid uuid');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should not delete a user if user not authenticated', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee1';
+      const res = await request(app)
+        .delete(`/api/v1/users/${userId}/remove`)
+        .set('Accept', 'application/json')
+        .expect(401);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('Please login with your username and password');
+      expect(res.body).not.to.have.a.property('data');
+    });
+    it('should not delete a user if user is not admin', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee2';
+      const res = await request(app)
+        .delete(`/api/v1/users/${userId}/remove`)
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(403);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('You are not authorized to access this resources');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should not delete a user if user doesnt exist', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee9';
+      const res = await request(app)
+        .delete(`/api/v1/users/${userId}/remove`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(404);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('User not found in the database');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should not delete an admin', async () => {
+      const userId = '4c832e31-04d3-4ba7-b8d7-0172de09c775';
+      const res = await request(app)
+        .delete(`/api/v1/users/${userId}/remove`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(405);
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('You can\'t delete an admin, you have to remove the admin privileges first');
+      expect(res.body.status).to.equal('fail');
+    });
+    it('should delete a user', async () => {
+      const userId = '48a698a0-1641-5aca-bc1b-de9b1a482ee3';
+      const res = await request(app)
+        .delete(`/api/v1/users/${userId}/remove`)
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('object');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('User successfully deleted');
+      expect(res.body.status).to.equal('success');
+    });
+  });
 });

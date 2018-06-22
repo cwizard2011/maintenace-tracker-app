@@ -2,6 +2,7 @@ import UserControllers from '../controllers/User';
 import Validators from '../middleware/Validation';
 import ValidateDatabase from '../middleware/ValidateDatabase';
 import Authentication from '../helpers/Authentication';
+import isAdmin from '../middleware/isAdmin';
 
 const userRoutes = (versionLink, app) => {
   app.post(
@@ -40,6 +41,12 @@ const userRoutes = (versionLink, app) => {
     `${versionLink}/auth/resetpassword`,
     Validators.checkPasswordReset,
     UserControllers.createNewPassword,
+  );
+  app.delete(
+    `${versionLink}/users/:userId/remove`,
+    Authentication.verifyToken,
+    isAdmin,
+    UserControllers.deleteUser,
   );
 };
 
