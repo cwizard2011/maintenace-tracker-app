@@ -19,8 +19,13 @@ const port = process.env.PORT;
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('combined', { stream: winston.stream }));
+app.options('*', cors());
 app.use(cors({
+  origin: true,
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: true,
   credentials: true,
+  optionsSuccessStatus: 204,
 }));
 app.use(fileUpload());
 

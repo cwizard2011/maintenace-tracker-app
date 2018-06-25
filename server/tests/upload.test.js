@@ -21,25 +21,6 @@ describe('Image controller', () => {
   });
 
   describe('Image Controller', () => {
-    it('should not get image for non-authenticated user', async () => {
-      const res = await request(app)
-        .get('/api/v1/users/profile/image')
-        .set('Accept', 'application/json')
-        .expect(401);
-      expect(res.body).to.have.a.property('message');
-      expect(res.body.message).to.equal('Please login with your username and password');
-      expect(res.body.status).to.equal('fail');
-    });
-    it('should return 200 if user doesnt have image', async () => {
-      const res = await request(app)
-        .get('/api/v1/users/profile/image')
-        .set('Accept', 'application/json')
-        .set('token', userToken)
-        .expect(200);
-      expect(res.body).to.have.a.property('message');
-      expect(res.body.message).to.equal('Please upload a profile image');
-      expect(res.body.status).to.equal('success');
-    });
     it('should not post image for non-authenticated user', async () => {
       const res = await request(app)
         .put('/api/v1/users/profile/image')

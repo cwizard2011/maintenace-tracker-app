@@ -249,11 +249,42 @@ describe('Request controller', () => {
         .expect(200);
 
       expect(res.body.status).to.equal('success');
-      expect(res.body.message).to.equal('No request for this user');
+      expect(res.body.message).to.equal('No request on this page');
     });
-    it('should get all requests from the database', async () => {
+    it('should not get request if request query is invalid', async () => {
+      const res = await request(app)
+        .get('/api/v1/users/requests?page=-1')
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(400);
+
+      expect(res.body.status).to.equal('fail');
+      expect(res.body.message).to.equal('Page number can only be positive integer');
+    });
+    it('should not get request if request query is invalid', async () => {
+      const res = await request(app)
+        .get('/api/v1/users/requests?page=aa')
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(400);
+
+      expect(res.body.status).to.equal('fail');
+      expect(res.body.message.errors.page[0]).to.equal('The page must be a number.');
+    });
+    it('should get a maximum of 10 requests from the database', async () => {
       const res = await request(app)
         .get('/api/v1/users/requests')
+        .set('Accept', 'application/json')
+        .set('token', userToken)
+        .expect(200);
+
+      expect(res.body.status).to.equal('success');
+      expect(res.body.message).to.equal('Requests successfully retrieved from the database');
+      expect(res.body).to.have.a.property('data');
+    });
+    it('should get maximum of 10 requests for page 1', async () => {
+      const res = await request(app)
+        .get('/api/v1/users/requests?page=1')
         .set('Accept', 'application/json')
         .set('token', userToken)
         .expect(200);

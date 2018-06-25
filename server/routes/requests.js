@@ -8,6 +8,7 @@ const requestRoutes = (versionLink, app) => {
     `${versionLink}/users/requests`,
     Authentication.verifyToken,
     ValidateDatabase.checkUserId,
+    Validators.checkQueries,
     Requests.getAllRequest,
   );
   app.get(

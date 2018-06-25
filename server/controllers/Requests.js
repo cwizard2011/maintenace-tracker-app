@@ -20,9 +20,11 @@ class Requests {
   */
 
   static getAllRequest(req, res) {
+    const { page } = req.query;
+    const offSet = page ? (parseInt(page, 10) - 1) * 10 : 0;
     const query = {
-      text: 'SELECT * FROM requests WHERE user_id = $1  ORDER BY created_at DESC',
-      values: [req.decode.id],
+      text: 'SELECT * FROM requests WHERE user_id = $1  ORDER BY created_at DESC LIMIT 10 OFFSET $2;',
+      values: [req.decode.id, offSet],
     };
     pool.query(query, (err, result) => {
       if (result.rows.length > 0) {
@@ -33,7 +35,8 @@ class Requests {
         });
       }
       return res.status(200).json({
-        message: 'No request for this user',
+        data: {},
+        message: 'No request on this page',
         status: 'success',
       });
     });

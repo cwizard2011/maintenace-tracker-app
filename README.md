@@ -21,18 +21,26 @@ Maintenance tracker has the following features:
 - It allows users to register by supplying details like: username, password, email, firstname and lastname
 - Upon registration, a new user account will be created
 - Registered users can access all the route except for admin routes
+- Authenticated users can upload profile image
+- Authenticated users can update password
+- Registered users can reset forgotten password
 
 # Requests
 - Authenticated users can create a request by supplying the title and details of the request
 - Authenticated users can also get all requests that belong to them and not other users request
 - Authenticated users can get a request by supplying the request Id and also see the current status of the request
 - Authenticated users can edit a request for as long as the request status is still pending
+- Authenticated users can delete a request for as long as the request status is still pending
 
 # Admin
 - Admin can view all users request
 - Admin cannot create a request
 - Admin can approve and disapprove any pending request
 - Admin cannot resolve any rejected or pending request except requests that have been previously approved
+- Admin can reset any non pending request status to pending
+- Admin can get list of all users and admins
+- Admin can update a user role from user to admin or from admin to user
+- Admin can delete a users but cann't delete users with admin role
 
 
 ## INSTALLATION
@@ -53,15 +61,24 @@ The API contains different endpoints with their respective payload in the table 
 |---------|---------|--------|--------------|
 |/api/v1/auth/signup| Create a new user|username, password, firstname, lastname, email| POST|
 |/api/v1/auth/login| Login a user|username, password| POST|
+|/api/v1/users/profile| Get users profile|No payload| GET|
+|/api/v1/users/password/update| Update user password|oldpassword, newpassword| PUT|
+|/api/v1/auth/passwordreset| Send password reset link to users email with token and id|username or email| POST|
+|/api/v1/auth/resetpassword| Create a new password|id, token, password| POST|
 |/api/v1/users/requests| Get all requests for a user|No payload|GET|
 |/api/v1/users/requests| Post a new user requests|title, details| POST|
 |/api/v1/users/requests/:requestId| Get request by Id|No payload| GET|
 |/api/v1/users/requests/:requestId| Modify a pending request|title, details| PUT|
+|/api/v1/users/requests/:requestId| Delete a request|No payload| DELETE|
 |/api/v1/requests| Get all users request|No payload|GET|
 |/api/v1/requests/:requestId/approve| Approve a pending request|No payload| PUT|
 |/api/v1/requests/:requestId/disapprove| Disapprove a pending request|No payload| PUT|
 |/api/v1/requests/:requestId/resolve| Resolve an approved request|No payload| PUT|
-
+|/api/v1/requests/:requestId/reset| Reset non pending request|No payload| PUT|
+|/api/v1/users| Get list of all users|No payload|GET|
+|/api/v1/users/:userId/remove| Delete a user| No payload| DELETE|
+|/api/v1/users/role/:userId/update| Update a user role| No payload| PUT|
+|/api/v1/users/profile/image| Upload a profile image| image(file)| PUT|
 
 # TECHNOLOGIES USED
 - [Node-js](https://nodejs.org/en/) Node.js is a JavaScript runtime built on Chrome's V8 JavaScript engine. Node.js uses an event-driven, non-blocking I/O model that makes it lightweight and efficient. Node.js' package ecosystem, npm, is the largest ecosystem of open source libraries in the world.
@@ -73,6 +90,7 @@ The API contains different endpoints with their respective payload in the table 
 - [HTML5](https://developer.mozilla.org/en-US/docs/Web/Guide/HTML/HTML5) for frontend design
 - [CSS3](https://developer.mozilla.org/en-US/docs/Web/CSS/CSS3) for styling frontend
 - [FETCH API](https://developer.mozilla.org/en-US/docs/Web/API/Fetch_API) for making Ajax call from the client to the API
+- [CLOUDINARY](https://cloudinary.com/) for uploading user profile image
 
 The full API documentation can be Viewed [Here](https://maintenancetracker2.docs.apiary.io/#)
 

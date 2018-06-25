@@ -8,7 +8,7 @@ import app from '../app';
 const { expect } = chai;
 let userToken;
 let adminToken;
-describe('Request controller', () => {
+describe('User controller', () => {
   before(async () => {
     const res = await request(app)
       .post('/api/v1/auth/login')
@@ -449,7 +449,7 @@ describe('Request controller', () => {
       expect(res.body.message).to.equal('Please login with your username and password');
       expect(res.body.status).to.equal('fail');
     });
-    it('should not return profile info for authenticated user', async () => {
+    it('should return profile info for authenticated user', async () => {
       const res = await request(app)
         .get('/api/v1/users/profile')
         .set('Accept', 'application/json')
@@ -549,7 +549,7 @@ describe('Request controller', () => {
         .set('token', adminToken)
         .expect(200);
       expect(res.body.data).to.be.an('object');
-      expect(res.body.data.user_role).to.equal('users');
+      expect(res.body.data.user_role).to.equal('user');
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('User has been stripped of admin priviledges');
       expect(res.body.status).to.equal('success');

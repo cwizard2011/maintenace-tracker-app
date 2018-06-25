@@ -7,11 +7,6 @@ const imageRoutes = (versionLink, app) => {
     Authentication.verifyToken,
     ImageController.uploadImage,
   );
-  app.get(
-    `${versionLink}/users/profile/image`,
-    Authentication.verifyToken,
-    ImageController.retrieveImage,
-  );
 };
 
 export default imageRoutes;

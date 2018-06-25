@@ -30,12 +30,7 @@ const userRoutes = (versionLink, app) => {
   app.post(
     `${versionLink}/auth/passwordreset`,
     Validators.checkPasswordRequest,
-    Validators.checkEmail,
     UserControllers.passwordReset,
-  );
-  app.get(
-    `${versionLink}/auth/resetpassword/:id/:token`,
-    UserControllers.resetPassword,
   );
   app.post(
     `${versionLink}/auth/resetpassword`,

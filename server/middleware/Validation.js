@@ -98,6 +98,33 @@ class Validators {
     });
   }
   /**
+   *@static: Method for checking oldpassword field and newpassword field
+   *
+   * @param {object} req -request object
+   * @param {object} res - response object
+   * @param {function} next - callback function calling on the next middleware
+   */
+  static checkQueries(req, res, next) {
+    const { page } = req.query;
+    if (page <= 0) {
+      return res.status(400).json({
+        message: 'Page number can only be positive integer',
+        status: 'fail',
+      });
+    }
+    const validation = new Validator(req.query, {
+      page: 'numeric',
+      reqStatus: 'alpha',
+    });
+    if (validation.passes()) {
+      return next();
+    }
+    return res.status(400).json({
+      message: validation.errors,
+      status: 'fail',
+    });
+  }
+  /**
    *@static: Method for checking password reset field
    *
    * @param {object} req -request object
@@ -134,25 +161,6 @@ class Validators {
       });
     }
     return next();
-  }
-  /**
-   *@static: Method for validating email
-   *
-   * @param {object} req -request object
-   * @param {object} res - response object
-   * @param {function} next - callback function calling on the next middleware
-   */
-  static checkEmail(req, res, next) {
-    const validation = new Validator(req.body, {
-      email: 'email',
-    });
-    if (validation.passes()) {
-      return next();
-    }
-    return res.status(400).json({
-      message: validation.errors,
-      status: 'fail',
-    });
   }
   /**
    *@static: Method for checking if username or password is provided before signing in a user

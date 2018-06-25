@@ -130,13 +130,15 @@ class UserControllers {
     };
     pool.query(query, (err, response) => {
       const {
-        firstname, lastname, email,
+        firstname, lastname, email, username,
       } = response.rows[0];
       return res.status(200).json({
         data: {
           firstname,
           lastname,
           email,
+          username,
+          userRole: response.rows[0].user_role,
           memberSince: response.rows[0].created_at,
           profilePics: response.rows[0].profile_img,
         },
@@ -242,42 +244,6 @@ class UserControllers {
     });
   }
   /**
-   * @static Method to decode token for password reset
-   *
-   * @param {Object} req - Request object
-   * @param {Object} res - Response object
-   */
-  static resetPassword(req, res) {
-    const { id, token } = req.params;
-    const query = {
-      text: 'SELECT * FROM userlist WHERE id = $1;',
-      values: [id],
-    };
-    pool.query(query, (err, result) => {
-      if (result === undefined) {
-        res.status(400).json({
-          message: 'Invalid id, please use a valid user uuid',
-          status: 'fail',
-        });
-      } else if (result.rows[0]) {
-        const secret = `${result.rows[0].password} '-' ${result.updated_at}`;
-        const payload = jwt.decode(token, secret);
-        res.status(200).json({
-          data: {
-            payload,
-          },
-          message: 'Token successfully decoded, please enter a new password in the provided form',
-          status: 'success',
-        });
-      } else {
-        res.status(404).json({
-          message: 'User not found in the database',
-          status: 'fail',
-        });
-      }
-    });
-  }
-  /**
    * @static - Method to create a new password
    *
    * @param {Object} req - Request object
@@ -303,12 +269,17 @@ class UserControllers {
             message: 'Invalid token, please use a valid token',
             status: 'fail',
           });
+        } else if (result.rows[0].used_token === token) {
+          res.status(409).json({
+            message: 'This token link has already been used, try again with a new token link',
+            status: 'fail',
+          });
         }
         const hashedPassword = bcrypt.hashSync(password, salt);
         const updateAt = new Date();
         const resetQuery = {
-          text: 'UPDATE userlist SET password = $1, updated_at = $2 WHERE id = $3 RETURNING *;',
-          values: [hashedPassword, updateAt, payload.id],
+          text: 'UPDATE userlist SET password = $1, updated_at = $2, used_token = $4 WHERE id = $3 RETURNING *;',
+          values: [hashedPassword, updateAt, payload.id, token],
         };
         pool.query(resetQuery, (error, response) => {
           if (response.rows[0]) {
@@ -361,7 +332,7 @@ class UserControllers {
             message: 'Invalid id, please use a valid uuid',
             status: 'fail',
           });
-        } else if (result.rows[0].user_role === 'users') {
+        } else if (result.rows[0].user_role === 'user') {
           const updateAdmin = {
             text: 'UPDATE userlist SET user_role= $1, updated_at = $2 WHERE id= $3 RETURNING username, email, user_role, firstname',
             values: ['admin', updateAt, userId],
@@ -383,7 +354,7 @@ class UserControllers {
         } else if (result.rows[0].user_role === 'admin') {
           const removeAdmin = {
             text: 'UPDATE userlist SET user_role= $1, updated_at = $2 WHERE id= $3 RETURNING username, email, user_role, firstname',
-            values: ['users', updateAt, userId],
+            values: ['user', updateAt, userId],
           };
           pool.query(removeAdmin, (error, response) => {
             if (response.rows[0]) {
@@ -436,7 +407,7 @@ class UserControllers {
           message: 'User not found in the database',
           status: 'fail',
         });
-      } else if (response.rows[0].user_role === 'users') {
+      } else if (response.rows[0].user_role === 'user') {
         const delUser = {
           text: 'DELETE FROM userlist WHERE id = $1 RETURNING *',
           values: [response.rows[0].id],
