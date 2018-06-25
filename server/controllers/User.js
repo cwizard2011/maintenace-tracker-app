@@ -361,7 +361,7 @@ class UserControllers {
             message: 'Invalid id, please use a valid uuid',
             status: 'fail',
           });
-        } else if (result.rows[0].user_role === 'users') {
+        } else if (result.rows[0].user_role === 'user') {
           const updateAdmin = {
             text: 'UPDATE userlist SET user_role= $1, updated_at = $2 WHERE id= $3 RETURNING username, email, user_role, firstname',
             values: ['admin', updateAt, userId],
@@ -383,7 +383,7 @@ class UserControllers {
         } else if (result.rows[0].user_role === 'admin') {
           const removeAdmin = {
             text: 'UPDATE userlist SET user_role= $1, updated_at = $2 WHERE id= $3 RETURNING username, email, user_role, firstname',
-            values: ['users', updateAt, userId],
+            values: ['user', updateAt, userId],
           };
           pool.query(removeAdmin, (error, response) => {
             if (response.rows[0]) {
@@ -436,7 +436,7 @@ class UserControllers {
           message: 'User not found in the database',
           status: 'fail',
         });
-      } else if (response.rows[0].user_role === 'users') {
+      } else if (response.rows[0].user_role === 'user') {
         const delUser = {
           text: 'DELETE FROM userlist WHERE id = $1 RETURNING *',
           values: [response.rows[0].id],

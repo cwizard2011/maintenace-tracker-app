@@ -549,7 +549,7 @@ describe('Request controller', () => {
         .set('token', adminToken)
         .expect(200);
       expect(res.body.data).to.be.an('object');
-      expect(res.body.data.user_role).to.equal('users');
+      expect(res.body.data.user_role).to.equal('user');
       expect(res.body).to.have.a.property('message');
       expect(res.body.message).to.equal('User has been stripped of admin priviledges');
       expect(res.body.status).to.equal('success');

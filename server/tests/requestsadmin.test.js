@@ -48,9 +48,94 @@ describe('Request controller', () => {
       expect(res.body.message).to.equal('You are not authorized to access this resources');
       expect(res.body.status).to.equal('fail');
     });
-    it('should get all request for admin', async () => {
+    it('should not get request if request page number is negative', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=-1&reqStatus=pending')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(400);
+
+      expect(res.body.status).to.equal('fail');
+      expect(res.body.message).to.equal('Page number can only be positive integer');
+    });
+    it('should not get request if request page number is alphabetic is invalid', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=aa')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(400);
+
+      expect(res.body.status).to.equal('fail');
+      expect(res.body.message.errors.page[0]).to.equal('The page must be a number.');
+    });
+    it('should not get request if request reqStatus is not an alphabet', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=1&reqStatus=1')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(400);
+
+      expect(res.body.status).to.equal('fail');
+      expect(res.body.message.errors.reqStatus[0]).to.equal('The reqStatus field must contain only alphabetic characters.');
+    });
+    it('should get maximum of 10 requests per page for admin', async () => {
       const res = await request(app)
         .get('/api/v1/requests')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('array');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('All requests successfully retrieved');
+      expect(res.body.status).to.equal('success');
+    });
+    it('should get maximum of 10 requests per page for admin', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=1')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('array');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('All requests successfully retrieved');
+      expect(res.body.status).to.equal('success');
+    });
+    it('should get maximum of 10 pending request per page', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=1&reqStatus=pending')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('array');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('All requests successfully retrieved');
+      expect(res.body.status).to.equal('success');
+    });
+    it('should get maximum of 10 approved request per page', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=1&reqStatus=approved')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('array');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('All requests successfully retrieved');
+      expect(res.body.status).to.equal('success');
+    });
+    it('should get maximum of 10 resolved request per page', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=1&reqStatus=resolved')
+        .set('Accept', 'application/json')
+        .set('token', adminToken)
+        .expect(200);
+      expect(res.body.data).to.be.an('array');
+      expect(res.body).to.have.a.property('message');
+      expect(res.body.message).to.equal('All requests successfully retrieved');
+      expect(res.body.status).to.equal('success');
+    });
+    it('should get maximum of 10 rejected request per page', async () => {
+      const res = await request(app)
+        .get('/api/v1/requests?page=1&reqStatus=rejected')
         .set('Accept', 'application/json')
         .set('token', adminToken)
         .expect(200);

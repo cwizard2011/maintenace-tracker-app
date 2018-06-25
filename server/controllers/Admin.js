@@ -20,27 +20,31 @@ class RequestController {
    *
   */
   static getAllRequest(req, res) {
-    pool.query(
-      'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id ORDER BY requests.created_at DESC',
-      (err, result) => {
-        if (result.rows.length > 0) {
-          return res.status(200).json({
-            data: result.rows,
-            message: 'All requests successfully retrieved',
-            status: 'success',
-          });
-        } else if (result.rows.length === 0) {
-          return res.status(200).json({
-            message: 'No request in the database',
-            status: 'success',
-          });
-        }
-        return res.status(408).json({
-          message: 'Something went wrong, request timeout, try again later',
-          status: 'fail',
+    const { page, reqStatus } = req.query;
+    const offSet = page ? (parseInt(page, 10) - 1) * 10 : 0;
+    const query = {
+      text: RequestController.filterQuery(reqStatus),
+      values: [offSet],
+    };
+    pool.query(query, (err, result) => {
+      if (result.rows.length > 0) {
+        return res.status(200).json({
+          data: result.rows,
+          message: 'All requests successfully retrieved',
+          status: 'success',
         });
-      },
-    );
+      } else if (result.rows.length === 0) {
+        return res.status(200).json({
+          data: {},
+          message: 'No request on this page',
+          status: 'success',
+        });
+      }
+      return res.status(408).json({
+        message: 'Something went wrong, request timeout, try again later',
+        status: 'fail',
+      });
+    });
   }
   /**
    *@static: Method for approving a request
@@ -209,6 +213,35 @@ class RequestController {
         status: 'fail',
       });
     });
+  }
+  /**
+   * Builds a query string for the get Request route by the status type
+   *
+   * @param {String} reqStatus - The filter Type to be used
+   */
+  static filterQuery(reqStatus) {
+    let query;
+    switch (reqStatus) {
+      case 'approve':
+      case 'approved':
+        query = 'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id WHERE requests.currentstatus = \'approved\' ORDER BY requests.created_at DESC LIMIT 10 OFFSET $1;';
+        break;
+      case 'resolve':
+      case 'resolved':
+        query = 'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id WHERE requests.currentstatus = \'resolved\' ORDER BY requests.created_at DESC LIMIT 10 OFFSET $1;';
+        break;
+      case 'pending':
+        query = 'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id WHERE requests.currentstatus = \'pending\' ORDER BY requests.created_at DESC LIMIT 10 OFFSET $1;';
+        break;
+      case 'reject':
+      case 'rejected':
+        query = 'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id WHERE requests.currentstatus = \'approved\' ORDER BY requests.created_at DESC LIMIT 10 OFFSET $1;';
+        break;
+      default:
+        query = 'SELECT user_id, userlist.firstname, userlist.lastname, userlist.email, request_id, title, details, currentstatus, requests.created_at FROM requests INNER JOIN userlist ON requests.user_id = userlist.id ORDER BY requests.created_at DESC LIMIT 10 OFFSET $1;';
+        break;
+    }
+    return query;
   }
 }
 export default RequestController;

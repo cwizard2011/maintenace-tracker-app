@@ -1,6 +1,7 @@
 import RequestController from '../controllers/Admin';
 import Authentication from '../helpers/Authentication';
 import ValidateDatabase from '../middleware/ValidateDatabase';
+import Validator from '../middleware/Validation';
 import isAdmin from '../middleware/isAdmin';
 import UserControllers from '../controllers/User';
 
@@ -9,6 +10,7 @@ const adminRoutes = (versionLink, app) => {
     `${versionLink}/requests`,
     Authentication.verifyToken,
     isAdmin,
+    Validator.checkQueries,
     RequestController.getAllRequest,
   );
   app.get(
