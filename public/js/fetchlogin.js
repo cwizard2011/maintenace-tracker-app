@@ -37,7 +37,7 @@ loginForm.onsubmit = (e) => {
         userError.innerHTML = '';
         passwordError.innerHTML = users.message;
       }
-      if (users.data.role === 'users') {
+      if (users.data.role === 'user') {
         window.localStorage.setItem('authToken', users.data.token);
         window.location.href = 'pages/dashboard.html';
       } else if (users.data.role === 'admin') {

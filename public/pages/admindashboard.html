@@ -28,12 +28,12 @@
               <div class="sort">
                   <p><a href="#" class="previous round" id="previousBtn">&#8249;</a>
                     <a href="#" class="next round" id="nextBtn">&#8250;</a></p>
-                  <p class="page">Page: <span id="page">1/1</span></p>
-                  <p class="page">Showing: <span id="requestNo">12/12</span> Requests</p>
+                  <p class="page">Showing: <span id="requestNo">0 </span> Requests</p>
+                  <p class="page">On page: <span id="pageNo"></span></p>
                   <p>
                     <select id="mySelect">
                       <option selected disabled hidden>Sort Request</option>
-                        <option value="all"><button >All</button></option>
+                        <option value="all" id="all-request"><button >All</button></option>
                           <option value="pending"><button>Pending</button></option>
                           <option value="approved"><button>Approved</button></option>
                           <option value= "resolved"><button>Resolved</button></option>
@@ -42,87 +42,21 @@
                   </p>
               </div>
               <div id="all" class="sort-default">
-                    <table>
-                        <thead>
-                          <tr>
-                            <th scope="col">S/N</th>
-                            <th scope="col">Title</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Sender</th>
-                            <th scope="col">Details</th>
-                            <th scope="col">Actions</th>
+                    <table role="table" id="request-table">
+                        <thead role="rowgroup">
+                          <tr role="row">
+                            <th role="columnheader">S/N</th>
+                            <th role="columnheader">Title</th>
+                            <th role="columnheader">Status</th>
+                            <th role="columnheader">Sender</th>
+                            <th role="columnheader">Details</th>
+                            <th role="columnheader">Actions</th>
                           </tr>
                         </thead>
-                        <tbody id="body-all">
+                        <tbody>
             
                         </tbody>
             </table>
-              </div>
-              <div id="pending" class="sort-content">
-                            <table>
-                                <thead>
-                                  <tr>
-                                    <th scope="col">S/N</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Sender</th>
-                                    <th scope="col">Details</th>
-                                    <th scope="col">Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="body-pending">
-                                </tbody>
-                    </table>
-              </div>
-              <div id="approved" class="sort-content">
-                            <table>
-                                <thead>
-                                  <tr>
-                                    <th scope="col">S/N</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Sender</th>
-                                    <th scope="col">Details</th>
-                                    <th scope="col">Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="approve-all">
-                                </tbody>
-                    </table>
-              </div>
-              <div id="resolved" class="sort-content">
-                            <table>
-                                <thead>
-                                  <tr>
-                                    <th scope="col">S/N</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Sender</th>
-                                    <th scope="col">Details</th>
-                                    <th scope="col">Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="resolve-all">
-                                </tbody>
-                    </table>
-              </div>
-              <div id="rejected" class="sort-content">
-                    <div>
-                            <table>
-                                <thead>
-                                  <tr>
-                                    <th scope="col">S/N</th>
-                                    <th scope="col">Title</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Sender</th>
-                                    <th scope="col">Details</th>
-                                    <th scope="col">Actions</th>
-                                  </tr>
-                                </thead>
-                                <tbody id="reject-all">
-                                </tbody>
-                    </table>
-                          </div>
               </div>
               </div>
               <div id="confirm">
@@ -180,7 +114,6 @@
             </div>
           </footer>
         <script src = "../js/nav.js"></script>
-        <script src="../js/sort.js"></script>
         <script src="../js/admin.js"></script>
         <script src="../js/logout.js"></script>
     </body>

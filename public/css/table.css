@@ -5,7 +5,6 @@ table {
   padding: 0;
   width: 100%;
   table-layout: fixed;
-  counter-reset: rowNumber - 1;
 }
 
 table caption {
@@ -17,7 +16,6 @@ table tr {
   background-color: #f8f8f8;
   border: 1px solid #ddd;
   padding: .35em;
-  counter-increment: rowNumber;
 }
 
 table th,
@@ -32,59 +30,59 @@ table th {
   text-transform: uppercase;
 }
 tr:nth-child(even){background-color: #f2f2f2}
-table tr td:first-child::before {
-  content: counter(rowNumber);
-  min-width: 1em;
-  margin-right: 0.5em;
-}
 
 @media screen and (max-width: 600px) {
-  table {
-    border: 0;
-  }
-  table tr td:first-child::before {
-    content: none;
-  }
-  table caption {
-    font-size: 1.3em;
-  }
-  
-  table thead {
-    border: none;
-    clip: rect(0 0 0 0);
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-  }
-  
-  table tr {
-    border-bottom: 3px solid #ddd;
-    display: block;
-    margin-bottom: .625em;
-  }
-  
-  table td {
-    border-bottom: 1px solid #ddd;
-    display: block;
-    font-size: .8em;
-    text-align: right;
-  }
-  
-  table td::before {
-    /*
-    * aria-label has no advantage, it won't be read inside a table
-    content: attr(aria-label);
-    */
-    content: attr(data-label);
-    float: left;
-    font-weight: bold;
-    text-transform: uppercase;
-  }
-  
-  table td:last-child {
-    border-bottom: 0;
-  }
+	.right-text {
+		float: right;
+		font-style: normal;
+	}
+ table, thead, tbody, th, td, tr {
+			display: block;
+		}
+
+		/* Hide table headers (but not display: none;, for accessibility) */
+		thead tr {
+			position: absolute;
+			top: -9999px;
+			left: -9999px;
+		}
+
+    tr {
+      margin: 0 0 1rem 0;
+    }
+      
+    tr:nth-child(odd) {
+      background: ghostwhite;
+    }
+    
+		td {
+			/* Behave  like a "row" */
+			border: none;
+			border-bottom: 1px solid #eee;
+			position: relative;
+			padding-left: 50%;
+    }
+
+		td:after {
+			/* Now like a table header */
+			position: absolute;
+			/* Top/left values mimic padding */
+			top: 0;
+			left: 6px;
+			width: 100%;
+      padding-right: 10%;
+      margin-block-start: 10px;
+			white-space: nowrap;
+		}
+
+		/*
+		Label the data
+    You could also use a data-* attribute and content for this. That way "bloats" the HTML, this way means you need to keep HTML and CSS in sync. Lea Verou has a clever way to handle with text-shadow.
+		*/
+		td:nth-of-type(1):before { content: "S/N:"; font-weight: bold}
+		td:nth-of-type(2):before { content: "Title:"; font-weight: bold}
+		td:nth-of-type(3):before { content: "Status:"; font-weight: bold}
+		td:nth-of-type(4):before { content: "Sender:"; font-weight: bold}
+		td:nth-of-type(5):before { content: "Details:"; font-weight: bold}
+		td:nth-of-type(6):before { content: "Action:"; font-weight: bold}
 }

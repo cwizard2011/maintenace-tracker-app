@@ -8,11 +8,10 @@ const adminError = document.getElementById('noAdminRequest');
 const actionMessage = document.getElementById('action-msg');
 let requestsArray;
 let currentRequestId;
-
-
-// Implementing pagination
-
-// Pagination ends
+let currentPage = 1;
+let requestStatus;
+const previousBtn = document.getElementById('previousBtn');
+const nextBtn = document.getElementById('nextBtn');
 
 const getRequestDetails = (requestId) => {
   const data = requestsArray.find(request => request.request_id === requestId);
@@ -33,7 +32,48 @@ const getRequestDetails = (requestId) => {
     document.getElementById('id-status').innerHTML = `<span class= "label success"><ion-icon name="build"></ion-icon>${data.currentstatus}</span>`;
   }
 };
-
+/**
+ * Appends and displays requests on the admin table
+ *
+ * @param {Array} data - A list of requests to be displayed on the Admin table
+ */
+const createTableBody = (data) => {
+  const newTableBody = document.createElement('tbody');
+  let counter = 1;
+  data.forEach((request) => {
+    const newRow = document.createElement('tr');
+    const cellNo = newRow.insertCell(0);
+    const cellTitle = newRow.insertCell(1);
+    const cellStatus = newRow.insertCell(2);
+    const cellSender = newRow.insertCell(3);
+    const cellDetails = newRow.insertCell(4);
+    const cellAction = newRow.insertCell(5);
+    cellNo.innerHTML = `<span class=right-text>${counter}</span>`;
+    cellTitle.innerHTML = `<span class=right-text>${request.title}</span>`;
+    cellSender.innerHTML = `<span class=right-text>${request.firstname} ${request.lastname}<span>`;
+    cellDetails.innerHTML = `<span class=right-text><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a><span>`;
+    if (request.currentstatus === 'pending') {
+      cellStatus.innerHTML = `<span class= "label pending right-text"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span>`;
+      cellAction.innerHTML = `<span class=right-text><button class="detail-btn pending action-approve" onclick="approveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Approve</button>
+      <button class="detail-btn danger action-reject" onclick="rejectRequest('${request.request_id}')"><ion-icon name="close"></ion-icon>Reject</button></span>`;
+    } else if (request.currentstatus === 'approved') {
+      cellStatus.innerHTML = `<span class= "label success right-text"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span>`;
+      cellAction.innerHTML = `<span class=right-text><button class="detail-btn pending action-approve" onclick="resolveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Resolve</button>
+      <button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span>`;
+    } else if (request.currentstatus === 'rejected') {
+      cellStatus.innerHTML = `<span class= "label danger right-text"><ion-icon name="close"></ion-icon>${request.currentstatus}</span>`;
+      cellAction.innerHTML = `<span class=right-text><button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span>`;
+    } else if (request.currentstatus === 'resolved') {
+      cellStatus.innerHTML = `<span class= "label success right-text"><ion-icon name="build"></ion-icon>${request.currentstatus}</span>`;
+      cellAction.innerHTML = `<span class=right-text><button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span>`;
+    }
+    newTableBody.append(newRow);
+    counter += 1;
+  });
+  const Table = document.getElementById('request-table');
+  Table.removeChild(Table.lastChild);
+  return Table.append(newTableBody);
+};
 const approveRequest = (requestId) => {
   fetch(`${adminUrl}/requests/${requestId}/approve`, {
     method: 'PUT',
@@ -130,8 +170,8 @@ const resetRequest = (requestId) => {
       }
     });
 };
-const fetchRequest = () => {
-  fetch(`${adminUrl}/requests`, {
+const fetchRequest = (page = 1, reqStatus) => {
+  fetch(`${adminUrl}/requests?page=${page}&reqStatus=${reqStatus}`, {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -141,117 +181,33 @@ const fetchRequest = () => {
   })
     .then(res => res.json())
     .then((requests) => {
+      requestsArray = requests.data;
       if (requests.status === 'fail') {
         window.location.href = '../index.html';
       }
       if (requests.data === undefined) {
         adminError.innerHTML = 'No request in the database for now';
+      }
+      if (requestsArray.length === undefined) {
+        adminError.innerHTML = `No ${reqStatus} requests in the database`;
+        document.getElementById('requestNo').innerHTML = `No ${reqStatus}`;
       } else {
-        let all = '';
-        let pending = '';
-        let approved = '';
-        let resolved = '';
-        let rejected = '';
-        requestsArray = requests.data;
-
-        requests.data.forEach((request) => {
-          if (request.currentstatus === 'pending') {
-            all += `
-              <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-approve" onclick="approveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Approve</button>
-                <button class="detail-btn danger action-reject" onclick="rejectRequest('${request.request_id}')"><ion-icon name="close"></ion-icon>Reject</button></span></td>
-              </tr> 
-          `;
-            pending += `
-            <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-approve" onclick="approveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Approve</button>
-                <button class="detail-btn danger action-reject" onclick="rejectRequest('${request.request_id}')"><ion-icon name="close"></ion-icon>Reject</button></span></td>
-              </tr>
-            `;
-          } else if (request.currentstatus === 'approved') {
-            all += `
-            <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-approve" onclick="resolveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Resolve</button>
-                <button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span>
-                </td>
-              </tr>
-          `;
-            approved += `
-            <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label success"><ion-icon name="done-all"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-approve" onclick="resolveRequest('${request.request_id}')"><ion-icon name="done-all"></ion-icon>Resolve</button>
-                <button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span>
-                </td>
-              </tr>
-            `;
-          } else if (request.currentstatus === 'rejected') {
-            all += `
-            <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span></td>
-              </tr>
-            `;
-            rejected += `
-            <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label danger"><ion-icon name="close"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span></td>
-              </tr>
-          `;
-          } else if (request.currentstatus === 'resolved') {
-            all += `
-            <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span></td>
-              </tr>
-          `;
-            resolved += `
-            <tr>
-                <td scope=row data-label='S/N'></td>
-                <td data-label='Title'>${request.title}</td>
-                <td data-label='Status'> <span class= "label success"><ion-icon name="build"></ion-icon>${request.currentstatus}</span></td>
-                <td data-label='Sender'><span>${request.firstname} ${request.lastname}</span></td>
-                <td data-label='Details'><a href="#confirm" class="detail-btn pending" onclick="getRequestDetails('${request.request_id}')">Details</a></td>
-                <td data-label='Actions'><span><button class="detail-btn pending action-reject" onclick="resetRequest('${request.request_id}')"><ion-icon name="settings"></ion-icon>Reset</button></span></td>
-              </tr>
-            `;
-          }
-        });
-        document.getElementById('body-all').innerHTML = all;
-        document.getElementById('body-pending').innerHTML = pending;
-        document.getElementById('approve-all').innerHTML = approved;
-        document.getElementById('reject-all').innerHTML = rejected;
-        document.getElementById('resolve-all').innerHTML = resolved;
+        adminError.innerHTML = '';
+        document.getElementById('requestNo').innerHTML = `${requestsArray.length}`;
+        document.getElementById('pageNo').innerHTML = page;
+        createTableBody(requests.data);
+      }
+      if (page === 1 && requestsArray.length >= 10) {
+        previousBtn.style.visibility = 'hidden';
+        nextBtn.style.visibility = 'visible';
+      } else if (page === 1 && requestsArray.length < 10) {
+        previousBtn.style.visibility = 'hidden';
+        nextBtn.style.visibility = 'hidden';
+      } else if (currentPage > 1 && requestsArray.length < 10) {
+        previousBtn.style.visibility = 'visible';
+        nextBtn.style.visibility = 'hidden';
+      } else if (requestsArray.length < 10) {
+        nextBtn.style.visibility = 'hidden';
       }
     }).catch(() => {
       adminError.innerHTML = 'Couldn\'t fetch request from the database at the moment, please check your internet connection and reload the page';
@@ -260,6 +216,47 @@ const fetchRequest = () => {
       }, 10000);
     });
 };
-window.addEventListener('load', fetchRequest);
-window.addEventListener('click', fetchRequest);
+// Implementing pagination
+nextBtn.addEventListener('click', () => {
+  currentPage += 1;
+  fetchRequest(currentPage, requestStatus);
+});
+previousBtn.addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage -= 1;
+    fetchRequest(currentPage, requestStatus);
+  } else {
+    previousBtn.style.visibility = 'hidden';
+  }
+});
+// Pagination ends
+
+// sorting start
+const mySort = () => {
+  const getValue = document.getElementById('mySelect').value;
+  if (getValue === 'all') {
+    requestStatus = 'none';
+    fetchRequest(currentPage, requestStatus);
+  }
+  if (getValue === 'pending') {
+    requestStatus = 'pending';
+    fetchRequest(currentPage, requestStatus);
+  }
+  if (getValue === 'approved') {
+    requestStatus = 'approved';
+    fetchRequest(currentPage, requestStatus);
+  }
+  if (getValue === 'rejected') {
+    requestStatus = 'rejected';
+    fetchRequest(currentPage, requestStatus);
+  }
+  if (getValue === 'resolved') {
+    requestStatus = 'resolved';
+    fetchRequest(currentPage, requestStatus);
+  }
+};
+// sorting ends
+window.addEventListener('load', fetchRequest());
+window.addEventListener('click', fetchRequest());
+document.getElementById('mySelect').addEventListener('change', mySort);
 
