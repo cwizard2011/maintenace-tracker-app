@@ -46,7 +46,7 @@ span {
 }
 a:active, a:hover, a:link {
   text-decoration: none;
-  color: black;
+  color: white;
 }
 .red-text {
   color: red;
@@ -318,16 +318,29 @@ figcaption {
   margin: 5px auto;
 }
 @media only screen and (max-width: 360px) {
-  body {
-    background-size: 100% 100%;
-  }
+  select{
+    font-size: 10px;
+    height: 30px;
+    background: #D8DDDE;
+    border-radius: 5px
+   }
+ .page {
+   margin: 1% auto;
+ }
   p {
-    font-size: 0.8em;
+    font-size: 0.5em;
+    font-weight: bold
   }
   footer {
     background: #288ca4;
     padding: 8px 4px;
     font-size: 12px;
+  }
+  .sort {
+    background: white;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
   }
   .sort button {
     background-color: inherit;
@@ -429,6 +442,9 @@ figcaption {
     .content-container {
       margin-left: 2%
     }
+    .content-container > div {
+      margin: 0 auto;
+    }
 }
 @media only screen and (max-width: 900px) and (min-width: 361px){
   body {
@@ -526,5 +542,8 @@ figcaption {
       background: #288ca4;
       padding: 8px 4px;
       font-size: 12px;
+    }
+    .content-container > div {
+      margin: 0 auto;
     }
 }

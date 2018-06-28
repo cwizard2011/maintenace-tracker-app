@@ -4,8 +4,12 @@
 const requestUrl = 'https://peter-maintenance-app.herokuapp.com/api/v1';
 const token = localStorage.getItem('authToken');
 const requestError = document.getElementById('noRequest');
-window.addEventListener('load', () => {
-  fetch(`${requestUrl}/users/requests`, {
+let requestsArray;
+let currentPage = 1;
+const btnPrevious = document.getElementById('previous-btn');
+const btnNext = document.getElementById('next-btn');
+const getRequests = (page = 1) => {
+  fetch(`${requestUrl}/users/requests?page=${page}`, {
     method: 'GET',
     mode: 'cors',
     headers: {
@@ -19,10 +23,31 @@ window.addEventListener('load', () => {
         requestError.innerHTML = requests.message;
         window.location.href = '../index.html';
       }
+      requestsArray = requests.data;
+      if (requestsArray.length === undefined) {
+        document.getElementById('request-no').innerHTML = `No requests on page ${page}`;
+        requestError.innerHTML = `No requests on page ${page}`;
+      } else {
+        requestError.innerHTML = '';
+        document.getElementById('request-no').innerHTML = `${requestsArray.length} Requests`;
+      }
       if (requests.data === undefined) {
         requestError.innerHTML = 'You haven\'t create any request, click on new request to send a new request';
       } else {
         let output = '';
+        document.getElementById('page-no').innerHTML = page;
+        if (page === 1 && requestsArray.length >= 10) {
+          btnPrevious.style.visibility = 'hidden';
+          btnNext.style.visibility = 'visible';
+        } else if (page === 1 && requestsArray.length < 10) {
+          btnPrevious.style.visibility = 'hidden';
+          btnNext.style.visibility = 'hidden';
+        } else if (currentPage > 1 && requestsArray.length < 10) {
+          btnPrevious.style.visibility = 'visible';
+          btnNext.style.visibility = 'hidden';
+        } else if (requestsArray.length < 10) {
+          btnNext.style.visibility = 'hidden';
+        }
         requests.data.forEach((request) => {
           if (request.currentstatus === 'pending') {
             output += `
@@ -68,11 +93,22 @@ window.addEventListener('load', () => {
         });
         document.getElementById('output').innerHTML = output;
       }
-    }).catch(() => {
-      requestError.innerHTML = 'Couldn\'t fetch request from the database at the moment, please check your internet connection and reload the page';
-      setTimeout(() => {
-        requestError.innerHTML = '';
-      }, 2000);
     });
-});
+};
 
+// Implementing pagination
+btnNext.addEventListener('click', () => {
+  currentPage += 1;
+  getRequests(currentPage);
+});
+btnPrevious.addEventListener('click', () => {
+  if (currentPage > 1) {
+    currentPage -= 1;
+    getRequests(currentPage);
+  } else {
+    btnPrevious.style.visibility = 'hidden';
+  }
+});
+// Pagination ends
+window.addEventListener('load', getRequests());
+window.addEventListener('click', getRequests());
