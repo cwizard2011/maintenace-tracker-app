@@ -20,7 +20,8 @@ label {
   font-weight: bold;
 }
 footer {
-  background: #288ca4;
+  background-color: rgb(40, 140, 164);
+  background-color: rgba(40, 140, 164, 1);
   color: white;
   padding: 16px 8px;
   text-align: center;
@@ -91,7 +92,8 @@ a:active, a:hover, a:link {
 }
 .nav-bar {
   overflow: hidden;
-  background-color: #288ca4;
+  background-color: rgb(40, 140, 164);
+  background-color: rgba(40, 140, 164, 1);
 }
 
 .nav-bar a {
@@ -137,7 +139,8 @@ select{
   font-size: 18px;
 }
 .next:hover, .previous:hover {
-  background-color:#288ca4;
+  background-color: rgb(40, 140, 164);
+  background-color: rgba(40, 140, 164, 1);
   color: white;
 }
 .round {
@@ -209,7 +212,8 @@ figcaption {
   -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
   -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
   box-shadow: inset 0px 1px 0px 0px #45D6D6;
-  background-color: #1388ace8;
+  background-color: rgb(19, 136, 172);
+  background-color: rgba(19, 136, 172, 1);
   border: 1px solid #cccccc;
   border-radius: 10px;
   display: inline-block;
@@ -224,7 +228,8 @@ figcaption {
 }
 .btn:hover {
   background:linear-gradient(to bottom, blue 5%, #30C9C9 100%);
-  background-color:#34CACA;
+  background-color:rgb(52, 202, 202);
+  background-color:rgba(52, 202, 202, 1);
   color: #FFFFFF;
 }
 
@@ -260,7 +265,8 @@ figcaption {
 }
 
 .sort-btn {
-  background-color:  #1388ace8;
+  background-color:  rgb(19, 136, 172);
+  background-color:  rgba(19, 136, 172, 1);
   float: left;
   border: 2px solid #56a6bfe8;
   border-radius: 10px;
@@ -282,12 +288,14 @@ figcaption {
 /* Change background color of buttons on hover */
 .sort button:hover {
   background:linear-gradient(to bottom, blue 5%, #30C9C9 100%);
-  background-color:#34CACA;
+  background-color:rgb(52, 202, 202);
+  background-color:rgba(52, 202, 202, 1);
 }
 
 /* Create an active/current tablink class */
 .sort button.active {
-  background-color: #1388ace8;
+  background-color: rgb(19, 136, 172);
+  background-color: rgba(19, 136, 172, 1);
   color: white;
 }
 /* Style the tab content */
@@ -332,7 +340,6 @@ figcaption {
     font-weight: bold
   }
   footer {
-    background: #288ca4;
     padding: 8px 4px;
     font-size: 12px;
   }
@@ -373,10 +380,6 @@ figcaption {
     flex-direction: column;
   }
   .btn {
-    -moz-box-shadow: inset 0px 1px 0px 0px #45D6D6;
-    -webkit-box-shadow: inset 0px 1px 0px 0px #45D6D6;
-    box-shadow: inset 0px 1px 0px 0px #45D6D6;
-    background-color: #1388ace8;
     font-size: 12px;
     padding: 7px 9px;
   }
@@ -454,13 +457,11 @@ figcaption {
     margin: 3px;
   }
   footer {
-    background: #288ca4;
     padding: 8px 4px;
     font-size: 12px;
     position: relative;
   }
   .sort-btn {
-    background-color:  #1388ace8;
     float: left;
     border: 2px solid #56a6bfe8;
     border-radius: 10px;
@@ -478,9 +479,6 @@ figcaption {
     text-decoration: none;
     text-transform: uppercase;
     margin-top: 12px;
-  }
-  .nav-bar {
-    background-color: #1388ace8;
   }
   .nav-bar a:not(:first-child) {display: none;}
   .nav-bar a.nav-icon {
@@ -539,7 +537,6 @@ figcaption {
       margin-left: 2%
     }
     footer {
-      background: #288ca4;
       padding: 8px 4px;
       font-size: 12px;
     }

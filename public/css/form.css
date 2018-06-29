@@ -9,24 +9,15 @@
   border-radius: 5px;
   margin-bottom: 5%;
 }
-.view-btn {
+.view-btn, .detail-btn {
   font-size: 12px;
   color: #ffffff;
   padding: 8px;
   margin-top: 5%;
   border-radius: 5px;
   margin-left: 2%;
-  background-color: #1388ace8;
-  border-radius: 10px;
-  display: inline-block;
-  cursor: pointer;
-}
-.detail-btn {
-  font-size: 12px;
-  color: #ffffff;
-  padding: 8px;
-  border-radius: 5px;
-  background-color: #1388ace8;
+  background-color: rgb(19, 136, 172);
+  background-color: rgba(19, 136, 172, 1);
   border-radius: 10px;
   display: inline-block;
   cursor: pointer;
@@ -38,11 +29,12 @@
  .success:hover, .pending:hover, .danger:hover{
   color: black;
   background-color: rgb(11, 137, 240);
+  background-color: rgba(11, 137, 240, 1);
 }
 .blue { color: #2196F3;}
-.success {background-color: #254E58;} 
-.pending {background-color: #112D32;} 
-.danger {background-color: #4F4A41;} 
+.success {background-color: rgb(37, 78, 88); background-color: rgba(37, 78, 88, 1);} 
+.pending {background-color: rgb(17, 45, 50);background-color: rgba(17, 45, 50, 1);} 
+.danger {background-color: rgb(79, 74, 65);background-color: rgba(79, 74, 65, 1);} 
 .modals {
   display: none; 
   position: fixed;
@@ -62,14 +54,15 @@
 }
 
 .modals-content {
-  background-color: #fefefe;
+  background-color:rgb(254, 254, 254);
+  background-color:rgba(254, 254, 254, 1);
   margin: auto;
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
 }
 
-.close, .login-close {
+.close, .login-close, .password-close, .reset-close {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
@@ -78,7 +71,9 @@
 }
 
 .close:hover,
-.close:focus, .login-close:hover, .login-close:focus {
+.close:focus, .login-close:hover, .login-close:focus,
+.password-close:hover, .password-close:focus,
+.reset-close:hover, .reset-close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;
