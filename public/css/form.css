@@ -69,7 +69,7 @@
   width: 80%;
 }
 
-.close, .login-close {
+.close, .login-close, .password-close, .reset-close {
   color: #aaaaaa;
   float: right;
   font-size: 28px;
@@ -78,7 +78,9 @@
 }
 
 .close:hover,
-.close:focus, .login-close:hover, .login-close:focus {
+.close:focus, .login-close:hover, .login-close:focus,
+.password-close:hover, .password-close:focus,
+.reset-close:hover, .reset-close:focus {
   color: #000;
   text-decoration: none;
   cursor: pointer;

@@ -60,6 +60,7 @@
                             <p id="password-error" class="red-text"></p>
                             <input type="submit" class="right-btn btn" value="Login" />
                             <h6>Don't have an account, you can <span><a href="#" title = "SignUp Users" id="sign-up" style="color:#1388ace8;">Register Here</a></span></h6>
+                            <h6> <span><a href="#" id="forget-password" style="color:#1388ace8;">Forgot password?</a></span></h6>
                           </form>
                         </div>
                       </div>
@@ -87,6 +88,18 @@
                           </form>
                         </div>
                       </div>
+                      <div id="forgetPassword" class="modals">
+                        <div class="modals-content form-field modals-body">
+                          <span class="password-close">&times;</span>
+                          <h2 class="center-heading">Recover password</h2>
+                             <form id = "password-reset-form">
+                            <label>Username/Email</label>
+                            <input type="text" id="reset-password" required/>
+                            <p id="field-error" class="red-text"></p>
+                            <input type="submit" class="right-btn btn" value="Reset Password" />
+                          </form>
+                        </div>
+                      </div>
         </div>
             <footer>
                 <div>
@@ -96,7 +109,9 @@
         <script src="js/nav.js"></script>
         <script src="js/loginmodal.js"></script>
         <script src="js/signupmodal.js"></script>
+        <script src="js/forgetpassword.js"></script>
         <script src="js/fetchlogin.js"></script>
         <script src="js/fetchsignup.js"></script>
+        <script src="js/resetpassword.js"></script>
     </body>
 </html> 
