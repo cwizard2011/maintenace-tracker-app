@@ -1,5 +1,5 @@
 /* Normal styles for the modal */
-#modal, #confirm {
+#modal, #confirm, #del-confirmation {
 	left:50%;
 	margin:-250px 0 0 -40%;
 	opacity: 0;
@@ -14,41 +14,42 @@
 	-webkit-transition: all 0.4s ease-in-out;
 }
 	/* Make the modal appear when targeted */
-	#modal:target, #confirm:target {
+	#modal:target, #confirm:target, #del-confirmation:target {
 		opacity: 1;
 		top:50%;
 		visibility: visible;
 	}
-#modal .header,#modal .footer,#confirm .header,#confirm .footer {
+#modal .header,#modal .footer,#confirm .header,#confirm .footer, #del-confirmation .header, #del-confirmation .footer {
 	border-bottom: 1px solid #e7e7e7;
 	border-radius: 5px 5px 0 0;
 }
-	#modal .footer,#confirm .footer {
+	#modal .footer,#confirm .footer, #del-confirmation .header, #del-confirmation .footer {
 		border:none;
 		border-top: 1px solid #e7e7e7;
 		border-radius: 0 0 5px 5px;
 	}
-#modal h2, #confirm h2 {
+#modal h2, #confirm h2, #del-confirmation h2 {
 	margin:0;
 }
-#modal .btn, #confirm .btn {
+#modal .btn, #confirm .btn, #del-confirmation .btn {
 	float:right;
 }
 #modal .copy,#modal .header, #modal .footer,
-#confirm .copy,#confirm .header, #confirm .footer {
+#confirm .copy,#confirm .header, #confirm .footer 
+#del-confirmation .copy, #del-confirmation .header, #del-confirmation .footer{
 	padding:15px;
 }
-.modal-content, .confirm-content {
+.modal-content, .confirm-content, .confirmation-content {
 	background: #f7f7f7;
 	position: relative;
 	z-index: 20;
 	border-radius:5px;
 }
-#modal .copy, #confirm .copy {
+#modal .copy, #confirm .copy, #del-confirmation .copy {
 	background: #fff;
 }
 
-#modal .overlay, #confirm .overlay {
+#modal .overlay, #confirm .overlay, #del-confirmation .overlay {
 	background-color: #000;
 	background: rgba(0,0,0,.5);
 	height: 100%;
@@ -60,19 +61,19 @@
 }
 
 @media only screen and (max-width: 359px) {
-	#modal:target, #confirm:target {
+	#modal:target, #confirm:target, #del-confirmation:target {
     opacity: 1;
     top: 100%;
     visibility: visible;
 	}
 }
 @media only screen and (max-width: 580px) {
-	#modal:target, #confirm:target {
+	#modal:target, #confirm:target, #del-confirmation:target {
     opacity: 1;
     top: 80%;
     visibility: visible;
 	}
-	.modal-content, .confirm-content {
+	.modal-content, .confirm-content, .confirmation-content {
     background: #f7f7f7;
     position: relative;
     z-index: 20;
@@ -81,12 +82,12 @@
 	}
 }
 @media only screen and (min-width: 600px) and (max-width: 799px) {
-	#modal:target, #confirm:target {
+	#modal:target, #confirm:target, #del-confirmation:target {
     opacity: 1;
     top: 75%;
     visibility: visible;
 	}
-	.modal-content, .confirm-content {
+	.modal-content, .confirm-content, .confirmation-content {
     background: #f7f7f7;
     position: relative;
     z-index: 20;
@@ -95,12 +96,12 @@
 	}
 }
 @media only screen and (min-width: 800px) and (max-width: 1000px ) {
-	#modal:target, #confirm:target {
+	#modal:target, #confirm:target,  #del-confirmation:target {
     opacity: 1;
     top: 70%;
     visibility: visible;
 	}
-	.modal-content, .confirm-content {
+	.modal-content, .confirm-content, .confirmation-content {
     background: #f7f7f7;
     position: relative;
     z-index: 20;

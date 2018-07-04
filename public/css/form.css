@@ -169,7 +169,8 @@
   opacity: 0.8;
 }
 .center {
-  text-align: center;
+  display: flex;
+  justify-content: space-evenly;
   font-weight: bold;
 }
 @media only screen and (max-width: 359px) {
