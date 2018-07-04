@@ -16,6 +16,38 @@ const getParameter = (theParameter) => {
 document.getElementById('params').innerHTML = getParameter('requestId');
 const requestId = document.getElementById('params').innerHTML;
 const getReqError = document.getElementById('getReqErr').innerHTML;
+const yesDelete = document.getElementById('yes');
+const noDelete = document.getElementById('no');
+const deleteMessage = document.getElementById('delete-message');
+
+const deleteRequest = () => {
+  fetch(`${getByIdUrl}/users/requests/${requestId}`, {
+    method: 'DELETE',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${idToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then((deleted) => {
+      if (deleted.status === 'fail') {
+        deleteMessage.innerHTML = deleted.message;
+      } else {
+        deleteMessage.innerHTML = deleted.message;
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 3000);
+      }
+    });
+};
+const nonDelete = () => {
+  setTimeout(() => {
+    window.location.href = 'dashboard.html';
+  }, 500);
+};
+yesDelete.addEventListener('click', deleteRequest);
+noDelete.addEventListener('click', nonDelete);
 window.addEventListener('load', () => {
   fetch(`${getByIdUrl}/users/requests/${requestId}`, {
     method: 'GET',
@@ -41,7 +73,7 @@ window.addEventListener('load', () => {
           <p>Details: <span>${request.data.details}</span></p>
           <p>Created on: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
           <p>Updated on: <span> ${new Date(request.data.updated_at).toLocaleString('en-GB', { hour12: true })} </span></p>
-          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a></p>
+          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a><a href="#del-confirmation" class="btn center danger"><ion-icon name="close"></ion-icon>Delete</a></p>
         </div>
       `;
       } else if (request.data.currentstatus === 'approved') {
