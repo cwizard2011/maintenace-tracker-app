@@ -67,7 +67,7 @@ window.addEventListener('load', () => {
         display += `
         <div class="request-details">
           <h3>Request Details</h3>
-          <p class=ssm-font>Title: <span>${request.data.title}</span></p>
+          <p>Title: <span>${request.data.title}</span></p>
           <p>Request Id: <span>${request.data.request_id}</span></p>
           <p>Status: <span class= "label pending"><ion-icon name="pause"></ion-icon>${request.data.currentstatus}</span></p>
           <p>Details: <span>${request.data.details}</span></p>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link href="https://fonts.googleapis.com/css?family=Prosto+One|Roboto+Condensed" rel="stylesheet"> 
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/style.css">
+        <link rel="stylesheet" type="text/css" href="../css/form.css">
+        <link rel="stylesheet" type="text/css" href="../css/modal.css">
+        <script src="https://unpkg.com/ionicons@4.1.1/dist/ionicons.js"></script>
+        <title>Dashboard</title>
+        <link rel="icon" type="image/png" href="../images/icon.jpeg" />
+    </head>
+    <body class = "body-image">
+            <div class="nav-bar" id="top-nav">
+                <a href="./dashboard.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
+                <a href="#" class="logout-client">Logout</a>
+                <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
+            </div>
+        <div class= "container">
+          <p id="profileError" class="center"></p>
+          <div class= "profile-container">
+            <div class="form-field image-div">
+                <div id="uploadedImage" class="image-container"></div>
+                <input type="file" accept=".gif, .jpg, .png, .jpeg" />
+                <input type="submit" class="btn float-right" value="Upload" />
+            </div>
+            <div>
+                <div class="profile-info">
+                <h2>Profile details</h2>
+                  <p class="profile-label">Full Name: <span id="fullName" class= "profile-display"></span></p>
+                  <p class="profile-label">Username: <span id="userName" class="profile-display"></span></p>
+                  <p class="profile-label">Email: <span id="userEmail" class="profile-display"></span></p>
+                  <p class="profile-label">Role: <span id="userRole" class="profile-display"></span></p>
+                  <p class="profile-label">Member Since: <span id="memberSince" class="profile-display"></span></p>
+                </div>
+            </div>
+            <div class="bottom-padding">
+                <div id="change-password" class="form-field">
+                <h3 class="center">Change password</h3>
+                  <label>Old password</label>
+                  <input type="password" id="oldPass" required />
+                  <label>New Password</label>
+                  <input type="password" id="newPass" required />
+                  <label>Confirm New Password</label>
+                  <input type="password" id="passConfirm" required />
+                  <input type="submit" class="btn" value="Update password" />
+                  <p id="changeError" class="red-text"></p>
+                </div>
+            </div>
+          </div>
+        </div>
+        <footer>
+                <div>
+                  Maintenance Tracker by Adeoye Peter &copy; <script>document.write(new Date().getFullYear());</script>
+                </div>
+              </footer>
+        <script src = "../js/nav.js"></script>
+        <script src = "../js/profile.js"></script>
+        <script src="../js/logout.js"></script>
+    </body>
+</html> 

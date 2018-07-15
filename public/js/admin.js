@@ -256,6 +256,30 @@ const mySort = () => {
   }
 };
 // sorting ends
+// Get user profile details
+
+const fullName = document.getElementById('fullName');
+const userName = document.getElementById('userName');
+const userEmail = document.getElementById('userEmail');
+const memberSince = document.getElementById('memberSince');
+const uploadedImage = document.getElementById('uploadedImage');
+
+const getProfile = () => {
+  fetch(`${adminUrl}/users/profile`, {
+    method: 'GET',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${adminToken}`,
+    },
+  }).then(res => res.json())
+    .then((userProfile) => {
+      fullName.innerHTML = `${userProfile.data.firstname} ${userProfile.data.lastname}`;
+    });
+};
+
+// Get user profile details end
+
 window.addEventListener('load', fetchRequest());
 window.addEventListener('click', fetchRequest());
 document.getElementById('mySelect').addEventListener('change', mySort);

@@ -166,14 +166,64 @@
   width: 50%;
   margin: 8% 20%;
   padding: 2% 3%;
-  opacity: 0.8;
 }
 .center {
   display: flex;
   justify-content: space-evenly;
   font-weight: bold;
 }
+.profile-container {
+  display: flex;
+  margin: 1%;
+  padding: 7% 3%;
+}
+.image-container {
+  width: 200px;
+  height: 200px;
+  border: 2px solid grey;
+  border-radius: 10px;
+}
+
+.image-div {
+  width: 250px;
+  padding: 3%;
+}
+.float-right {
+  float: right;
+}
+.profile-info {
+  margin-left: 7%;
+  width: 400px;
+  padding: 3%;
+}
+.profile-display {
+  padding-left: 2%;
+  font-style: normal;
+  font-weight: normal;
+}
+.profile-label {
+  font-weight: bold;
+  font-style: normal;
+  margin-bottom: 10%;
+}
+.no-image {
+  margin-top: 30%;
+  margin-left: 20%;
+}
 @media only screen and (max-width: 359px) {
+  .profile-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .profile-info {
+    margin-top: 1%;
+    margin-left: 3%;
+    width: 250px;
+    padding: 3%;
+  }
+  .image-container {
+    margin-left:5%;
+  }
   .request {
     display: flex;
     flex-direction: column;
@@ -223,6 +273,19 @@
   }
 }
 @media only screen and (max-width: 900px) and (min-width: 360px){
+  .profile-container {
+    flex-direction: column;
+    justify-content: center;
+  }
+  .profile-info {
+    margin-top: 1%;
+    margin-left: 5%;
+    width: 280px;
+    padding: 2%;
+  }
+  .image-container {
+    margin-left:5%;
+  }
   .request {
     display: flex;
     flex-direction: column;
