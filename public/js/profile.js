@@ -1,4 +1,4 @@
-/*  global window:true, fetch:true, document:true, localStorage:true */
+/*  global window:true, fetch:true, document:true, localStorage:true, FormData:true */
 /*  eslint no-undef: "error" */
 /* eslint no-unused-vars: 0 */
 
@@ -51,4 +51,41 @@ const getProfile = () => {
 
 // Get user profile details end
 
+// Upload profile image
+const uploadForm = document.getElementById('uploadForm');
+
+uploadForm.onsubmit = (e) => {
+  e.preventDefault();
+  const username = document.getElementById('userName').innerHTML;
+  const formData = new FormData();
+  const fileField = document.querySelector("input[type='file']");
+
+  formData.append('username', username);
+  formData.append('image', fileField.files[0]);
+
+  const image = document.getElementById('imageUpload');
+  const uploadMessage = document.getElementById('uploadMessage');
+
+  fetch(`${profileUrl}/users/profile/image`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      token: `${profileToken}`,
+    },
+    body: formData,
+  })
+    .then(res => res.json())
+    .then((profileImage) => {
+      if (profileImage.status === 'fail') {
+        uploadMessage.innerHTML = profileImage.message;
+      } else {
+        uploadMessage.innerHTML = profileImage.message;
+        uploadedImage.innerHTML = `<img src=${profileImage.data.profileImage} height=200px width=200px>`;
+        setTimeout(() => {
+          uploadMessage.innerHTML = '';
+        }, 2000);
+      }
+    });
+};
+// Image upload ends here
 window.addEventListener('load', getProfile);

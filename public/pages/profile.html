@@ -23,8 +23,11 @@
           <div class= "profile-container">
             <div class="form-field image-div">
                 <div id="uploadedImage" class="image-container"></div>
-                <input type="file" accept=".gif, .jpg, .png, .jpeg" />
-                <input type="submit" class="btn float-right" value="Upload" />
+                <form id="uploadForm">
+                    <input type="file" accept="images/*" id="imageUpload" name="image" />
+                    <input type="submit" class="btn float-right" value="Upload" />
+                    <p id="uploadMessage"></p>
+                </form>
             </div>
             <div>
                 <div class="profile-info">
@@ -38,15 +41,17 @@
             </div>
             <div class="bottom-padding">
                 <div id="change-password" class="form-field">
-                <h3 class="center">Change password</h3>
-                  <label>Old password</label>
-                  <input type="password" id="oldPass" required />
-                  <label>New Password</label>
-                  <input type="password" id="newPass" required />
-                  <label>Confirm New Password</label>
-                  <input type="password" id="passConfirm" required />
-                  <input type="submit" class="btn" value="Update password" />
-                  <p id="changeError" class="red-text"></p>
+                    <form>
+                        <h3 class="center">Change password</h3>
+                        <label>Old password</label>
+                        <input type="password" id="oldPass" required />
+                        <label>New Password</label>
+                        <input type="password" id="newPass" required />
+                        <label>Confirm New Password</label>
+                        <input type="password" id="passConfirm" required />
+                        <input type="submit" class="btn" value="Update password" />
+                        <p id="changeError" class="red-text"></p>
+                    </form>
                 </div>
             </div>
           </div>
