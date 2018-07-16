@@ -41,7 +41,7 @@
             </div>
             <div class="bottom-padding">
                 <div id="change-password" class="form-field">
-                    <form>
+                    <form id="passwordUpdate">
                         <h3 class="center">Change password</h3>
                         <label>Old password</label>
                         <input type="password" id="oldPass" required />
@@ -49,8 +49,8 @@
                         <input type="password" id="newPass" required />
                         <label>Confirm New Password</label>
                         <input type="password" id="passConfirm" required />
+                        <p id="changeMsg" class="red-text"></p>
                         <input type="submit" class="btn" value="Update password" />
-                        <p id="changeError" class="red-text"></p>
                     </form>
                 </div>
             </div>

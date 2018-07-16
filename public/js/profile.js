@@ -88,4 +88,45 @@ uploadForm.onsubmit = (e) => {
     });
 };
 // Image upload ends here
+
+// Update user password starts here
+const passwordUpdate = document.getElementById('passwordUpdate');
+
+passwordUpdate.onsubmit = (e) => {
+  e.preventDefault();
+  const oldpassword = document.getElementById('oldPass').value;
+  const newpassword = document.getElementById('newPass').value;
+  const passConfirm = document.getElementById('passConfirm').value;
+  const changeMsg = document.getElementById('changeMsg');
+
+  if (newpassword !== passConfirm) {
+    changeMsg.innerHTML = 'New password and confirm password must be the same, please try again';
+  } else {
+    const data = {
+      oldpassword,
+      newpassword,
+    };
+    fetch(`${profileUrl}/users/password/update`, {
+      method: 'PUT',
+      mode: 'cors',
+      headers: {
+        'Content-Type': 'application/json',
+        token: `${profileToken}`,
+      },
+      body: JSON.stringify(data),
+    })
+      .then(res => res.json())
+      .then((updatedPass) => {
+        if (updatedPass.status === 'fail') {
+          changeMsg.innerHTML = updatedPass.message;
+        } else {
+          changeMsg.innerHTML = updatedPass.message;
+          setTimeout(() => {
+            window.localStorage.setItem('authToken', '');
+            window.location.href = '../index.html';
+          }, 2000);
+        }
+      });
+  }
+};
 window.addEventListener('load', getProfile);
