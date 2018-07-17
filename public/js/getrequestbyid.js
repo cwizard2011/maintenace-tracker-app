@@ -73,7 +73,8 @@ window.addEventListener('load', () => {
           <p>Details: <span>${request.data.details}</span></p>
           <p>Created on: <span> ${new Date(request.data.created_at).toLocaleString('en-GB', { hour12: true })} </span></p>
           <p>Updated on: <span> ${new Date(request.data.updated_at).toLocaleString('en-GB', { hour12: true })} </span></p>
-          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a><a href="#del-confirmation" class="btn center danger"><ion-icon name="close"></ion-icon>Delete</a></p>
+          <p class=center><a href="#modal" class="btn center"><ion-icon name="create"></ion-icon>Edit</a>
+          <a href="#del-confirmation" class="btn center danger"><ion-icon name="close"></ion-icon>Delete</a></p>
         </div>
       `;
       } else if (request.data.currentstatus === 'approved') {

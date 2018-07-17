@@ -74,102 +74,7 @@ const createTableBody = (data) => {
   Table.removeChild(Table.lastChild);
   return Table.append(newTableBody);
 };
-const approveRequest = (requestId) => {
-  fetch(`${adminUrl}/requests/${requestId}/approve`, {
-    method: 'PUT',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      token: `${adminToken}`,
-    },
-  })
-    .then(res => res.json())
-    .then((approved) => {
-      if (approved.status === 'fail') {
-        actionMessage.innerHTML = approved.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 2000);
-      } else {
-        actionMessage.innerHTML = approved.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 2000);
-      }
-    });
-};
-const rejectRequest = (requestId) => {
-  fetch(`${adminUrl}/requests/${requestId}/disapprove`, {
-    method: 'PUT',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      token: `${adminToken}`,
-    },
-  })
-    .then(res => res.json())
-    .then((rejected) => {
-      if (rejected.status === 'fail') {
-        actionMessage.innerHTML = rejected.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 2000);
-      } else {
-        actionMessage.innerHTML = rejected.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 2000);
-      }
-    });
-};
-const resolveRequest = (requestId) => {
-  fetch(`${adminUrl}/requests/${requestId}/resolve`, {
-    method: 'PUT',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      token: `${adminToken}`,
-    },
-  })
-    .then(res => res.json())
-    .then((resolved) => {
-      if (resolved.status === 'fail') {
-        actionMessage.innerHTML = resolved.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 2000);
-      } else {
-        actionMessage.innerHTML = resolved.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 500);
-      }
-    });
-};
-const resetRequest = (requestId) => {
-  fetch(`${adminUrl}/requests/${requestId}/reset`, {
-    method: 'PUT',
-    mode: 'cors',
-    headers: {
-      'Content-Type': 'application/json',
-      token: `${adminToken}`,
-    },
-  })
-    .then(res => res.json())
-    .then((reset) => {
-      if (reset.status === 'fail') {
-        actionMessage.innerHTML = reset.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 2000);
-      } else {
-        actionMessage.innerHTML = reset.message;
-        setTimeout(() => {
-          actionMessage.innerHTML = '';
-        }, 500);
-      }
-    });
-};
+
 const fetchRequest = (page = 1, reqStatus) => {
   fetch(`${adminUrl}/requests?page=${page}&reqStatus=${reqStatus}`, {
     method: 'GET',
@@ -214,6 +119,106 @@ const fetchRequest = (page = 1, reqStatus) => {
       setTimeout(() => {
         adminError.innerHTML = '';
       }, 10000);
+    });
+};
+const approveRequest = (requestId) => {
+  fetch(`${adminUrl}/requests/${requestId}/approve`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${adminToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then((approved) => {
+      if (approved.status === 'fail') {
+        actionMessage.innerHTML = approved.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+        }, 2000);
+      } else {
+        actionMessage.innerHTML = approved.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+          fetchRequest();
+        }, 2000);
+      }
+    });
+};
+const rejectRequest = (requestId) => {
+  fetch(`${adminUrl}/requests/${requestId}/disapprove`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${adminToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then((rejected) => {
+      if (rejected.status === 'fail') {
+        actionMessage.innerHTML = rejected.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+        }, 2000);
+      } else {
+        actionMessage.innerHTML = rejected.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+          fetchRequest();
+        }, 2000);
+      }
+    });
+};
+const resolveRequest = (requestId) => {
+  fetch(`${adminUrl}/requests/${requestId}/resolve`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${adminToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then((resolved) => {
+      if (resolved.status === 'fail') {
+        actionMessage.innerHTML = resolved.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+        }, 2000);
+      } else {
+        actionMessage.innerHTML = resolved.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+          fetchRequest();
+        }, 2000);
+      }
+    });
+};
+const resetRequest = (requestId) => {
+  fetch(`${adminUrl}/requests/${requestId}/reset`, {
+    method: 'PUT',
+    mode: 'cors',
+    headers: {
+      'Content-Type': 'application/json',
+      token: `${adminToken}`,
+    },
+  })
+    .then(res => res.json())
+    .then((reset) => {
+      if (reset.status === 'fail') {
+        actionMessage.innerHTML = reset.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+        }, 2000);
+      } else {
+        actionMessage.innerHTML = reset.message;
+        setTimeout(() => {
+          actionMessage.innerHTML = '';
+          fetchRequest();
+        }, 2000);
+      }
     });
 };
 // Implementing pagination
@@ -281,6 +286,5 @@ const getProfile = () => {
 // Get user profile details end
 
 window.addEventListener('load', fetchRequest());
-window.addEventListener('click', fetchRequest());
 document.getElementById('mySelect').addEventListener('change', mySort);
 
