@@ -8,7 +8,7 @@
         <link rel="stylesheet" type="text/css" href="../css/style.css">
         <link rel="stylesheet" type="text/css" href="../css/form.css">
         <link rel="stylesheet" type="text/css" href="../css/modal.css">
-        <link rel="stylesheet" type="text/css" href="../css/table.css">
+        <link rel="stylesheet" type="text/css" href="../css/usertable.css">
         <script src="https://unpkg.com/ionicons@4.1.1/dist/ionicons.js"></script>
         <title>Admin Dashboard</title>
         <link rel="icon" type="image/png" href="../images/icon.jpeg" />
@@ -17,39 +17,27 @@
             <div class="nav-bar" id="top-nav">
                 <a href="./admindashboard.html" title = "Home page"><i style="font-size:24px" class="fa">&#xf015;</i></a>
                 <a href="#" class="logout-client">Logout</a>
+                <a href="./admindashboard.html">Dashboard</a>
                 <a href="./users.html"style="background-color: transparent; color: white"><i class="fa">&#xf2bd; Users</i></a>
                 <a href="./adminprofile.html"style="background-color: transparent; color: white"><i class="fa user">&#xf2c0; Profile</i></a>
                 <a href="javascript:void(0);" class="nav-icon" onclick="resNav()">&#9776;</a>
             </div>
         <div class= "container">
-            <h3 id="noAdminRequest" class="center"></h3>
+            <h3 id="noUser" class="center"></h3>
             <p id="adminReqId"></p>
             <p id="action-msg" class="center blue"></p>
           <div class = "min-container">
               <div class="sort">
-                  <p><a href="#" class="previous round" id="previousBtn">&#8249;</a>
-                    <a href="#" class="next round" id="nextBtn">&#8250;</a></p>
-                  <p class="page">Showing: <span id="requestNo">0 </span> Requests</p>
-                  <p class="page">On page: <span id="pageNo"></span></p>
-                  <p>
-                    <select id="mySelect">
-                      <option selected disabled hidden>Sort Request</option>
-                        <option value="all" id="all-request"><button >All</button></option>
-                          <option value="pending"><button>Pending</button></option>
-                          <option value="approved"><button>Approved</button></option>
-                          <option value= "resolved"><button>Resolved</button></option>
-                          <option value="rejected"><button>Rejected</button></option>
-                      </select>
-                  </p>
+                  <p class="page">Showing: <span id="userNo">0 </span> Users</p>
               </div>
               <div id="all" class="sort-default">
-                    <table role="table" id="request-table">
+                    <table role="table" id="user-table">
                         <thead role="rowgroup">
                           <tr role="row">
                             <th role="columnheader">S/N</th>
-                            <th role="columnheader">Title</th>
-                            <th role="columnheader">Status</th>
-                            <th role="columnheader">Sender</th>
+                            <th role="columnheader">Username</th>
+                            <th role="columnheader">Email</th>
+                            <th role="columnheader">Role</th>
                             <th role="columnheader">Details</th>
                             <th role="columnheader">Actions</th>
                           </tr>
@@ -60,47 +48,37 @@
             </table>
               </div>
               </div>
-              <div id="confirm">
-                <div class="confirm-content form-field">
+              <div id="user-details">
+                <div class="user-content form-field">
                     <a href="#" class="close">&times;</a>
                   <div class="header">
-                    <h3 class=center>REQUEST DETAILS</h3>
+                    <h3 class=center>USER DETAILS</h3>
                   </div>
                   <div class="copy">
                     <p>
-                      <label for="id">Request Id</label>
+                      <label for="id">User Id</label>
                     </p>
-                  <p id="id-request"></p>
+                  <p id="user-id"></p>
                   <p>
-                      <label for="sender">Sender</label>
+                      <label for="fullname">Name</label>
                   </p>
-                  <p id="id-sender"></p>
-                  <p>
-                      <label for="title">Title</label>
-                  </p>
+                  <p id="user-fullname"></p>
                   <p>
                     <label for="email">Email</label>
                 </p>
-                <p id="id-email"></p>
+                <p id="user-email"></p>
                 <p>
-                    <label for="title">Title</label>
+                    <label for="user-role">Role</label>
                 </p>
-                  <p id="id-title"></p>
+                  <p id="user-role"></p>
                   <p>
-                      <label for="details">Details</label>
+                      <label for="created-at">Registered on</label>
                     </p>
-                  <p id="id-details"></p>
+                  <p id="user-created"></p>
                   <p>
-                    <label for="status">Status</label>
+                    <label for="updated-at">Updated on</label>
                 </p>
-                <p id="id-status"></p>
-                <p>
-                    <label for="title">Title</label>
-                </p>
-                  <p>
-                      <label for="date">Date</label>
-                    </p>
-                  <p id="id-date"></p>
+                <p id="user-updated"></p>
                   </div>
                   <div class="cf footer">
                     
@@ -108,6 +86,48 @@
                 </div>
                 <div class="overlay"></div>
             </div>
+
+            <div id="del-user">
+              <div class="del-content form-field">
+                <div class="header">
+                <a href="#" class="close">&times;</a>
+                <h5 id="del-message"></h5>
+                <input type="hidden" id="del-id" />
+                  <h3 class="center">Are you sure you want to delete this User?</h3>
+                </div>
+                <div class="copy">
+                  <p class="center">
+                      <button id="yesDelete" class="btn danger">Yes</button>
+                      <button id="noDelete" class="btn">No</button>
+                  </p>
+                </div>
+                <div class="cf footer">
+                  
+                </div>
+              </div>
+              <div class="overlay"></div>
+          </div>
+          <div id="update-user">
+            <div class="update-content form-field">
+              <div class="header">
+              <a href="#" class="close">&times;</a>
+              <h5 id="update-message"></h5>
+              <input type="hidden" id="update-id" />
+                <h3 class="center">Are you sure you want to change this user's role?</h3>
+              </div>
+              <div class="copy">
+                <p class="center">
+                    <button id="yesUpdate" class="btn danger">Yes</button>
+                    <button id="noUpdate" class="btn">No</button>
+                </p>
+              </div>
+              <div class="cf footer">
+                
+              </div>
+            </div>
+            <div class="overlay"></div>
+        </div>
+
         </div>
         <footer>
             <div>
@@ -115,7 +135,7 @@
             </div>
           </footer>
         <script src = "../js/nav.js"></script>
-        <script src="../js/admin.js"></script>
+        <script src = "../js/users.js"></script>
         <script src="../js/logout.js"></script>
     </body>
 </html> 
