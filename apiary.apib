@@ -366,7 +366,262 @@ Token will be generated on production to access all route when users sign in
             "message": "Username or password incorrect, try again",
             "status": "fail"
         }
-               
+
+## View user profile information [/api/v1/users/profile]
+
+### View users profile information [GET]
+
++ Response 200 (application/json)
+
+        {
+            "data": {
+                "firstname": "Juliet",
+                "lastname": "Adeoye",
+                "email": "juliet@juliet.com",
+                "username": "juliet",
+                "userRole": "user",
+                "memberSince": "2018-05-29 21:06:33 +0000",
+                "profilePics": "http://images.com/pics.jpg",
+            },
+            "message": "Profile successfully retrieved",
+            "status": "success",
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail"
+        }
+
+## Upload user image [/api/v1/users/profile/image]
+
+### Upload image for authenticated users [PUT]
+Users are to attach image to the body 
+
++ Response 200 (application/json)
+
+        {   
+            "data": {
+                "firstname": "Juliet",
+                "email": "juliet@juliet.com",
+                "profileImage": "http://images.com/pics.jpg",
+                "updatedOn": "2018-05-29 21:06:33 +0000",
+            },
+            "message": "Image uploaded successfully",
+            "status": "success"
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "No image was attached, please attach an image",
+            "status": "fail"
+        }
+        
+## Update user password [/api/v1/users/password/update]
+
+### Change user password [PUT]
+Authenticated users are to supply old password and new password
+
++ Request (application/json)
+
+        {   
+            "oldpassword": "password123",
+            "newpassword": "newpassword123"
+        }
+        
+
++ Response 200 (application/json)
+
+        {
+            "data" : {
+                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM",
+            },
+            "message": "Your password has been successfully updated",
+            "status": "success"
+        }
++ Request (application/json)
+
+        {   
+            "oldpassword": "invalid",
+            "newpassword": "validpassword"
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Old password incorrect, please check the old password again",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "oldpassword": "validpassword",
+            "newpassword": "validpassword"
+        }
++ Response 409 (application/json)
+
+        {
+            "message": "New password is the same as previous password, please change your new password",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {
+            "newpassword": "newpassword123"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The oldpassword field is required.",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {
+            "oldpassword": "newpassword123"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The newpassword field is required.",
+            "status": "fail"
+        }
+        
+
+## Reset forgotten password [/api/v1/auth/passwordreset]
+
+### Send password reset link to email [POST]
+Users are to supply username or email in the body of the request
+    
++ Request (application/json)
+
+        {   
+            "username": "juliet"
+        }
+        
++ Request (application/json)
+
+        {   
+            "email": "juliet07@gmail.com"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "Password reset link has been successfully sent to your email, please check your email",
+            "status": "success"
+        }
++ Request (application/json)
+
+        {   
+            "email": "invalid@gmail.com"
+        }
++ Response 404 (application/json)
+
+        {
+            "message": "User not found in the database",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Username or email is required to to make request for password reset",
+            "status": "fail"
+        }
+        
+## Create a new password [/api/v1/auth/resetpassword]
+
+### Use password reset link to create a new password [POST]
+Users are to supply username or email in the body of the request
+
++ Request (application/json)
+    
++ Request (application/json)
+
+        {   
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM",
+            "id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "password": "newpassword123"
+        }
+
++ Response 200 (application/json)
+
+        {
+            "message": "Password has been successfully changed, please login with your new password",
+            "status": "success"
+        }
++ Request (application/json)
+
+        {   
+            "id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "password": "newpassword123"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The token field is required.",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM",
+            "password": "newpassword123"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The id field is required.",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "The password field is required.",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "id": "48"
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM",
+            "password": "september678"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid id, please use a valid user uuid",
+            "status": "fail"
+        }
++ Request (application/json)
+
+        {   
+            "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjQ4YTY5OGEwLTE2NDEtNWFjYS1iYzFiLWRlOWIxYTQ4MmVlMSIsImVtYWlsIjoic2p1bGlldDA3QGdtYWlsLmNvbSIsInVzZXJuYW1lIjoianVsaWV0IiwiaWF0IjoxNTI5NTI4NTA0LCJleHAiOjE1Mjk1MzIxMDR9.9LGyxN-_yehlqBQ3XKOhWAoCvLbKpX8RyKjW3mqgicM",
+            "id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "password": "newpassword123"
+        }
+
++ Response 409 (application/json)
+
+        {
+            "message": "This token link has already been used, try again with a new token link",
+            "status": "fail"
+        }
 ## Get all user requests [/api/v1/users/requests]
 
 ### List All Requests [GET]
@@ -617,7 +872,36 @@ To create a new request, the user must supply login token in the header of the r
             "message": "This request has already been logged, Please log a new request",
             "status": "fail",
         }
- 
+## Delete a pending request [/api/v1/users/requests/:requestId]
+
+### Delete a request with pending status [DELETE]
+Users can delete a pending request before the admin work on it
+
++ Response 200 (application/json)
+
+        {
+            "message": "Request successfully deleted",
+            "status": "success"
+        }
++ Response 404 (application/json)
+
+        {
+            "message": "This request doesn't belong to you",
+            "status": "success"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid Id, please provide a valid uuid",
+            "status": "success"
+        }
++ Response 405 (application/json)
+
+        {
+            "message": "Admin has already looked into this request, Please check the current status of the request",
+            "status": "success"
+        }
+
 ## Admin get all users requests [/api/v1/requests]
 
 ### List all users requests [GET]
@@ -811,4 +1095,183 @@ To create a new request, the user must supply login token in the header of the r
         {
             "message": "This request has not been approved, Please check the current status of the request",
             "status": "fail",
+        }
+        
+## Admin reset a non pending request [/api/v1/requests/0ce529f4-8854-41ec-b67c-fbcb4e716e45/reset]
+
+### Reset an approved, resolved or rejected request [PUT]
++ Response 200 (application/json)
+
+        {
+            "data": {
+            {
+            "user_id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+            "firstname": "Juliet",
+            "lastname": "Samuel",
+            "email": "sjuliet07@gmail.com",
+            "request_id": "0ce529f4-8854-41ec-b67c-fbcb4e716e45",
+            "title": "request5",
+            "details": "new test request",
+            "currentstatus": "pending",
+            "created_at": "2018-05-29 21:10:33 +0000",
+            "updated_at": "2018-07-15 21:10:33 +0000"
+            },
+          },
+          "message": "The status of this request has been sucessfully reset",
+          "status": "success",
+        }
+
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid Id, please provide a valid uuid",
+            "status": "fail",
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail",
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail",
+        }
++ Response 405 (application/json)
+
+        {
+            "message": "This is a pending request, you can't reset a pending request",
+            "status": "fail",
+        }
+
+## Admin should get lists of all users [/api/v1/users]
+
+### Should get lists of all registered users
+
+ {
+        "data": [
+            {
+                "id": "48a698a0-1641-5aca-bc1b-de9b1a482ee1",
+                "username": "juliet",
+                "email": "juliet@juliet.com",
+                "firstname": "Juliet",
+                "lastname": "Adeoye",
+                "user_role": "user",
+                "created_at": "2018-05-29 21:06:33 +0000",
+                "created_at": "2018-05-29 21:06:33 +0000"
+            },
+            {
+                "id": "48a698a0-1641-5aca-bc1b-de9b1a482ee2",
+                "username": "peter",
+                "email": "peter@juliet.com",
+                "firstname": "Peter,
+                "lastname": "Adeola",
+                "user_role": "user",
+                "created_at": "2018-05-30 21:06:33 +0000",
+                "created_at": "2018-05-31 21:06:33 +0000"
+            },
+            {
+                "id": "48a698a0-1641-5aca-bc1b-de9b1a482ee3",
+                "username": "cwizard",
+                "email": "admin@admin.com",
+                "firstname": "Peter",
+                "lastname": "Adeoye",
+                "user_role": "admin",
+                "created_at": "2018-05-28 21:06:33 +0000",
+                "created_at": "2018-05-29 21:06:33 +0000"
+            },
+        ],
+        "message": "Users successfully retrieved from the database",
+        "status": "success"
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail"
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail"
+        }
+## Admin should update a user role [/api/v1/user/role/:userid/update]
+
+### Should update a user role to admin or admin role to user [PUT]
+Users must have admin privileges to update a user role
+
++ Response 200 (application/json)
+
+        {
+            "message": "Users role successfully upgraded to admin",
+            "status": "success"
+        }
++ Response 200 (application/json)
+
+        {
+            "message": "User has been stripped of admin priviledges",
+            "status": "success"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid id, please use a valid uuid",
+            "status": "fail"
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail"
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail"
+        }
+
+## Admin should delete a user [/api/v1/users/:userid/remove]
+
+### Should remove a user from the database [DELETE]
+Users must have admin privileges to delete a user and admin must be stripped of the admin priviledges before they can be deleted
+
++ Response 200 (application/json)
+
+        {
+            "message": "User successfully deleted",
+            "status": "success"
+        }
++ Response 400 (application/json)
+
+        {
+            "message": "Invalid id, please use a valid uuid",
+            "status": "fail"
+        }
++ Response 401 (application/json)
+
+        {
+            "message": "Please login with your username and password",
+            "status": "fail"
+        }
++ Response 404 (application/json)
+
+        {
+            "message": "User not found in the database",
+            "status": "fail"
+        }
++ Response 403 (application/json)
+
+        {
+            "message": "You are not authorized to access this resources",
+            "status": "fail"
+        }
++ Response 405 (application/json)
+
+        {
+            "message": "You can't delete an admin, you have to remove the admin privileges first",
+            "status": "fail"
         }

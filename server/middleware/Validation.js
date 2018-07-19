@@ -27,6 +27,7 @@ class Validators {
     return res.status(400).json({
       message: validation.errors,
       status: 'fail',
+      code: 400,
     });
   }
   /**
@@ -50,6 +51,7 @@ class Validators {
     return res.status(400).json({
       message: validation.errors,
       status: 'fail',
+      code: 400,
     });
   }
 
@@ -74,6 +76,7 @@ class Validators {
     return res.status(400).json({
       message: validation.errors,
       status: 'fail',
+      code: 400,
     });
   }
 
@@ -95,6 +98,7 @@ class Validators {
     return res.status(400).json({
       message: validation.errors,
       status: 'fail',
+      code: 400,
     });
   }
   /**
@@ -110,6 +114,7 @@ class Validators {
       return res.status(400).json({
         message: 'Page number can only be positive integer',
         status: 'fail',
+        code: 400,
       });
     }
     const validation = new Validator(req.query, {
@@ -122,6 +127,7 @@ class Validators {
     return res.status(400).json({
       message: validation.errors,
       status: 'fail',
+      code: 400,
     });
   }
   /**
@@ -143,6 +149,7 @@ class Validators {
     return res.status(400).json({
       message: validation.errors,
       status: 'fail',
+      code: 400,
     });
   }
   /**
@@ -158,6 +165,7 @@ class Validators {
       return res.status(400).json({
         message: 'Username or email is required to to make request for password reset',
         status: 'fail',
+        code: 400,
       });
     }
     return next();
@@ -175,11 +183,13 @@ class Validators {
       return res.status(400).json({
         message: 'Username or email is required to login',
         status: 'fail',
+        code: 400,
       });
     } else if (password === undefined) {
       return res.status(400).json({
         message: 'Password is required to login',
         status: 'fail',
+        code: 400,
       });
     }
     return next();

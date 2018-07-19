@@ -32,12 +32,14 @@ class Requests {
           data: result.rows,
           message: 'Requests successfully retrieved from the database',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(200).json({
         data: {},
         message: 'No request on this page',
         status: 'success',
+        code: 200,
       });
     });
   }
@@ -56,6 +58,7 @@ class Requests {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'fail',
+        code: 400,
       });
     }
     const query = {
@@ -68,11 +71,13 @@ class Requests {
           data: result.rows[0],
           message: 'One request successfully retrieved from the database',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(404).json({
         message: 'You can\'t get a request that does not belong to you',
         status: 'fail',
+        code: 404,
       });
     });
     return null;
@@ -95,6 +100,7 @@ class Requests {
           data: { err },
           message: 'Request not created',
           status: 'error',
+          code: 500,
         });
       }
       return res.status(201).json({
@@ -109,6 +115,7 @@ class Requests {
         },
         message: 'Request created successfully',
         status: 'success',
+        code: 201,
       });
     });
   }
@@ -134,6 +141,7 @@ class Requests {
         return res.status(400).json({
           message: 'This request Id does not exist',
           status: 'fail',
+          code: 400,
         });
       }
 
@@ -153,11 +161,13 @@ class Requests {
             data: result.rows[0],
             message: 'Request successfully updated',
             status: 'success',
+            code: 200,
           });
         }
         return res.status(404).json({
           message: 'Request not found in the database',
           status: 'fail',
+          code: 404,
         });
       });
       return null;
@@ -182,11 +192,13 @@ class Requests {
           data: result.rows[0],
           message: 'Request successfully deleted',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(404).json({
         message: 'Request not found in the database',
         status: 'fail',
+        code: 404,
       });
     });
   }

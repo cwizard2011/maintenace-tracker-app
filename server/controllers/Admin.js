@@ -32,17 +32,20 @@ class RequestController {
           data: result.rows,
           message: 'All requests successfully retrieved',
           status: 'success',
+          code: 200,
         });
       } else if (result.rows.length === 0) {
         return res.status(200).json({
           data: {},
           message: 'No request on this page',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(408).json({
         message: 'Something went wrong, request timeout, try again later',
         status: 'fail',
+        code: 408,
       });
     });
   }
@@ -72,11 +75,13 @@ class RequestController {
           data: result.rows[0],
           message: 'Request has been approved',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(404).json({
         message: 'This request has already been taken care of, check the request details for more info',
         status: 'fail',
+        code: 404,
       });
     });
     return null;
@@ -94,6 +99,7 @@ class RequestController {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'fail',
+        code: 400,
       });
     }
     const newQuery = {
@@ -107,11 +113,13 @@ class RequestController {
           data: result.rows[0],
           message: 'Request has been successfully rejected',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(404).json({
         message: 'This request has already been taken care of, check the request details for more info',
         status: 'fail',
+        code: 404,
       });
     });
     return null;
@@ -129,6 +137,7 @@ class RequestController {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'fail',
+        code: 400,
       });
     }
     const newQuery = {
@@ -142,11 +151,13 @@ class RequestController {
           data: result.rows[0],
           message: 'Request has been successfully resolved',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(404).json({
         message: 'This request has already been taken care of, check the request details for more info',
         status: 'fail',
+        code: 404,
       });
     });
     return null;
@@ -164,6 +175,7 @@ class RequestController {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'fail',
+        code: 400,
       });
     }
     const newQuery = {
@@ -176,11 +188,13 @@ class RequestController {
           data: result.rows[0],
           message: 'The status of this request has been sucessfully reset',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(408).json({
         message: 'Something went wrong, request timeout, try again later',
         status: 'fail',
+        code: 408,
       });
     });
     return null;
@@ -202,16 +216,19 @@ class RequestController {
           data: response.rows,
           message: 'Users successfully retrieved from the database',
           status: 'success',
+          code: 200,
         });
       } else if (response.rows.length === 0) {
         return res.status(200).json({
           message: 'No User in the database',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(408).json({
         message: 'Something went wrong, request timeout, try again later',
         status: 'fail',
+        code: 408,
       });
     });
   }

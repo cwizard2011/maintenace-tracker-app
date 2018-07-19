@@ -29,6 +29,7 @@ class ValidateDatabase {
         return res.status(409).json({
           message: 'Username or email has already been registered, please change your email or username, or login with your password',
           status: 'fail',
+          code: 409,
         });
       }
       return done();
@@ -53,6 +54,7 @@ class ValidateDatabase {
         return res.status(409).json({
           message: 'This request has already been logged, Please log a new request',
           status: 'fail',
+          code: 409,
         });
       }
       return done();
@@ -74,6 +76,7 @@ class ValidateDatabase {
       return res.status(405).json({
         message: 'Administrators are not allowed to create request',
         status: 'fail',
+        code: 405,
       });
     }
     pool.query(newQuery, (err, result) => {
@@ -81,6 +84,7 @@ class ValidateDatabase {
         return res.status(401).json({
           message: 'You can\'t post and get request, please signup',
           status: 'fail',
+          code: 401,
         });
       }
       return done();
@@ -100,6 +104,7 @@ class ValidateDatabase {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'fail',
+        code: 400,
       });
     }
     const newQuery = {
@@ -111,6 +116,7 @@ class ValidateDatabase {
         return res.status(404).json({
           message: 'This request doesn\'t belong to you',
           status: 'fail',
+          code: 404,
         });
       }
       return done();
@@ -131,6 +137,7 @@ class ValidateDatabase {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'error',
+        code: 400,
       });
     }
     const newQuery = {
@@ -142,12 +149,14 @@ class ValidateDatabase {
         return res.status(405).json({
           message: 'The status of this request has been changed, you can\'t approve or disapprove again, please check the status',
           status: 'fail',
+          code: 405,
         });
       }
       if (result.rows.length === 0) {
         return res.status(405).json({
           message: 'Admin has already looked into this request, Please check the current status of the request',
           status: 'fail',
+          code: 405,
         });
       }
       return done();
@@ -167,6 +176,7 @@ class ValidateDatabase {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'fail',
+        code: 400,
       });
     }
     const newQuery = {
@@ -178,6 +188,7 @@ class ValidateDatabase {
         return res.status(404).json({
           message: 'This request is not found in the database',
           status: 'fail',
+          code: 404,
         });
       }
       return done();
@@ -197,6 +208,7 @@ class ValidateDatabase {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'error',
+        code: 400,
       });
     }
     const newQuery = {
@@ -208,6 +220,7 @@ class ValidateDatabase {
         return res.status(405).json({
           message: 'This request has not been approved, Please check the current status of the request',
           status: 'fail',
+          code: 405,
         });
       }
       return done();
@@ -228,6 +241,7 @@ class ValidateDatabase {
       return res.status(400).json({
         message: 'Invalid Id, please provide a valid uuid',
         status: 'error',
+        code: 400,
       });
     }
     const newQuery = {
@@ -239,6 +253,7 @@ class ValidateDatabase {
         return res.status(405).json({
           message: 'This is a pending request, you can\'t reset a pending request',
           status: 'fail',
+          code: 405,
         });
       }
       return done();

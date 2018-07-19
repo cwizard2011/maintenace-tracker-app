@@ -40,6 +40,7 @@ class UserControllers {
         return res.status(500).json({
           message: 'User registration failed',
           status: 'error',
+          code: 500,
         });
       }
       Mailer.welcomeMail(email, firstname);
@@ -64,6 +65,7 @@ class UserControllers {
         },
         message: 'User registration successful',
         status: 'success',
+        code: 201,
       });
     });
   }
@@ -91,6 +93,7 @@ class UserControllers {
         return res.status(401).json({
           message: 'Email/username invalid, please provide valid credentials',
           status: 'fail',
+          code: 401,
         });
       } else if (bcrypt.compareSync(password, result.rows[0].password)) {
         const token = Authentication.generateToken({
@@ -109,11 +112,13 @@ class UserControllers {
           },
           message: 'You are now logged in',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(401).json({
         message: 'Password incorrect, try again',
         status: 'fail',
+        code: 401,
       });
     });
   }
@@ -144,6 +149,7 @@ class UserControllers {
         },
         message: 'Profile successfully retrieved',
         status: 'success',
+        code: 200,
       });
     });
   }
@@ -166,11 +172,13 @@ class UserControllers {
         return res.status(401).json({
           message: 'Old password incorrect, please check the old password again',
           status: 'fail',
+          code: 401,
         });
       } else if (bcrypt.compareSync(newpassword, response.rows[0].password)) {
         return res.status(409).json({
           message: 'New password is the same as previous password, please change your new password',
           status: 'fail',
+          code: 409,
         });
       }
       const hashedPassword = bcrypt.hashSync(newpassword, salt);
@@ -198,6 +206,7 @@ class UserControllers {
             },
             message: 'Your password has been successfully updated',
             status: 'success',
+            code: 200,
           });
         }
       });
@@ -235,11 +244,13 @@ class UserControllers {
           },
           message: 'Password reset link has been successfully sent to your email, please check your email',
           status: 'success',
+          code: 200,
         });
       }
       return res.status(404).json({
         message: 'User not found in the database',
         status: 'fail',
+        code: 404,
       });
     });
   }
@@ -268,11 +279,13 @@ class UserControllers {
           return res.status(400).json({
             message: 'Invalid token, please use a valid token',
             status: 'fail',
+            code: 400,
           });
         } else if (result.rows[0].used_token === token) {
           res.status(409).json({
             message: 'This token link has already been used, try again with a new token link',
             status: 'fail',
+            code: 409,
           });
         }
         const hashedPassword = bcrypt.hashSync(password, salt);
@@ -295,11 +308,13 @@ class UserControllers {
               },
               message: 'Password has been successfully changed, please login with your new password',
               status: 'success',
+              code: 200,
             });
           } else {
             res.status(404).json({
               message: 'User not found in the database',
               status: 'fail',
+              code: 404,
             });
           }
         });
@@ -307,6 +322,7 @@ class UserControllers {
         res.status(404).json({
           message: 'User not found in the database',
           status: 'fail',
+          code: 404,
         });
       }
       return null;
@@ -331,6 +347,7 @@ class UserControllers {
           res.status(400).json({
             message: 'Invalid id, please use a valid uuid',
             status: 'fail',
+            code: 400,
           });
         } else if (result.rows[0].user_role === 'user') {
           const updateAdmin = {
@@ -343,11 +360,13 @@ class UserControllers {
                 data: response.rows[0],
                 message: 'Users role successfully upgraded to admin',
                 status: 'success',
+                code: 200,
               });
             } else {
               res.status(408).json({
                 message: 'Something went wrong, request timeout, try again later',
                 status: 'fail',
+                code: 408,
               });
             }
           });
@@ -362,11 +381,13 @@ class UserControllers {
                 data: response.rows[0],
                 message: 'User has been stripped of admin priviledges',
                 status: 'success',
+                code: 200,
               });
             } else {
               res.status(408).json({
                 message: 'Something went wrong, request timeout, try again later',
                 status: 'fail',
+                code: 408,
               });
             }
           });
@@ -374,6 +395,7 @@ class UserControllers {
           res.status(408).json({
             message: 'Something went wrong, request timeout, try again later',
             status: 'fail',
+            code: 408,
           });
         }
       });
@@ -381,6 +403,7 @@ class UserControllers {
       res.status(500).json({
         message: 'Oops something went wrong on my end here, the engineers will fix it soon',
         status: 'fail',
+        code: 500,
       });
     }
   }
@@ -401,11 +424,13 @@ class UserControllers {
         res.status(400).json({
           message: 'Invalid id, please use a valid uuid',
           status: 'fail',
+          code: 400,
         });
       } else if (response.rows.length === 0) {
         res.status(404).json({
           message: 'User not found in the database',
           status: 'fail',
+          code: 404,
         });
       } else if (response.rows[0].user_role === 'user') {
         const delUser = {
@@ -418,11 +443,13 @@ class UserControllers {
               data: result.rows[0],
               message: 'User successfully deleted',
               status: 'success',
+              code: 200,
             });
           } else {
             res.status(408).json({
               message: 'Something went wrong, request timeout, try again later',
               status: 'fail',
+              code: 408,
             });
           }
         });
@@ -430,11 +457,13 @@ class UserControllers {
         res.status(405).json({
           message: 'You can\'t delete an admin, you have to remove the admin privileges first',
           status: 'fail',
+          code: 405,
         });
       } else {
         res.status(408).json({
           message: 'Something went wrong, request timeout, try again later',
           status: 'fail',
+          code: 408,
         });
       }
     });

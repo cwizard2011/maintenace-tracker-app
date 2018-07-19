@@ -10,6 +10,7 @@ const isAdmin = (req, res, next) => {
     return res.status(403).json({
       message: 'You are not authorized to access this resources',
       status: 'fail',
+      code: 403,
     });
   }
   return next();

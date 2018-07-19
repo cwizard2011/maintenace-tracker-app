@@ -44,6 +44,7 @@ export default class Authentication {
           return res.status(401).json({
             message: 'Oops! Access denied. Kindly login',
             status: 'fail',
+            code: 401,
           });
         }
         req.decode = decode;
@@ -53,6 +54,7 @@ export default class Authentication {
       res.status(401).json({
         message: 'Please login with your username and password',
         status: 'fail',
+        code: 401,
       });
     }
   }

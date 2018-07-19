@@ -23,6 +23,7 @@ class ImageController {
         res.status(400).json({
           message: 'No image was attached, please attach an image',
           status: 'fail',
+          code: 400,
         });
       } else {
         const updatedAt = new Date();
@@ -46,6 +47,7 @@ class ImageController {
             },
             message: 'Image uploaded successfully',
             status: 'success',
+            code: 200,
           });
         });
       }
@@ -53,6 +55,7 @@ class ImageController {
       if (error.http_code === 400) {
         res.status(400).json({
           error: error.message,
+          code: 400,
         });
       } else {
         res.sendStatus(500);
